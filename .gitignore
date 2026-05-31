@@ -34,3 +34,6 @@ secrets/
 # OS specific
 Thumbs.db
 .DS_Store
+
+# Local SEO Handbook
+seo_indexing_blueprint.html
