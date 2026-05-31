@@ -16,9 +16,9 @@ EXPECTED_ARCHS=(
 )
 
 for ABI in "${!EXPECTED_ARCHS[@]}"; do
-    SO_PATH="$ARTIFACTS_DIR/$ABI/libtdjson.so"
+    SO_PATH="$ARTIFACTS_DIR/$ABI/libtdjni.so"
     if [ ! -f "$SO_PATH" ]; then
-        echo "ERROR: Missing libtdjson.so for ABI: $ABI (expected at $SO_PATH)"
+        echo "ERROR: Missing libtdjni.so for ABI: $ABI (expected at $SO_PATH)"
         FAILED=1
     else
         # Verify architecture using readelf -h
