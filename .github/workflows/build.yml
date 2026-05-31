@@ -108,8 +108,7 @@ jobs:
 
       - name: Restore Pristine Gradle Wrapper JAR
         run: |
-          mkdir -p gradle/wrapper
-          wget -qO gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v8.7.0/gradle/wrapper/gradle-wrapper.jar
+          gradle wrapper --gradle-version 8.7
 
       - name: Build AAR
         run: |
