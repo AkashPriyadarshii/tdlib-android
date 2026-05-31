@@ -35,7 +35,7 @@ That's it.
 | `x86_64` | Android emulators (recommended for CI) |
 | `x86` | Legacy emulators |
 
-**Tested on:** Realme GT 7 (Dimensity 9400e) · Android 16 (API 36) ✓
+**Tested on:** Realme GT 7 (Dimensity 9400e) · Android 16 (API 36)
 
 ## Why this exists
 
