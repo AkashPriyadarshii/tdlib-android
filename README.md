@@ -1,9 +1,5 @@
 # tdlib-android
 
-[![TDLib Version](https://img.shields.io/badge/TDLib-1.8.64-blue)](https://github.com/tdlib/td)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.tdlib-android/core)](https://central.sonatype.com/artifact/io.github.tdlib-android/core)
-[![CI](https://github.com/tdlib-android/tdlib-android/actions/workflows/check-upstream.yml/badge.svg)](https://github.com/tdlib-android/tdlib-android/actions)
-[![License](https://img.shields.io/badge/license-BSL--1.0-green)](LICENSE)
 
 **The only community-maintained TDLib distribution for Android. Auto-updated. Zero build steps.**
 
