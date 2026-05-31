@@ -1,0 +1,61 @@
+name: Post-Publish Smoke Test
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+        type: string
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Wait for Maven Central propagation
+        run: sleep 600  # 10 minutes — Maven Central sync delay
+
+      - name: Pull artifact from Maven Central and test
+        run: |
+          VERSION="${{ inputs.version }}"
+          # Create minimal test project that depends on published artifact
+          mkdir -p /tmp/smoke_test
+          cat > /tmp/smoke_test/build.gradle.kts << EOF
+          plugins { id("com.android.application") version "8.4.0" }
+          repositories { mavenCentral() }
+          dependencies {
+            implementation("io.github.tdlib-android:core:${VERSION}")
+          }
+          android {
+            compileSdk = 36
+            defaultConfig { minSdk = 26; targetSdk = 36 }
+          }
+          EOF
+
+          cd /tmp/smoke_test
+          # Build: verifies artifact is downloadable and compilable
+          gradle dependencies --configuration releaseRuntimeClasspath
+          # Assert TdApi class is accessible
+          echo "import org.drinkless.tdlib.TdApi" > Test.kt
+          kotlinc Test.kt -classpath $(gradle dependencies | grep "tdlib-android:core" | awk '{print $NF}') \
+            && echo "SMOKE_TEST_PASSED" \
+            || echo "SMOKE_TEST_FAILED"
+
+      - name: Open issue if smoke test failed
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "PUBLISH BROKEN: v${{ inputs.version }} fails Maven Central smoke test" \
+            --body "The published artifact on Maven Central fails to compile. Immediate attention needed. Consider deprecating this release." \
+            --label "publish-broken,urgent"

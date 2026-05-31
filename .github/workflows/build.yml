@@ -1,0 +1,154 @@
+name: Build TDLib Android AAR
+on:
+  workflow_call:
+    inputs:
+      new_version:
+        required: true
+        type: string
+      old_version:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      new_version:
+        required: true
+        type: string
+      old_version:
+        required: false
+        type: string
+        default: "unknown"
+
+jobs:
+  build-abi:
+    strategy:
+      matrix:
+        abi: [arm64-v8a, armeabi-v7a, x86_64, x86]
+      fail-fast: true   # If one ABI fails, cancel others — never publish partial
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Add Swap Space (10GB)
+        uses: pierotofy/set-swap-space@master
+        with:
+          swap-size-gb: 10
+
+      - name: Build TDLib for ${{ matrix.abi }}
+        id: build
+        env:
+          ABI: ${{ matrix.abi }}
+          TDLIB_VERSION: ${{ inputs.new_version }}
+        run: |
+          set -euo pipefail
+          ./scripts/build-tdlib.sh "$ABI" "$TDLIB_VERSION"
+
+      - name: Upload ABI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tdlib-${{ matrix.abi }}
+          path: artifacts/
+          retention-days: 7
+
+  package-and-test:
+    needs: build-abi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download all ABI artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: tdlib-*
+          merge-multiple: true
+          path: downloaded_artifacts/
+
+      - name: Verify 4 ABIs present and valid (readelf)
+        run: |
+          chmod +x ./scripts/verify-abi-count.sh
+          ./scripts/verify-abi-count.sh downloaded_artifacts/
+
+      - name: Stage .so files and TdApi.java
+        run: |
+          mkdir -p core/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86_64,x86}
+          cp downloaded_artifacts/arm64-v8a/libtdjson.so core/src/main/jniLibs/arm64-v8a/
+          cp downloaded_artifacts/armeabi-v7a/libtdjson.so core/src/main/jniLibs/armeabi-v7a/
+          cp downloaded_artifacts/x86_64/libtdjson.so core/src/main/jniLibs/x86_64/
+          cp downloaded_artifacts/x86/libtdjson.so core/src/main/jniLibs/x86/
+          mkdir -p core/src/main/java/org/drinkless/tdlib
+          cp downloaded_artifacts/java/org/drinkless/tdlib/TdApi.java core/src/main/java/org/drinkless/tdlib/
+          cp downloaded_artifacts/java/org/drinkless/tdlib/Client.java core/src/main/java/org/drinkless/tdlib/ || echo "Client.java not present - using template"
+
+      - name: Verify TdApi.java is complete
+        run: |
+          SIZE=$(stat -c%s core/src/main/java/org/drinkless/tdlib/TdApi.java)
+          if [ "$SIZE" -lt 100000 ]; then
+            echo "ERROR: TdApi.java is too small (${SIZE} bytes) — likely incomplete"
+            exit 1
+          fi
+
+      - name: Build AAR
+        run: ./gradlew :core:assembleRelease :ktx:assembleRelease
+
+      - name: Smoke test — load AAR
+        run: |
+          chmod +x ./scripts/smoke-test.sh
+          ./scripts/smoke-test.sh
+
+      - name: Compute checksums
+        run: |
+          sha256sum core/build/outputs/aar/core-release.aar > core-release.aar.sha256
+          sha256sum core/src/main/jniLibs/arm64-v8a/libtdjson.so >> checksums.txt
+          sha256sum core/src/main/jniLibs/armeabi-v7a/libtdjson.so >> checksums.txt
+          sha256sum core/src/main/jniLibs/x86_64/libtdjson.so >> checksums.txt
+          sha256sum core/src/main/jniLibs/x86/libtdjson.so >> checksums.txt
+
+      - name: Upload final AAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tdlib-android-aar-${{ inputs.new_version }}
+          path: |
+            core/build/outputs/aar/core-release.aar
+            ktx/build/outputs/aar/ktx-release.aar
+            checksums.txt
+          retention-days: 30
+
+      - name: Generate TdApi.java diff
+        run: |
+          # Diff against last shipped version (stored in git)
+          git diff HEAD -- "docs/api-snapshots/TdApi_${{ inputs.old_version }}.java" \
+            "core/src/main/java/org/drinkless/tdlib/TdApi.java" \
+            > tdapi_diff.txt 2>/dev/null || echo "First version — no diff available" > tdapi_diff.txt
+
+      - name: Open PR with version bump
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_VERSION: ${{ inputs.new_version }}
+          OLD_VERSION: ${{ inputs.old_version }}
+        run: |
+          chmod +x ./scripts/generate-pr-body.sh
+          ./scripts/generate-pr-body.sh "$OLD_VERSION" "$NEW_VERSION" > pr_body.md
+
+          git config user.name "tdlib-android-bot"
+          git config user.email "bot@tdlib-android.github.io"
+          git checkout -b "bump/tdlib-$NEW_VERSION"
+
+          # Update VERSION file
+          echo "$NEW_VERSION" > VERSION
+          # Store TdApi snapshot for future diffs
+          mkdir -p docs/api-snapshots
+          cp core/src/main/java/org/drinkless/tdlib/TdApi.java \
+             "docs/api-snapshots/TdApi_${NEW_VERSION}.java"
+
+          git add VERSION docs/api-snapshots/
+          git commit -m "chore: bump TDLib ${OLD_VERSION} → ${NEW_VERSION}"
+          git push origin "bump/tdlib-$NEW_VERSION"
+
+          gh pr create \
+            --title "chore: bump TDLib ${OLD_VERSION} → ${NEW_VERSION}" \
+            --body-file pr_body.md \
+            --base main \
+            --label "version-bump,automated"
