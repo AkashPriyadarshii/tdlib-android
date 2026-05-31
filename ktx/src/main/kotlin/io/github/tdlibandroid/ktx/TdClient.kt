@@ -19,7 +19,9 @@ import org.drinkless.tdlib.TdApi
  */
 class TdClient(
     private val filesDir: String,
-    private val verbosityLevel: Int = 0   // 0=FATAL, 1=ERROR, 2=WARN, 5=DEBUG
+    private val verbosityLevel: Int = 0,   // 0=FATAL, 1=ERROR, 2=WARN, 5=DEBUG
+    private val apiId: Int = 0,
+    private val apiHash: String = ""
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -73,8 +75,8 @@ class TdClient(
                     /* useChatInfoDatabase = */ true,
                     /* useMessageDatabase = */ true,
                     /* useSecretChats = */ false,
-                    /* apiId = */ 0,   // Set by consuming app before auth
-                    /* apiHash = */ "", // Set by consuming app before auth
+                    /* apiId = */ apiId,
+                    /* apiHash = */ apiHash,
                     /* systemLanguageCode = */ "en",
                     /* deviceModel = */ android.os.Build.MODEL,
                     /* systemVersion = */ android.os.Build.VERSION.RELEASE,

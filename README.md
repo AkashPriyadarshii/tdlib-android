@@ -47,10 +47,82 @@ Every other option as of 2026:
 
 This project automates the entire thing. CI polls upstream every 6 hours, builds for all ABIs, and publishes to Maven Central on new TDLib versions. You get a PR to review with the API diff before publish. One merge. Done.
 
-## Used by
-- [OurDrive](https://github.com/AkashPriyadarshii/OurDrive) — private encrypted Android cloud storage
+## Usage Guide for FOSS Developers
 
-[Open a PR to add your project]
+This library is designed to be plug-and-play for any open-source or commercial Telegram client on Android. Follow these guidelines to integrate TDLib into your project securely and professionally.
+
+### 1. Repository & Dependency Configuration
+Ensure `mavenCentral()` is defined in your repository list, then add the core prebuilt JNI library and the optional Kotlin Coroutines/Flow extension to your `build.gradle.kts` (app module):
+
+```kotlin
+// settings.gradle.kts
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral() // Core library is hosted here
+    }
+}
+
+// app/build.gradle.kts
+dependencies {
+    // Precompiled TDLib native C++ library with all 4 ABIs (arm64-v8a, armeabi-v7a, x86_64, x86)
+    implementation("io.github.tdlib-android:core:1.8.64")
+    
+    // Sleek Kotlin Coroutines + Flow wrapper (Highly Recommended for FOSS apps)
+    implementation("io.github.tdlib-android:ktx:1.8.64")
+}
+```
+
+### 2. Initializing TdClient Secures
+In your application class or dependency injection graph, initialize the TDLib client wrapper. Pass your custom `apiId` and `apiHash` dynamically (avoid hardcoding them in your repository—use environment variables, `BuildConfig`, or Gradle properties):
+
+```kotlin
+import io.github.tdlibandroid.ktx.TdClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+// 1. Manually load the prebuilt native JNI library
+System.loadLibrary("tdjni")
+
+// 2. Instantiate the client with your database path and Telegram API credentials
+val filesDir = context.filesDir.absolutePath + "/tdlib"
+val client = TdClient(
+    filesDir = filesDir,
+    verbosityLevel = 1, // 1 = Error/Fatal, 5 = Verbose Debugging
+    apiId = BuildConfig.TELEGRAM_API_ID,   // Load securely from build config
+    apiHash = BuildConfig.TELEGRAM_API_HASH // Load securely from build config
+)
+
+// 3. Initialize and collect updates
+client.init()
+
+CoroutineScope(Dispatchers.IO).launch {
+    client.updates.collect { update ->
+        // Listen to all incoming MTProto and Auth updates reactively!
+    }
+}
+```
+
+---
+
+## Author & Credits 👑
+
+This project was envisioned, architected, and is actively maintained by **[Akash Priyadarshi (@AkashPriyadarshii)](https://github.com/AkashPriyadarshii)**. 
+
+Akash created this distribution to solve the massive friction of manually compiling TDLib from source for multiple Android architectures. Through custom Docker matrix builds and automated upstream watchdogs, this project provides the global Android open-source ecosystem with a zero-maintenance, up-to-date, and production-grade precompiled TDLib solution. 
+
+If this library saves you time or powers your FOSS app, please consider starring the repository and crediting Akash in your project's credits page!
+
+---
+
+## Used by
+
+- **[OurDrive](https://github.com/AkashPriyadarshii/OurDrive)** — A private, secure, and end-to-end encrypted Android cloud storage provider powered by Telegram's cloud storage backend.
+
+*Running an open-source or public app powered by `tdlib-android`? Open a Pull Request to list your project here and gain community visibility!*
+
+---
 
 ## Version History
 
@@ -62,5 +134,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) — CI architecture, how to add ABI suppo
 
 ## License
 
-TDLib and its Java interface are licensed under [BSL-1.0](https://www.boost.org/LICENSE_1_0.txt).
-This wrapper (ktx module) is Apache 2.0.
+- The TDLib C++ binary and generated Java interfaces are licensed under the **Boost Software License 1.0 (BSL-1.0)**.
+- The `ktx` wrapper module is licensed under the **Apache License 2.0**.
+
