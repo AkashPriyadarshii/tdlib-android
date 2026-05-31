@@ -107,7 +107,9 @@ jobs:
           fi
 
       - name: Build AAR
-        run: ./gradlew :core:assembleRelease :ktx:assembleRelease
+        run: |
+          chmod +x gradlew
+          ./gradlew :core:assembleRelease :ktx:assembleRelease
 
       - name: Smoke test — load AAR
         run: |
