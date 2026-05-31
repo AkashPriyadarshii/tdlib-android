@@ -7,11 +7,13 @@ on:
       - '**.md'
       - '.gitignore'
       - '.gitattributes'
+  workflow_dispatch: # Allow manual release triggers
 
 jobs:
   publish:
-    if: github.event.pull_request.merged == true &&
-        contains(github.event.pull_request.labels.*.name, 'version-bump')
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'version-bump'))
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.set-version.outputs.version }}
