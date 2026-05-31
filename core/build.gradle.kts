@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-    // Zero runtime deps.
+    compileOnly("androidx.annotation:annotation:1.8.0")
 }
 
 mavenPublishing {
