@@ -106,7 +106,7 @@ CoroutineScope(Dispatchers.IO).launch {
 
 ---
 
-## Author & Credits 👑
+## Author & Credits
 
 This project was envisioned, architected, and is actively maintained by **[Akash Priyadarshi (@AkashPriyadarshii)](https://github.com/AkashPriyadarshii)**. 
 
