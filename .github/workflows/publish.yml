@@ -9,8 +9,18 @@ jobs:
     if: github.event.pull_request.merged == true &&
         contains(github.event.pull_request.labels.*.name, 'version-bump')
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.set-version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set Version
+        id: set-version
+        run: |
+          VERSION=$(cat VERSION)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "NEW_VERSION=$VERSION" >> $GITHUB_ENV
+
       - uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -90,5 +100,5 @@ jobs:
     needs: publish
     uses: ./.github/workflows/smoke-test-publish.yml
     with:
-      version: ${{ env.NEW_VERSION }}
+      version: ${{ needs.publish.outputs.version }}
     secrets: inherit
