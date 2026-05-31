@@ -1,7 +1,11 @@
 name: Cloud Emulator Test
 on:
   push:
-    branches: [ "test-cloud-emulator", "main" ]
+    branches: [ "main" ]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.gitattributes'
   workflow_dispatch: # Allows manual trigger
 
 jobs:
