@@ -2,8 +2,16 @@ name: Build TDLib Android AAR
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.gitattributes'
   pull_request:
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.gitattributes'
   workflow_call:
     inputs:
       new_version:

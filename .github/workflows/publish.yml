@@ -3,6 +3,10 @@ on:
   pull_request:
     types: [closed]
     branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.gitattributes'
 
 jobs:
   publish:
