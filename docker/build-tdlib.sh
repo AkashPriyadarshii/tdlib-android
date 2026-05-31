@@ -70,7 +70,9 @@ if [ "$ANDROID_INTERFACE" == "JSONJava" ] ; then
 fi
 
 echo "Building TDLib..."
-for ABI in arm64-v8a armeabi-v7a x86_64 x86 ; do
+# If TDLIB_ABI is specified, build only that one, otherwise build all
+ABIS_TO_BUILD=${TDLIB_ABI:-"arm64-v8a armeabi-v7a x86_64 x86"}
+for ABI in $ABIS_TO_BUILD ; do
   mkdir -p tdlib/libs/$ABI/ || exit 1
 
   mkdir -p build-$ABI-$ANDROID_INTERFACE || exit 1

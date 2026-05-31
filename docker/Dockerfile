@@ -4,6 +4,9 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yq default
 
 WORKDIR /home
 
+ARG TDLIB_ABI
+ENV TDLIB_ABI=$TDLIB_ABI
+
 ARG ANDROID_NDK_VERSION=23.2.8568313
 COPY ./check-environment.sh ./fetch-sdk.sh ./
 RUN ./fetch-sdk.sh SDK "$ANDROID_NDK_VERSION"
@@ -17,6 +20,9 @@ ADD "https://api.github.com/repos/tdlib/td/git/refs/heads/master" version.json
 ARG COMMIT_HASH=master
 RUN git clone https://github.com/tdlib/td.git && cd td && git checkout "$COMMIT_HASH"
 RUN cd td && git merge-base --is-ancestor 872d8ebd3ba9d922169839e6a24cee08b02b328a "$COMMIT_HASH"
+
+# Copy our custom, parallelized and ABI-filtered build script to override the default one from cloned td
+COPY ./build-tdlib.sh td/example/android/build-tdlib.sh
 
 ARG ANDROID_STL=c++_static
 ARG TDLIB_INTERFACE=Java
