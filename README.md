@@ -33,15 +33,24 @@ That's it.
 
 **Tested on:** Realme GT 7 (Dimensity 9400e) · Android 16 (API 36)
 
-## Why this exists
+## Why this exists (The "Bible")
+
+If you have ever tried to compile TDLib from source for Android, you know the pain. 
+I built this project on a **Windows 11 machine with just 4GB of RAM**. Trying to build TDLib locally using the Android NDK on low-end hardware is an absolute nightmare: the C++ compiler runs out of memory, crashes halfway through, takes hours of your life, and completely freezes the machine. 
 
 Every other option as of 2026:
 - up9cloud/android-libtdjson — frozen at 1.8.52, GitHub token required, raw .so only
 - TGX-Android/tdlib — explicitly not for external use
 - tdlibx/td-ktx — archived 2024, dead
-- Build it yourself — broken on macOS, 45min Docker build, CI setup hours
+- Build it yourself — completely impossible on a 4GB RAM machine without massive NDK out-of-memory crashes.
 
-This project automates the entire thing. CI polls upstream every 6 hours, builds for all ABIs, and publishes to Maven Central on new TDLib versions. You get a PR to review with the API diff before publish. One merge. Done.
+**That is exactly why this repository exists.** 
+
+We shifted 100% of the heavy lifting to the cloud. GitHub Actions handles the incredibly intensive C++ compilation for all 4 ABIs using high-memory runners, saving FOSS developers from hardware bottlenecks and hours of wasted time. 
+
+The CI automatically polls upstream weekly, compiles the massive native `.so` files, wraps them in a clean AAR, and publishes them to Maven Central. 
+
+Zero local builds required. Just add the Gradle dependency and start building your app.
 
 ## Usage Guide
 

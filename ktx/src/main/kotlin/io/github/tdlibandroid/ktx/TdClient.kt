@@ -21,9 +21,10 @@ class TdClient(
     private val filesDir: String,
     private val verbosityLevel: Int = 0,   // 0=FATAL, 1=ERROR, 2=WARN, 5=DEBUG
     private val apiId: Int = 0,
-    private val apiHash: String = ""
+    private val apiHash: String = "",
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scope = CoroutineScope(SupervisorJob() + dispatcher)
 
     // Update stream — hot SharedFlow, 0 replay (stateless), unlimited buffer
     private val _updates = MutableSharedFlow<TdApi.Update>(
@@ -144,5 +145,33 @@ class TdException(val code: Int, override val message: String) : Exception(messa
     val isFloodWait: Boolean get() = message.startsWith("FLOOD_WAIT_")
     val floodWaitSeconds: Long get() = if (isFloodWait) message.substringAfter("FLOOD_WAIT_").toLong() else 0L
     val isUnauthorized: Boolean get() = code == 401
-    val isNotFound: Boolean get() = code == 404
 }
+
+/**
+ * Returns a Flow of authorization states.
+ */
+fun TdClient.authStateFlow(): Flow<TdApi.AuthorizationState> =
+    updates.filterIsInstance<TdApi.UpdateAuthorizationState>().map { it.authorizationState }
+
+/**
+ * Suspends until TDLib reaches AuthorizationStateReady.
+ */
+suspend fun TdClient.awaitReady() {
+    authStateFlow().filter { it is TdApi.AuthorizationStateReady }.first()
+}
+
+/**
+ * Returns a Flow of a specific update type.
+ */
+inline fun <reified T : TdApi.Update> TdClient.updatesOf(): Flow<T> =
+    updates.filterIsInstance<T>()
+
+/**
+ * Returns a Flow that tracks the progress of a specific file download/upload.
+ * The flow completes automatically when the file transfer finishes.
+ */
+fun TdClient.trackFile(fileId: Int): Flow<TdApi.File> =
+    updatesOf<TdApi.UpdateFile>()
+        .map { it.file }
+        .filter { it.id == fileId }
+        .takeWhile { it.local.isDownloadingActive || it.remote.isUploadingActive }
