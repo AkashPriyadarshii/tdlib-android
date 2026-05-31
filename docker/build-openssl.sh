@@ -61,7 +61,9 @@ fi
 
 SHARED_BUILD_OPTION=$([ "$BUILD_SHARED_LIBS" ] && echo "shared" || echo "no-shared")
 
-for ABI in arm64-v8a armeabi-v7a x86_64 x86 ; do
+# If TDLIB_ABI is specified, build only that one, otherwise build all
+ABIS_TO_BUILD=${TDLIB_ABI:-"arm64-v8a armeabi-v7a x86_64 x86"}
+for ABI in $ABIS_TO_BUILD ; do
   if [[ $ABI == "x86" ]] ; then
     ./Configure android-x86 ${SHARED_BUILD_OPTION} -U__ANDROID_API__ -D__ANDROID_API__=$ANDROID_API32 || exit 1
   elif [[ $ABI == "x86_64" ]] ; then

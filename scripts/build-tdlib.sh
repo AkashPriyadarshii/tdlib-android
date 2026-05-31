@@ -16,6 +16,7 @@ for attempt in 1 2 3; do
       --build-arg TDLIB_INTERFACE=Java \
       --build-arg ANDROID_NDK_VERSION="$NDK_VERSION" \
       --build-arg COMMIT_HASH=HEAD \
+      --build-arg TDLIB_ABI="$ABI" \
       --output tdlib_output \
       ./docker/; then
         echo "Docker build succeeded on attempt $attempt"
