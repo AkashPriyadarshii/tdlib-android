@@ -43,34 +43,32 @@ Every other option as of 2026:
 
 This project automates the entire thing. CI polls upstream every 6 hours, builds for all ABIs, and publishes to Maven Central on new TDLib versions. You get a PR to review with the API diff before publish. One merge. Done.
 
-## Usage Guide for FOSS Developers
+## Usage Guide
 
-This library is designed to be plug-and-play for any open-source or commercial Telegram client on Android. Follow these guidelines to integrate TDLib into your project securely and professionally.
-
-### 1. Repository & Dependency Configuration
-Ensure `mavenCentral()` is defined in your repository list, then add the core prebuilt JNI library and the optional Kotlin Coroutines/Flow extension to your `build.gradle.kts` (app module):
+### 1. Dependency Configuration
+Ensure `mavenCentral()` is defined in your repository list, then add the core prebuilt JNI library and the optional Kotlin Coroutines/Flow extension to your `build.gradle.kts`:
 
 ```kotlin
 // settings.gradle.kts
 dependencyResolutionManagement {
     repositories {
         google()
-        mavenCentral() // Core library is hosted here
+        mavenCentral()
     }
 }
 
 // app/build.gradle.kts
 dependencies {
-    // Precompiled TDLib native C++ library with all 4 ABIs (arm64-v8a, armeabi-v7a, x86_64, x86)
+    // Precompiled TDLib native C++ library (arm64-v8a, armeabi-v7a, x86_64, x86)
     implementation("io.github.tdlib-android:core:1.8.64")
     
-    // Sleek Kotlin Coroutines + Flow wrapper (Highly Recommended for FOSS apps)
+    // Kotlin Coroutines + Flow wrapper (optional)
     implementation("io.github.tdlib-android:ktx:1.8.64")
 }
 ```
 
-### 2. Initializing TdClient Secures
-In your application class or dependency injection graph, initialize the TDLib client wrapper. Pass your custom `apiId` and `apiHash` dynamically (avoid hardcoding them in your repository—use environment variables, `BuildConfig`, or Gradle properties):
+### 2. Initialization & Usage
+Load the native JNI library and initialize `TdClient` with your database path and Telegram API credentials:
 
 ```kotlin
 import io.github.tdlibandroid.ktx.TdClient
@@ -78,24 +76,23 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-// 1. Manually load the prebuilt native JNI library
+// Load the prebuilt native JNI library
 System.loadLibrary("tdjni")
 
-// 2. Instantiate the client with your database path and Telegram API credentials
+// Instantiate client with database path and API credentials
 val filesDir = context.filesDir.absolutePath + "/tdlib"
 val client = TdClient(
     filesDir = filesDir,
-    verbosityLevel = 1, // 1 = Error/Fatal, 5 = Verbose Debugging
-    apiId = BuildConfig.TELEGRAM_API_ID,   // Load securely from build config
-    apiHash = BuildConfig.TELEGRAM_API_HASH // Load securely from build config
+    verbosityLevel = 1,                     // 1 = Error/Fatal, 5 = Debug
+    apiId = BuildConfig.TELEGRAM_API_ID,   // Load securely
+    apiHash = BuildConfig.TELEGRAM_API_HASH // Load securely
 )
 
-// 3. Initialize and collect updates
 client.init()
 
 CoroutineScope(Dispatchers.IO).launch {
     client.updates.collect { update ->
-        // Listen to all incoming MTProto and Auth updates reactively!
+        // Handle incoming MTProto updates reactively
     }
 }
 ```
@@ -104,11 +101,7 @@ CoroutineScope(Dispatchers.IO).launch {
 
 ## Author & Credits
 
-This project was envisioned, architected, and is actively maintained by **[Akash Priyadarshi (@AkashPriyadarshii)](https://github.com/AkashPriyadarshii)**. 
-
-Akash created this distribution to solve the massive friction of manually compiling TDLib from source for multiple Android architectures. Through custom Docker matrix builds and automated upstream watchdogs, this project provides the global Android open-source ecosystem with a zero-maintenance, up-to-date, and production-grade precompiled TDLib solution. 
-
-If this library saves you time or powers your FOSS app, please consider starring the repository and crediting Akash in your project's credits page!
+Created and maintained by **[Akash Priyadarshi (@AkashPriyadarshii)](https://github.com/AkashPriyadarshii)** to eliminate the complexity of manually compiling TDLib from source for multiple Android architectures. Custom Docker matrix builds and automated upstream workflows provide the global Android ecosystem with an up-to-date, zero-maintenance precompiled TDLib AAR.
 
 ---
 
@@ -118,10 +111,11 @@ Auto-generated from TDLib upstream. See [CHANGELOG.md](CHANGELOG.md).
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) — CI architecture, how to add ABI support, how to contribute to the ktx wrapper.
+See [CONTRIBUTING.md](CONTRIBUTING.md) — CI architecture, ABI builds, and contributing guidelines.
 
 ## License
 
-- The TDLib C++ binary and generated Java interfaces are licensed under the **Boost Software License 1.0 (BSL-1.0)**.
-- The `ktx` wrapper module is licensed under the **Apache License 2.0**.
+- TDLib binary and Java interfaces: **Boost Software License 1.0 (BSL-1.0)**.
+- `ktx` wrapper module: **Apache License 2.0**.
+
 
