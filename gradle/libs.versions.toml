@@ -9,6 +9,8 @@ targetSdk = "36"
 [libraries]
 # ktx only depends on kotlinx-coroutines
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version = "1.8.1" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version = "1.7.0" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version = "2.8.1" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
