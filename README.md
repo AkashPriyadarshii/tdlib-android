@@ -116,14 +116,6 @@ If this library saves you time or powers your FOSS app, please consider starring
 
 ---
 
-## Used by
-
-- **[OurDrive](https://github.com/AkashPriyadarshii/OurDrive)** — A private, secure, and end-to-end encrypted Android cloud storage provider powered by Telegram's cloud storage backend.
-
-*Running an open-source or public app powered by `tdlib-android`? Open a Pull Request to list your project here and gain community visibility!*
-
----
-
 ## Version History
 
 Auto-generated from TDLib upstream. See [CHANGELOG.md](CHANGELOG.md).
