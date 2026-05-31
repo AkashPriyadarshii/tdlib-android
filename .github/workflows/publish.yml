@@ -42,7 +42,10 @@ jobs:
           ./scripts/build-tdlib.sh "armeabi-v7a" "$(cat VERSION)"
           ./scripts/build-tdlib.sh "x86_64" "$(cat VERSION)"
           ./scripts/build-tdlib.sh "x86" "$(cat VERSION)"
-          ./gradlew :core:assembleRelease :ktx:assembleRelease
+          mkdir -p gradle/wrapper
+          wget -qO gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v8.7.0/gradle/wrapper/gradle-wrapper.jar
+          chmod +x gradlew
+          ./gradlew :core:assembleRelease :ktx:assembleRelease || gradle :core:assembleRelease :ktx:assembleRelease
 
       - name: Publish to Maven Central (with retry)
         env:
@@ -52,11 +55,14 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.GPG_KEY_ID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_KEY_PASSWORD }}
         run: |
+          mkdir -p gradle/wrapper
+          wget -qO gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v8.7.0/gradle/wrapper/gradle-wrapper.jar
+          chmod +x gradlew
           # Retry loop: 5 attempts, exponential backoff
           BACKOFF=10
           for attempt in 1 2 3 4 5; do
             echo "Publish attempt $attempt"
-            if ./gradlew publishAllPublicationsToMavenCentralRepository; then
+            if ./gradlew publishAllPublicationsToMavenCentralRepository || gradle publishAllPublicationsToMavenCentralRepository; then
               echo "Published successfully"
               break
             fi
