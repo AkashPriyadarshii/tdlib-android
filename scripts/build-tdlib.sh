@@ -32,7 +32,7 @@ done
 
 # Extract outputs
 mkdir -p "artifacts/$ABI"
-cp tdlib_output/libs/"$ABI"/libtdjson.so "artifacts/$ABI/"
+cp tdlib_output/libs/"$ABI"/libtdjni.so "artifacts/$ABI/"
 
 mkdir -p "artifacts/java"
 cp -r tdlib_output/java/. "artifacts/java/"
