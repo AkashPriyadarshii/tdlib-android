@@ -1,5 +1,9 @@
 name: Build TDLib Android AAR
 on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_call:
     inputs:
       new_version:
@@ -28,6 +32,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Get version from file
+        id: get-ver
+        run: |
+          VERSION=$(cat VERSION)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Add Swap Space (10GB)
         uses: pierotofy/set-swap-space@master
         with:
@@ -37,7 +47,7 @@ jobs:
         id: build
         env:
           ABI: ${{ matrix.abi }}
-          TDLIB_VERSION: ${{ inputs.new_version }}
+          TDLIB_VERSION: ${{ inputs.new_version || steps.get-ver.outputs.version }}
         run: |
           set -euo pipefail
           ./scripts/build-tdlib.sh "$ABI" "$TDLIB_VERSION"
@@ -58,6 +68,12 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Get version from file
+        id: get-ver
+        run: |
+          VERSION=$(cat VERSION)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Download all ABI artifacts
         uses: actions/download-artifact@v4
@@ -109,7 +125,7 @@ jobs:
       - name: Upload final AAR artifact
         uses: actions/upload-artifact@v4
         with:
-          name: tdlib-android-aar-${{ inputs.new_version }}
+          name: tdlib-android-aar-${{ inputs.new_version || steps.get-ver.outputs.version }}
           path: |
             core/build/outputs/aar/core-release.aar
             ktx/build/outputs/aar/ktx-release.aar
@@ -118,12 +134,14 @@ jobs:
 
       - name: Generate TdApi.java diff
         run: |
+          OLD_VER="${{ inputs.old_version || 'unknown' }}"
           # Diff against last shipped version (stored in git)
-          git diff HEAD -- "docs/api-snapshots/TdApi_${{ inputs.old_version }}.java" \
+          git diff HEAD -- "docs/api-snapshots/TdApi_${OLD_VER}.java" \
             "core/src/main/java/org/drinkless/tdlib/TdApi.java" \
             > tdapi_diff.txt 2>/dev/null || echo "First version — no diff available" > tdapi_diff.txt
 
       - name: Open PR with version bump
+        if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEW_VERSION: ${{ inputs.new_version }}
