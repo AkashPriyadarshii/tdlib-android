@@ -1,6 +1,7 @@
 # Contributing to tdlib-android
 
-Thank you for contributing! This project is a fully automated distribution pipeline designed to keep TDLib prebuilt AAR libraries for Android up-to-date and easily installable via Maven Central.
+Contributions are welcome from anyone! Whether you want to improve the `:ktx` coroutines wrapper, optimize build scripts, fix typos, or suggest features, feel free to open an issue or submit a pull request.
+
 
 ## CI/CD Pipeline Architecture
 
