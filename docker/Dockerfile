@@ -31,4 +31,4 @@ RUN td/example/android/build-tdlib.sh SDK "$ANDROID_NDK_VERSION" openssl "$ANDRO
 
 FROM scratch
 
-COPY --from=build /home/td/example/android/tdlib/tdlib* /
+COPY --from=build /home/td/example/android/tdlib/ /
