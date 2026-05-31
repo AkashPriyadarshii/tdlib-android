@@ -1,0 +1,18 @@
+name: Annual Secrets Rotation Reminder
+on:
+  schedule:
+    - cron: '0 9 1 1 *'  # Jan 1 every year, 09:00 UTC
+  workflow_dispatch:
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Open rotation reminder issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue create \
+            --title "Annual: Rotate GPG signing key + Sonatype credentials" \
+            --body "Yearly reminder to rotate:\n- GPG signing key (secrets: GPG_SIGNING_KEY, GPG_KEY_ID, GPG_KEY_PASSWORD)\n- Sonatype Central Portal credentials (secrets: SONATYPE_USERNAME, SONATYPE_PASSWORD)\n\nUpdate all GitHub Actions secrets after rotation." \
+            --label "maintenance,annual"
