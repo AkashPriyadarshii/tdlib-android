@@ -106,10 +106,15 @@ jobs:
             exit 1
           fi
 
+      - name: Restore Pristine Gradle Wrapper JAR
+        run: |
+          mkdir -p gradle/wrapper
+          wget -qO gradle/wrapper/gradle-wrapper.jar https://raw.githubusercontent.com/gradle/gradle/v8.7.0/gradle/wrapper/gradle-wrapper.jar
+
       - name: Build AAR
         run: |
           chmod +x gradlew
-          ./gradlew :core:assembleRelease :ktx:assembleRelease
+          ./gradlew :core:assembleRelease :ktx:assembleRelease || gradle :core:assembleRelease :ktx:assembleRelease
 
       - name: Smoke test — load AAR
         run: |
