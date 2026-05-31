@@ -27,28 +27,70 @@ jobs:
       - name: Pull artifact from Maven Central and test
         run: |
           VERSION="${{ inputs.version }}"
-          # Create minimal test project that depends on published artifact
-          mkdir -p /tmp/smoke_test
+          echo "=== Setting up robust Maven Central smoke test for version $VERSION ==="
+          mkdir -p /tmp/smoke_test/app/src/main/java/io/github/tdlibandroid/smoke
+          
+          # 1. settings.gradle.kts
+          cat > /tmp/smoke_test/settings.gradle.kts << EOF
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+          include(":app")
+          EOF
+
+          # 2. build.gradle.kts (root)
           cat > /tmp/smoke_test/build.gradle.kts << EOF
-          plugins { id("com.android.application") version "8.4.0" }
-          repositories { mavenCentral() }
-          dependencies {
-            implementation("io.github.tdlib-android:core:${VERSION}")
+          plugins {
+              id("com.android.application") version "8.4.2" apply false
+              id("org.jetbrains.kotlin.android") version "2.0.21" apply false
+          }
+          EOF
+
+          # 3. app/build.gradle.kts
+          cat > /tmp/smoke_test/app/build.gradle.kts << EOF
+          plugins {
+              id("com.android.application")
           }
           android {
-            compileSdk = 36
-            defaultConfig { minSdk = 26; targetSdk = 36 }
+              namespace = "io.github.tdlibandroid.smoke"
+              compileSdk = 34
+              defaultConfig {
+                  applicationId = "io.github.tdlibandroid.smoke"
+                  minSdk = 26
+                  targetSdk = 34
+              }
+          }
+          dependencies {
+              implementation("io.github.tdlib-android:core:${VERSION}")
+          }
+          EOF
+
+          # 4. SmokeTest.java
+          cat > /tmp/smoke_test/app/src/main/java/io/github/tdlibandroid/smoke/SmokeTest.java << EOF
+          package io.github.tdlibandroid.smoke;
+          import org.drinkless.tdlib.TdApi;
+          public class SmokeTest {
+              public static void test() {
+                  TdApi.GetOption opt = new TdApi.GetOption("version");
+                  System.out.println(opt.toString());
+              }
           }
           EOF
 
           cd /tmp/smoke_test
-          # Build: verifies artifact is downloadable and compilable
-          gradle dependencies --configuration releaseRuntimeClasspath
-          # Assert TdApi class is accessible
-          echo "import org.drinkless.tdlib.TdApi" > Test.kt
-          kotlinc Test.kt -classpath $(gradle dependencies | grep "tdlib-android:core" | awk '{print $NF}') \
-            && echo "SMOKE_TEST_PASSED" \
-            || echo "SMOKE_TEST_FAILED"
+          echo "=== Starting compilation to verify library classpath integrity ==="
+          gradle :app:compileReleaseJavaWithJavac --no-daemon
 
       - name: Open issue if smoke test failed
         if: failure()

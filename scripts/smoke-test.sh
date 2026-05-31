@@ -10,6 +10,7 @@ trap 'rm -rf "$TEMP_DIR"' EXIT
 # Copy compiled AAR files if they exist to the staging directory
 # Create dummy files for TdApi if testing configurations only
 
+REPO_DIR="$(pwd)"
 mkdir -p "$TEMP_DIR/app"
 
 # Scaffold build.gradle.kts for smoke test
@@ -46,8 +47,8 @@ android {
     }
 }
 dependencies {
-    // Add local core release dependency
-    implementation(files("../../core/build/outputs/aar/core-release.aar"))
+    // Add local core release dependency using absolute repository path
+    implementation(files("${REPO_DIR}/core/build/outputs/aar/core-release.aar"))
 }
 EOF
 
@@ -55,6 +56,7 @@ echo "Scaffolded smoke test app successfully in $TEMP_DIR."
 # Dry run verification of syntax:
 echo "Verifying smoke test build execution..."
 cd "$TEMP_DIR"
-gradle dependencies --configuration releaseRuntimeClasspath >/dev/null && echo "SMOKE TEST: Configuration loads successfully." || echo "SMOKE TEST: Non-blocking warning."
+gradle dependencies --configuration releaseRuntimeClasspath --no-daemon
+echo "SMOKE TEST: Configuration loads successfully."
 
 echo "=== Smoke test setup verification complete ==="
