@@ -40,7 +40,11 @@ class TdClient(
      * Sets up native client, log level, and database path.
      */
     fun init() {
-        Client.setLogVerbosityLevel(verbosityLevel)
+        try {
+            Client.execute(TdApi.SetLogVerbosityLevel(verbosityLevel))
+        } catch (e: Exception) {
+            println("[TdClient] Failed to set log verbosity level: $e")
+        }
         nativeClient = Client.create(
             { update ->
                 if (update is TdApi.Update) {
@@ -117,8 +121,12 @@ class TdClient(
      * After close(), this instance cannot be reused.
      */
     fun close() {
+        try {
+            nativeClient?.send(TdApi.Close(), null, null)
+        } catch (e: Exception) {
+            println("[TdClient] Failed to send Close command: $e")
+        }
         scope.cancel()
-        nativeClient?.close()
         nativeClient = null
         pending.forEach { (_, deferred) ->
             deferred.completeExceptionally(CancellationException("TdClient closed"))
