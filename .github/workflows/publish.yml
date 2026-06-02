@@ -1,16 +1,14 @@
 name: Publish to Maven Central
 on:
-  pull_request:
-    types: [closed]
-    branches: [main]
-    paths-ignore:
-      - '**.md'
-      - '.gitignore'
-      - '.gitattributes'
   workflow_dispatch: # Allow manual release triggers
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   publish:
+    timeout-minutes: 10
     if: |
       github.event_name == 'workflow_dispatch' ||
       (github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'version-bump'))
@@ -119,6 +117,7 @@ jobs:
           git push origin main || true
 
   trigger-smoke-test:
+    timeout-minutes: 10
     needs: publish
     uses: ./.github/workflows/smoke-test-publish.yml
     with:

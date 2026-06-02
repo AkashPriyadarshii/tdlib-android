@@ -1,17 +1,5 @@
 name: Build TDLib Android AAR
 on:
-  push:
-    branches: [main]
-    paths-ignore:
-      - '**.md'
-      - '.gitignore'
-      - '.gitattributes'
-  pull_request:
-    branches: [main]
-    paths-ignore:
-      - '**.md'
-      - '.gitignore'
-      - '.gitattributes'
   workflow_call:
     inputs:
       new_version:
@@ -30,8 +18,13 @@ on:
         type: string
         default: "unknown"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-abi:
+    timeout-minutes: 10
     strategy:
       matrix:
         abi: [arm64-v8a, armeabi-v7a, x86_64, x86]
@@ -68,6 +61,7 @@ jobs:
           retention-days: 7
 
   package-and-test:
+    timeout-minutes: 10
     needs: build-abi
     runs-on: ubuntu-latest
     steps:

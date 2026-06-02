@@ -4,8 +4,13 @@ on:
     - cron: '0 9 1 1 *'  # Jan 1 every year, 09:00 UTC
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   remind:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - name: Open rotation reminder issue
