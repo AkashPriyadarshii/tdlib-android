@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   remind:
-    timeout-minutes: 10
+    timeout-minutes: 45
     runs-on: ubuntu-latest
     steps:
       - name: Open rotation reminder issue
