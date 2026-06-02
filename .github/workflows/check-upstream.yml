@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   check:
-    timeout-minutes: 10
+    timeout-minutes: 45
     runs-on: ubuntu-latest
     outputs:
       version_changed: ${{ steps.check.outputs.changed }}
@@ -56,7 +56,7 @@ jobs:
           fi
 
   trigger-build:
-    timeout-minutes: 10
+    timeout-minutes: 45
     needs: check
     if: needs.check.outputs.version_changed == 'true'
     uses: ./.github/workflows/build.yml
