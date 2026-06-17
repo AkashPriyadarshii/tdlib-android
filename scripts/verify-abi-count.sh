@@ -10,6 +10,9 @@ FAILED=0
 declare -A EXPECTED_ARCHS
 EXPECTED_ARCHS=(
     ["arm64-v8a"]="AArch64"
+    ["armeabi-v7a"]="ARM"
+    ["x86_64"]="X86-64"
+    ["x86"]="80386"
 )
 
 for ABI in "${!EXPECTED_ARCHS[@]}"; do

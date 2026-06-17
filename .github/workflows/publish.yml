@@ -1,5 +1,8 @@
 name: Publish to Maven Central
 on:
+  push:
+    branches:
+      - main
   pull_request:
     types: [closed]
   workflow_dispatch: # Allow manual release triggers
@@ -10,9 +13,9 @@ concurrency:
 
 jobs:
   publish:
-    timeout-minutes: 30
     if: |
       github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
       (github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'version-bump'))
     runs-on: ubuntu-latest
     outputs:
