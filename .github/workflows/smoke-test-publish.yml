@@ -26,7 +26,21 @@ jobs:
           distribution: 'temurin'
 
       - name: Wait for Maven Central propagation
-        run: sleep 600  # 10 minutes — Maven Central sync delay
+        run: |
+          VERSION="${{ inputs.version }}"
+          URL="https://repo1.maven.org/maven2/io/github/tdlib-android/core/$VERSION/core-$VERSION.pom"
+          echo "Polling Maven Central for $URL..."
+          for i in {1..40}; do
+            STATUS=$(curl -o /dev/null -s -w "%{http_code}\n" "$URL")
+            if [ "$STATUS" -eq 200 ]; then
+              echo "Artifact found on Maven Central! Proceeding."
+              exit 0
+            fi
+            echo "Attempt $i/40: Not found yet (HTTP $STATUS). Waiting 30s..."
+            sleep 30
+          done
+          echo "Timeout waiting for Maven Central propagation."
+          exit 1
 
       - name: Pull artifact from Maven Central and test
         run: |
