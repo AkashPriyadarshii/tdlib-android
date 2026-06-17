@@ -27,7 +27,7 @@ jobs:
   build-abi:
     strategy:
       matrix:
-        abi: [arm64-v8a, armeabi-v7a, x86_64, x86]
+        abi: [arm64-v8a]
       fail-fast: true   # If one ABI fails, cancel others — never publish partial
     runs-on: ubuntu-latest
     steps:
@@ -90,11 +90,8 @@ jobs:
 
       - name: Stage .so files and TdApi.java
         run: |
-          mkdir -p core/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86_64,x86}
+          mkdir -p core/src/main/jniLibs/arm64-v8a
           cp downloaded_artifacts/arm64-v8a/libtdjni.so core/src/main/jniLibs/arm64-v8a/
-          cp downloaded_artifacts/armeabi-v7a/libtdjni.so core/src/main/jniLibs/armeabi-v7a/
-          cp downloaded_artifacts/x86_64/libtdjni.so core/src/main/jniLibs/x86_64/
-          cp downloaded_artifacts/x86/libtdjni.so core/src/main/jniLibs/x86/
           mkdir -p core/src/main/java/org/drinkless/tdlib
           cp downloaded_artifacts/java/org/drinkless/tdlib/TdApi.java core/src/main/java/org/drinkless/tdlib/
           cp downloaded_artifacts/java/org/drinkless/tdlib/Client.java core/src/main/java/org/drinkless/tdlib/ || echo "Client.java not present - using template"
@@ -125,9 +122,6 @@ jobs:
         run: |
           sha256sum core/build/outputs/aar/core-release.aar > core-release.aar.sha256
           sha256sum core/src/main/jniLibs/arm64-v8a/libtdjni.so >> checksums.txt
-          sha256sum core/src/main/jniLibs/armeabi-v7a/libtdjni.so >> checksums.txt
-          sha256sum core/src/main/jniLibs/x86_64/libtdjni.so >> checksums.txt
-          sha256sum core/src/main/jniLibs/x86/libtdjni.so >> checksums.txt
 
       - name: Upload final AAR artifact
         uses: actions/upload-artifact@v4
