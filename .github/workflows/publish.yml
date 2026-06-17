@@ -1,8 +1,5 @@
 name: Publish to Maven Central
 on:
-  push:
-    branches:
-      - main
   pull_request:
     types: [closed]
   workflow_dispatch: # Allow manual release triggers
@@ -118,7 +115,7 @@ jobs:
           git config user.name "tdlib-android-bot"
           git config user.email "bot@tdlib-android.github.io"
           git add README.md
-          git commit -m "docs: update README badge to TDLib ${VERSION}" || true
+          git commit -m "docs: update README badge to TDLib ${VERSION} [skip ci]" || true
           git push origin main || true
 
   trigger-smoke-test:
