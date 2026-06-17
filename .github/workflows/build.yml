@@ -1,5 +1,6 @@
 name: Build TDLib Android AAR
 on:
+  pull_request:
   workflow_call:
     inputs:
       new_version:
@@ -24,7 +25,7 @@ concurrency:
 
 jobs:
   build-abi:
-    timeout-minutes: 45
+    timeout-minutes: 30
     strategy:
       matrix:
         abi: [arm64-v8a, armeabi-v7a, x86_64, x86]
@@ -61,7 +62,7 @@ jobs:
           retention-days: 7
 
   package-and-test:
-    timeout-minutes: 45
+    timeout-minutes: 30
     needs: build-abi
     runs-on: ubuntu-latest
     steps:
@@ -178,6 +179,9 @@ jobs:
           git add VERSION docs/api-snapshots/ .tdl_schema_hash
           git commit -m "chore: bump TDLib ${OLD_VERSION} → ${NEW_VERSION}"
           git push origin "bump/tdlib-$NEW_VERSION"
+
+          gh label create version-bump --color 0075ca --description "Automated version bump" || true
+          gh label create automated --color ebf5fb || true
 
           gh pr create \
             --title "chore: bump TDLib ${OLD_VERSION} → ${NEW_VERSION}" \
