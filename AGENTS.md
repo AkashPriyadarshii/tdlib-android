@@ -37,7 +37,7 @@ All skills in `.agents/skills/`:
 
 ## Scheduled Tasks
 - Daily 08:00 IST: drift check (spec vs repo state)
-- Weekly Monday 09:00 IST: upstream TDLib watch + new issues summary
+- Monthly (1st of month) 00:00 UTC: upstream TDLib auto-updater + publish
 
 ## Session Protocol
 1. `repomix --output repomix-output.txt` → load into Knowledge Base
@@ -82,7 +82,7 @@ smoke-test-publish.yml verifies on Maven Central
 - Add application-layer logic to ktx module
 - Hardcode TDLib version in any build file
 - Silent error handling anywhere in CI scripts
-- Skip human PR review gate — always required before publish
+- Fully automated release pipeline — zero human in loop for publishing
 - Use file size to validate .so (use readelf -h)
 - Omit consumer-rules.pro from :core module
 - Cache Docker layers in GitHub Actions (10GB limit exceeded)
