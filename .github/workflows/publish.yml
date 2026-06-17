@@ -1,5 +1,7 @@
 name: Publish to Maven Central
 on:
+  pull_request:
+    types: [closed]
   workflow_dispatch: # Allow manual release triggers
 
 concurrency:
@@ -8,7 +10,7 @@ concurrency:
 
 jobs:
   publish:
-    timeout-minutes: 45
+    timeout-minutes: 30
     if: |
       github.event_name == 'workflow_dispatch' ||
       (github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'version-bump'))
@@ -117,7 +119,6 @@ jobs:
           git push origin main || true
 
   trigger-smoke-test:
-    timeout-minutes: 45
     needs: publish
     uses: ./.github/workflows/smoke-test-publish.yml
     with:
