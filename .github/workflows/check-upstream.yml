@@ -10,7 +10,6 @@ concurrency:
 
 jobs:
   check:
-    timeout-minutes: 30
     runs-on: ubuntu-latest
     outputs:
       version_changed: ${{ steps.check.outputs.changed }}
