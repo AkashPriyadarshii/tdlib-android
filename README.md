@@ -14,9 +14,9 @@ Works with any Telegram client, bot UI, or MTProto-based Android app.
 // build.gradle.kts (app)
 dependencies {
     // Prebuilt TDLib — all 4 ABIs included
-    implementation("io.github.tdlib-android:core:1.8.64")
+    implementation("io.github.tdlib-android:core:0.1.0")
     // Kotlin Coroutines + Flow wrapper (optional)
-    implementation("io.github.tdlib-android:ktx:1.8.64")
+    implementation("io.github.tdlib-android:ktx:0.1.0")
 }
 ```
 
@@ -69,10 +69,10 @@ dependencyResolutionManagement {
 // app/build.gradle.kts
 dependencies {
     // Precompiled TDLib native C++ library (arm64-v8a, armeabi-v7a, x86_64, x86)
-    implementation("io.github.tdlib-android:core:1.8.64")
+    implementation("io.github.tdlib-android:core:0.1.0")
     
     // Kotlin Coroutines + Flow wrapper (optional)
-    implementation("io.github.tdlib-android:ktx:1.8.64")
+    implementation("io.github.tdlib-android:ktx:0.1.0")
 }
 ```
 
