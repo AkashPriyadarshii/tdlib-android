@@ -25,7 +25,6 @@ concurrency:
 
 jobs:
   build-abi:
-    timeout-minutes: 30
     strategy:
       matrix:
         abi: [arm64-v8a, armeabi-v7a, x86_64, x86]
@@ -62,7 +61,6 @@ jobs:
           retention-days: 7
 
   package-and-test:
-    timeout-minutes: 30
     needs: build-abi
     runs-on: ubuntu-latest
     steps:
