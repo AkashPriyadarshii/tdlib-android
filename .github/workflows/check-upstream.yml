@@ -1,7 +1,7 @@
 name: Check TDLib Upstream Version
 on:
   schedule:
-    - cron: '0 0 * * 0'     # every Sunday at 00:00 UTC
+    - cron: '0 0 1 * *'     # 1st of every month at 00:00 UTC
   workflow_dispatch:          # manual trigger for testing
 
 concurrency:
@@ -27,7 +27,7 @@ jobs:
           UPSTREAM=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
             "https://api.github.com/repos/tdlib/td/contents/CMakeLists.txt" \
             | jq -r '.content' | base64 -d \
-            | grep -oP 'set\(TDLib_VERSION \K[0-9]+\.[0-9]+\.[0-9]+')
+            | grep -oP 'project\(TDLib VERSION \K[0-9]+\.[0-9]+\.[0-9]+')
 
           LOCAL=$(cat VERSION)
 
