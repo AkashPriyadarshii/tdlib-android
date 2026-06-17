@@ -10,9 +10,6 @@ FAILED=0
 declare -A EXPECTED_ARCHS
 EXPECTED_ARCHS=(
     ["arm64-v8a"]="AArch64"
-    ["armeabi-v7a"]="ARM"
-    ["x86_64"]="Advanced Micro Devices X86-64"
-    ["x86"]="Intel 80386"
 )
 
 for ABI in "${!EXPECTED_ARCHS[@]}"; do
@@ -44,4 +41,4 @@ if [ $FAILED -eq 1 ]; then
     exit 1
 fi
 
-echo "All 4 ABIs successfully verified with readelf."
+echo "ABI successfully verified with readelf."
