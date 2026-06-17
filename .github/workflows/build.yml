@@ -173,7 +173,7 @@ jobs:
           echo "$UPSTREAM_HASH" > .tdl_schema_hash
 
           git add VERSION docs/api-snapshots/ .tdl_schema_hash
-          git commit -m "chore: bump TDLib ${OLD_VERSION} → ${NEW_VERSION}"
+          git commit -m "chore: bump TDLib ${OLD_VERSION} → ${NEW_VERSION} [skip ci]"
           git push origin "bump/tdlib-$NEW_VERSION"
 
           gh label create version-bump --color 0075ca --description "Automated version bump" || true
