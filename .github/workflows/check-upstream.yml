@@ -5,7 +5,7 @@ on:
   workflow_dispatch:          # manual trigger for testing
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: check-upstream-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
