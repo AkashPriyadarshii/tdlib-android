@@ -63,7 +63,14 @@ echo "Scaffolded smoke test app successfully in $TEMP_DIR."
 # Dry run verification of syntax:
 echo "Verifying smoke test build execution..."
 cd "$TEMP_DIR"
-gradle :app:dependencies --configuration releaseRuntimeClasspath --no-daemon
+if [ -f "$REPO_DIR/gradlew" ]; then
+  cp "$REPO_DIR/gradlew" .
+  cp -r "$REPO_DIR/gradle" . 2>/dev/null || true
+  chmod +x ./gradlew
+  ./gradlew :app:dependencies --configuration releaseRuntimeClasspath --no-daemon
+else
+  gradle :app:dependencies --configuration releaseRuntimeClasspath --no-daemon
+fi
 echo "SMOKE TEST: Configuration loads successfully."
 
 echo "=== Smoke test setup verification complete ==="

@@ -47,9 +47,9 @@ jobs:
           VERSION="${{ inputs.version }}"
           echo "=== Setting up robust Maven Central smoke test for version $VERSION ==="
           mkdir -p /tmp/smoke_test/app/src/main/java/io/github/tdlibandroid/smoke
-          
+
           # 1. settings.gradle.kts
-          cat > /tmp/smoke_test/settings.gradle.kts << EOF
+          cat > /tmp/smoke_test/settings.gradle.kts << 'EOF'
           pluginManagement {
               repositories {
                   google()
@@ -66,14 +66,17 @@ jobs:
           }
           include(":app")
           EOF
+          # Strip heredoc indentation
+          sed -i 's/^          //' /tmp/smoke_test/settings.gradle.kts
 
           # 2. build.gradle.kts (root)
-          cat > /tmp/smoke_test/build.gradle.kts << EOF
+          cat > /tmp/smoke_test/build.gradle.kts << 'EOF'
           plugins {
               id("com.android.application") version "8.4.2" apply false
               id("org.jetbrains.kotlin.android") version "2.0.21" apply false
           }
           EOF
+          sed -i 's/^          //' /tmp/smoke_test/build.gradle.kts
 
           # 3. app/build.gradle.kts
           cat > /tmp/smoke_test/app/build.gradle.kts << EOF
@@ -93,9 +96,10 @@ jobs:
               implementation("io.github.tdlib-android:core:${VERSION}")
           }
           EOF
+          sed -i 's/^          //' /tmp/smoke_test/app/build.gradle.kts
 
           # 4. SmokeTest.java
-          cat > /tmp/smoke_test/app/src/main/java/io/github/tdlibandroid/smoke/SmokeTest.java << EOF
+          cat > /tmp/smoke_test/app/src/main/java/io/github/tdlibandroid/smoke/SmokeTest.java << 'EOF'
           package io.github.tdlibandroid.smoke;
           import org.drinkless.tdlib.TdApi;
           public class SmokeTest {
@@ -105,10 +109,18 @@ jobs:
               }
           }
           EOF
+          sed -i 's/^          //' /tmp/smoke_test/app/src/main/java/io/github/tdlibandroid/smoke/SmokeTest.java
 
           cd /tmp/smoke_test
+          # Generate gradle wrapper so we don't depend on system gradle
+          gradle wrapper --gradle-version 8.7 2>/dev/null || true
           echo "=== Starting compilation to verify library classpath integrity ==="
-          gradle :app:compileReleaseJavaWithJavac --no-daemon
+          if [ -f ./gradlew ]; then
+            chmod +x ./gradlew
+            ./gradlew :app:compileReleaseJavaWithJavac --no-daemon
+          else
+            gradle :app:compileReleaseJavaWithJavac --no-daemon
+          fi
 
       - name: Open issue if smoke test failed
         if: failure()
