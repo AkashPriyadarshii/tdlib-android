@@ -68,7 +68,7 @@ jobs:
 
   smoke-test:
     needs: [check, trigger-build]
-    if: needs.check.outputs.version_changed == 'true'
+    if: needs.check.outputs.version_changed == 'true' && needs.trigger-build.outputs.published == 'true'
     uses: ./.github/workflows/smoke-test-publish.yml
     with:
       version: ${{ needs.check.outputs.new_version }}
