@@ -127,7 +127,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh issue create \
+          gh issue create -R AkashPriyadarshii/tdlib-android \
             --title "PUBLISH BROKEN: v${{ inputs.version }} fails Maven Central smoke test" \
-            --body "The published artifact on Maven Central fails to compile. Immediate attention needed. Consider deprecating this release." \
-            --label "publish-broken,urgent"
+            --body "The published artifact on Maven Central fails to compile. Immediate attention needed. Consider deprecating this release."
