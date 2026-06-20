@@ -19,7 +19,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh issue create \
+          gh issue create -R AkashPriyadarshii/tdlib-android \
             --title "Annual: Rotate GPG signing key + Sonatype credentials" \
-            --body "Yearly reminder to rotate:\n- GPG signing key (secrets: GPG_SIGNING_KEY, GPG_KEY_ID, GPG_KEY_PASSWORD)\n- Sonatype Central Portal credentials (secrets: SONATYPE_USERNAME, SONATYPE_PASSWORD)\n\nUpdate all GitHub Actions secrets after rotation." \
-            --label "maintenance,annual"
+            --body "Yearly reminder to rotate:\n- GPG signing key (secrets: GPG_SIGNING_KEY, GPG_KEY_ID, GPG_KEY_PASSWORD)\n- Sonatype Central Portal credentials (secrets: SONATYPE_USERNAME, SONATYPE_PASSWORD)\n\nUpdate all GitHub Actions secrets after rotation."
+
