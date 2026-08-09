@@ -1,26 +1,37 @@
 # tdlib-android
 
+Precompiled [TDLib](https://github.com/tdlib/td) for Android — all 4 ABIs, built by CI, distributed as AARs via GitHub Releases.
 
-**The only community-maintained TDLib distribution for Android. Auto-updated. Zero build steps.**
+No compiling TDLib from source. No `.so` wrangling. Works with any Telegram client, bot UI, or MTProto-based Android app.
 
-One Gradle line. No compiling TDLib from source. No GitHub token. No `.so` wrangling.
-Works with any Telegram client, bot UI, or MTProto-based Android app.
+> Status: **early / experimental.** The AARs are built and released, but this is not yet published to a package repository, so you install from GitHub Releases (below). Use at your own risk.
 
-## Setup
+## Install from GitHub Releases
+
+Download from the [latest release](https://github.com/AkashPriyadarshii/tdlib-android/releases/latest):
+
+- `core-release.aar` — prebuilt TDLib native library for all 4 ABIs (~39 MB)
+- `ktx-release.aar` — Kotlin Coroutines/Flow wrapper (optional, ~44 KB)
+- `checksums.txt` — SHA-256 checksums
+
+Then put the AARs in a local module and depend on it. Example with a `libs/` directory in your project:
 
 ```kotlin
-// settings.gradle.kts — nothing special, mavenCentral() already there
+// settings.gradle.kts
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        flatDir { dirs("libs") }
+    }
+}
 
-// build.gradle.kts (app)
+// app/build.gradle.kts
 dependencies {
-    // Prebuilt TDLib — all 4 ABIs included
-    implementation("io.github.tdlib-android:core:0.1.0")
-    // Kotlin Coroutines + Flow wrapper (optional)
-    implementation("io.github.tdlib-android:ktx:0.1.0")
+    implementation(files("libs/core-release.aar"))  // Prebuilt TDLib — all 4 ABIs
+    implementation(files("libs/ktx-release.aar"))   // Optional Kotlin Coroutines/Flow wrapper
 }
 ```
-
-That's it.
 
 ## ABI Coverage
 
@@ -33,50 +44,21 @@ That's it.
 
 **Tested on:** Realme GT 7 (Dimensity 9400e) · Android 16 (API 36)
 
-## Why this exists (The "Bible")
+## Why this exists
 
-If you have ever tried to compile TDLib from source for Android, you know the pain. 
-I built this project on a **Windows 11 machine with just 4GB of RAM**. Trying to build TDLib locally using the Android NDK on low-end hardware is an absolute nightmare: the C++ compiler runs out of memory, crashes halfway through, takes hours of your life, and completely freezes the machine. 
+I built this project on a **Windows 11 machine with just 4GB of RAM**. Compiling TDLib locally with the Android NDK on low-end hardware is a nightmare: the C++ compiler runs out of memory, crashes halfway through, takes hours, and freezes the machine.
 
 Every other option as of 2026:
+
 - up9cloud/android-libtdjson — frozen at 1.8.52, GitHub token required, raw .so only
 - TGX-Android/tdlib — explicitly not for external use
 - tdlibx/td-ktx — archived 2024, dead
-- Build it yourself — completely impossible on a 4GB RAM machine without massive NDK out-of-memory crashes.
+- Build it yourself — painful on low-RAM hardware
 
-**That is exactly why this repository exists.** 
+So the heavy lifting was shifted to the cloud: GitHub Actions compiles the native library for all 4 ABIs on high-memory runners, wraps them in AARs, and attaches them to a release. CI also polls upstream for new TDLib versions.
 
-We shifted 100% of the heavy lifting to the cloud. GitHub Actions handles the incredibly intensive C++ compilation for all 4 ABIs using high-memory runners, saving FOSS developers from hardware bottlenecks and hours of wasted time. 
+## Usage
 
-The CI automatically polls upstream weekly, compiles the massive native `.so` files, wraps them in a clean AAR, and publishes them to Maven Central. 
-
-Zero local builds required. Just add the Gradle dependency and start building your app.
-
-## Usage Guide
-
-### 1. Dependency Configuration
-Ensure `mavenCentral()` is defined in your repository list, then add the core prebuilt JNI library and the optional Kotlin Coroutines/Flow extension to your `build.gradle.kts`:
-
-```kotlin
-// settings.gradle.kts
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-
-// app/build.gradle.kts
-dependencies {
-    // Precompiled TDLib native C++ library (arm64-v8a, armeabi-v7a, x86_64, x86)
-    implementation("io.github.tdlib-android:core:0.1.0")
-    
-    // Kotlin Coroutines + Flow wrapper (optional)
-    implementation("io.github.tdlib-android:ktx:0.1.0")
-}
-```
-
-### 2. Initialization & Usage
 Load the native JNI library and initialize `TdClient` with your database path and Telegram API credentials:
 
 ```kotlin
@@ -110,13 +92,13 @@ CoroutineScope(Dispatchers.IO).launch {
 
 ## Author & Credits
 
-Created and maintained by **[Akash Priyadarshi (@AkashPriyadarshii)](https://github.com/AkashPriyadarshii)** to eliminate the complexity of manually compiling TDLib from source for multiple Android architectures. Custom Docker matrix builds and automated upstream workflows provide the global Android ecosystem with an up-to-date, zero-maintenance precompiled TDLib AAR.
+Created and maintained by **[Akash Priyadarshi (@AkashPriyadarshii)](https://github.com/AkashPriyadarshii)** to eliminate the complexity of compiling TDLib from source for multiple Android architectures. Docker matrix builds and automated upstream workflows handle the compilation.
 
 ---
 
 ## Version History
 
-Auto-generated from TDLib upstream. See [CHANGELOG.md](CHANGELOG.md).
+Tracks TDLib upstream. See [CHANGELOG.md](CHANGELOG.md).
 
 ## Contributing
 
@@ -126,5 +108,3 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) — CI architecture, ABI builds, and cont
 
 - TDLib binary and Java interfaces: **Boost Software License 1.0 (BSL-1.0)**.
 - `ktx` wrapper module: **Apache License 2.0**.
-
-
