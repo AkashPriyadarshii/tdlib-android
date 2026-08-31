@@ -143,7 +143,7 @@ class TdClient(
  */
 class TdException(val code: Int, override val message: String) : Exception(message) {
     val isFloodWait: Boolean get() = message.startsWith("FLOOD_WAIT_")
-    val floodWaitSeconds: Long get() = if (isFloodWait) message.substringAfter("FLOOD_WAIT_").toLong() else 0L
+    val floodWaitSeconds: Long get() = if (isFloodWait) message.removePrefix("FLOOD_WAIT_").trim().toLongOrNull() ?: 0L else 0L
     val isUnauthorized: Boolean get() = code == 401
 }
 
