@@ -24,12 +24,16 @@ core/src/main/java/org/drinkless/tdlib/TdApi.java
 # Build outputs
 *.aar
 *.jar
+docs/api-snapshots/
 
 # Secrets & local files
 *.jks
 *.keystore
 secrets/
 *.asc
+
+# Tooling & caches
+.impeccable/
 
 # OS specific
 Thumbs.db

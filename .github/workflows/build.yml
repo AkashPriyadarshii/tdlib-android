@@ -150,10 +150,8 @@ jobs:
       - name: Generate TdApi.java diff
         run: |
           OLD_VER="${{ inputs.old_version || 'unknown' }}"
-          # Diff against last shipped version (stored in git)
-          git diff HEAD -- "docs/api-snapshots/TdApi_${OLD_VER}.java" \
-            "core/src/main/java/org/drinkless/tdlib/TdApi.java" \
-            > tdapi_diff.txt 2>/dev/null || echo "First version — no diff available" > tdapi_diff.txt
+          NEW_VER="${{ inputs.new_version || steps.get-ver.outputs.version }}"
+          echo "TDLib ${OLD_VER} → ${NEW_VER} generated" > tdapi_diff.txt
 
       - name: Check if publishing secrets are configured
         id: check-secrets
