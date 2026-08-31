@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set Up TDLib on Android in 3 Steps — tdlib-android</title>
+<meta name="description" content="How to add TDLib to an Android project without compiling from source. Gradle dependency, load the JNI library, init TdClient, and collect Flow&lt;Update&gt;. Prebuilt 4-ABI AAR, no NDK required.">
+<meta name="keywords" content="tdlib android setup, add TDLib to android gradle, TDLib kotlin example, TdClient android, telegram api android setup, TDLib AAR gradle dependency, libtdjson kotlin">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://AkashPriyadarshii.github.io/tdlib-android/setup.html">
+<meta property="og:title" content="Set Up TDLib on Android in 3 Steps">
+<meta property="og:description" content="Add TDLib to any Android project via a prebuilt AAR. No NDK, no source compile.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#0a0a0b">
+<style>
+:root{--bg:#0a0a0b;--surface:#121214;--border:#23252a;--border-hover:#34343a;--text:#f7f8f8;--text-secondary:#d0d6e0;--text-tertiary:#8a8f98;--accent:#3ecf8e;--accent-hover:#4ade80;--code-bg:#0d0d0f;--code-border:#1f2227;--px-sans:'IBM Plex Sans',system-ui,sans-serif;--px-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6}
+.container{max-width:min(760px,92vw);margin:0 auto;padding:0 24px}
+h1,h2,h3{color:var(--text);font-weight:600;letter-spacing:-0.02em;text-wrap:balance}
+a{color:var(--accent)}
+pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:12px;padding:18px 20px;font-family:var(--px-mono);font-size:13.5px;line-height:1.7;overflow-x:auto;color:#c9c0ad;margin:16px 0}
+pre .c{color:var(--accent)}pre .d{color:#6b7280}
+.nav{position:sticky;top:0;background:rgba(10,10,11,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:50}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-brand{font-family:var(--px-mono);color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
+.nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent)}
+.nav-back{color:var(--text-secondary);text-decoration:none;font-size:14px}
+.article{padding:clamp(2.5rem,6vh,4rem) 0 4rem}
+.step{margin:32px 0}
+.step-idx{font-family:var(--px-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
+h2{font-size:1.5rem;margin-bottom:8px}
+p{margin:10px 0}
+code.inline{background:var(--code-bg);border:1px solid var(--code-border);border-radius:6px;padding:2px 6px;font-family:var(--px-mono);font-size:0.85em}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="container nav-inner">
+  <a class="nav-brand" href="./"><span class="nav-dot"></span>tdlib-android</a>
+  <a class="nav-back" href="./">← back to home</a>
+</div></nav>
+
+<article class="article"><div class="container">
+  <h1 style="font-size:clamp(2rem,5vw,2.75rem);line-height:1.1;margin-bottom:12px">Set Up TDLib on Android in 3 Steps</h1>
+  <p style="color:var(--text-tertiary)">No NDK. No compiling TDLib from source. A prebuilt 4-ABI AAR plus a Kotlin Coroutines/Flow wrapper. Tracks TDLib upstream automatically.</p>
+
+  <div class="step">
+    <span class="step-idx">Step 1 — add the dependency</span>
+    <h2>Point Gradle at the prebuilt AAR</h2>
+    <p>Add the <code class="inline">core</code> module — it bundles <code class="inline">libtdjson.so</code> for all 4 ABIs (<code class="inline">arm64-v8a</code>, <code class="inline">armeabi-v7a</code>, <code class="inline">x86_64</code>, <code class="inline">x86</code>). Add <code class="inline">ktx</code> for the coroutines wrapper.</p>
+<pre><span class="d">// settings.gradle.kts</span>
+dependencyResolutionManagement {
+  repositories { google(); mavenCentral() }
+}
+
+<span class="d">// app/build.gradle.kts</span>
+dependencies {
+  <span class="c">implementation</span>("io.github.tdlib-android:core:1.8.64")
+  <span class="c">implementation</span>("io.github.tdlib-android:ktx:1.8.64")
+}</pre>
+  </div>
+
+  <div class="step">
+    <span class="step-idx">Step 2 — load the native library</span>
+    <h2>Boot a TdClient</h2>
+    <p>Load the JNI bridge, then create the client with your database path and Telegram API credentials from <code class="inline">BuildConfig</code>.</p>
+<pre>System.<span class="c">loadLibrary</span>("tdjni")
+
+val client = TdClient(
+  filesDir = context.filesDir.absolutePath + "/tdlib",
+  verbosityLevel = 1,
+  apiId = BuildConfig.TELEGRAM_API_ID,
+  apiHash = BuildConfig.TELEGRAM_API_HASH
+)
+client.init()</pre>
+  </div>
+
+  <div class="step">
+    <span class="step-idx">Step 3 — react to updates</span>
+    <h2>Collect updates as a Flow</h2>
+    <p>The <code class="inline">ktx</code> wrapper exposes MTProto updates as a hot <code class="inline">Flow&lt;TdApi.Update&gt;</code>. Handle them with coroutines, or use <code class="inline">send(function)</code> for typed requests.</p>
+<pre>CoroutineScope(Dispatchers.IO).launch {
+  client.updates.collect { update ->
+    <span class="d">// handle incoming MTProto updates reactively</span>
+  }
+}</pre>
+  </div>
+
+  <p style="margin-top:40px">Runtime ~2 minutes. For the full docs, CI architecture, and the release pipeline, see the <a href="https://github.com/AkashPriyadarshii/tdlib-android">GitHub repository</a>.</p>
+</div></article>
+</body>
+</html>
