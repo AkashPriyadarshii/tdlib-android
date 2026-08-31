@@ -195,14 +195,18 @@ jobs:
             BACKOFF=$((BACKOFF * 2))
           done
 
-      - name: Create GitHub Release
+      - name: Create or Update GitHub Release
         if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEW_VERSION: ${{ inputs.new_version || steps.get-ver.outputs.version }}
         run: |
           if gh release view "v${NEW_VERSION}" &>/dev/null; then
-            echo "Release v${NEW_VERSION} already exists, skipping."
+            echo "Release v${NEW_VERSION} exists — uploading latest AAR assets"
+            gh release upload "v${NEW_VERSION}" \
+              core/build/outputs/aar/core-release.aar \
+              ktx/build/outputs/aar/ktx-release.aar \
+              checksums.txt --clobber
           else
             gh release create "v${NEW_VERSION}" \
               --title "TDLib ${NEW_VERSION}" \
@@ -222,20 +226,31 @@ jobs:
           git config user.name "tdlib-android-bot"
           git config user.email "bot@tdlib-android.github.io"
           
+          # Pull latest remote changes first to prevent non-fast-forward push rejection
+          git fetch origin main
+          git checkout -B main origin/main
+
           # Update VERSION file
           echo "$NEW_VERSION" > VERSION
 
           # Save schema hash
           UPSTREAM_HASH=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
             "https://api.github.com/repos/tdlib/td/commits?path=td/generate/scheme/td_api.tl&per_page=1" \
-            | jq -r '.[0].sha')
-          echo "$UPSTREAM_HASH" > .tdl_schema_hash
+            | jq -r '.[0].sha' || echo "")
+          if [ -n "$UPSTREAM_HASH" ]; then
+            echo "$UPSTREAM_HASH" > .tdl_schema_hash
+          fi
 
           # Update README
           sed -i "s/TDLib-[0-9.]*/TDLib-${NEW_VERSION}/" README.md || true
           
           git add VERSION .tdl_schema_hash README.md
-          git diff-index --quiet HEAD || (git commit -m "chore: release TDLib ${NEW_VERSION} [skip ci]" && git push origin HEAD:main)
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "chore: release TDLib ${NEW_VERSION} [skip ci]"
+            git push origin main
+          else
+            echo "No changes to commit."
+          fi
 
       - name: Set final publish status output
         id: set-publish-status
