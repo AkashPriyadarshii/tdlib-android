@@ -196,10 +196,10 @@ jobs:
           done
 
       - name: Create GitHub Release
-        if: (github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch') && steps.check-secrets.outputs.available == 'true'
+        if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEW_VERSION: ${{ inputs.new_version }}
+          NEW_VERSION: ${{ inputs.new_version || steps.get-ver.outputs.version }}
         run: |
           if gh release view "v${NEW_VERSION}" &>/dev/null; then
             echo "Release v${NEW_VERSION} already exists, skipping."
@@ -213,10 +213,10 @@ jobs:
           fi
 
       - name: Commit version bump directly to main
-        if: (github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch') && steps.check-secrets.outputs.available == 'true'
+        if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEW_VERSION: ${{ inputs.new_version }}
+          NEW_VERSION: ${{ inputs.new_version || steps.get-ver.outputs.version }}
           OLD_VERSION: ${{ inputs.old_version }}
         run: |
           git config user.name "tdlib-android-bot"
@@ -224,11 +224,6 @@ jobs:
           
           # Update VERSION file
           echo "$NEW_VERSION" > VERSION
-          
-          # Store TdApi snapshot for future diffs
-          mkdir -p docs/api-snapshots
-          cp core/src/main/java/org/drinkless/tdlib/TdApi.java \
-             "docs/api-snapshots/TdApi_${NEW_VERSION}.java"
 
           # Save schema hash
           UPSTREAM_HASH=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
@@ -239,9 +234,8 @@ jobs:
           # Update README
           sed -i "s/TDLib-[0-9.]*/TDLib-${NEW_VERSION}/" README.md || true
           
-          git add VERSION docs/api-snapshots/ .tdl_schema_hash README.md
-          git commit -m "chore: release TDLib ${NEW_VERSION} [skip ci]"
-          git push origin HEAD:main
+          git add VERSION .tdl_schema_hash README.md
+          git diff-index --quiet HEAD || (git commit -m "chore: release TDLib ${NEW_VERSION} [skip ci]" && git push origin HEAD:main)
 
       - name: Set final publish status output
         id: set-publish-status
