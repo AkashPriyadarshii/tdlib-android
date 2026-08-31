@@ -15,7 +15,8 @@ for attempt in 1 2 3; do
     if docker build \
       --build-arg TDLIB_INTERFACE=Java \
       --build-arg ANDROID_NDK_VERSION="$NDK_VERSION" \
-      --build-arg COMMIT_HASH=HEAD \
+      --build-arg COMMIT_HASH="master" \
+      --build-arg CACHEBUST="$(date +%s)" \
       --build-arg TDLIB_ABI="$ABI" \
       --output tdlib_output \
       ./docker/; then
