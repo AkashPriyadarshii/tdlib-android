@@ -6,6 +6,8 @@ No compiling TDLib from source. No `.so` wrangling. Works with any Telegram clie
 
 > Status: **early / experimental.** The AARs are built and released, but this is not yet published to a package repository, so you install from GitHub Releases (below). Use at your own risk.
 
+> **Website:** marketing site with a full setup guide at [akashpriyadarshii.github.io/tdlib-android](https://akashpriyadarshii.github.io/tdlib-android/).
+
 ## Install from GitHub Releases
 
 Download from the [latest release](https://github.com/AkashPriyadarshii/tdlib-android/releases/latest):
