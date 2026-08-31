@@ -1,0 +1,36 @@
+# tdlib-android
+
+Precompiled TDLib for Android — all 4 ABIs, built by CI, distributed as AARs via GitHub Releases and Maven Central.
+
+- Repo: https://github.com/AkashPriyadarshii/tdlib-android
+- Releases: https://github.com/AkashPriyadarshii/tdlib-android/releases
+- Maven: io.github.tdlib-android:core / io.github.tdlib-android:ktx
+- Current version: 1.8.64
+- ABIs: arm64-v8a, armeabi-v7a, x86_64, x86
+- License: BSL-1.0 (core) / Apache-2.0 (ktx)
+
+## Install
+
+```kotlin
+// settings.gradle.kts
+dependencyResolutionManagement { repositories { google(); mavenCentral() } }
+
+// app/build.gradle.kts
+dependencies {
+  implementation("io.github.tdlib-android:core:1.8.64")
+  implementation("io.github.tdlib-android:ktx:1.8.64")
+}
+```
+
+## Usage
+
+```kotlin
+System.loadLibrary("tdjni")
+val client = TdClient(filesDir = context.filesDir.absolutePath + "/tdlib")
+client.init()
+CoroutineScope(Dispatchers.IO).launch {
+  client.updates.collect { update -> /* handle */ }
+}
+```
+
+See docs/setup.html for the full guide.
