@@ -33,3 +33,8 @@ Although all heavy compilations (C++ Docker builds) run strictly on GitHub runne
 *   **Never commit `.so` or `TdApi.java`**: Keep these binary/giant generated artifacts strictly gitignored.
 *   **Fail-fast matrix**: A compilation drop in any ABI blocks the entire release immediately.
 *   **Security scans**: Stage checks (`gitleaks`) must pass before commits.
+
+## Community & Security
+
+- Read our [Code of Conduct](CODE_OF_CONDUCT.md) for community standards and reporting guidelines.
+- Review our [Security Policy](SECURITY.md) to report vulnerabilities privately.
