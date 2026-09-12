@@ -1,4 +1,4 @@
-﻿# tdlib-android
+# tdlib-android
 
 [![Release](https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?color=27a644&label=release)](https://github.com/AkashPriyadarshii/tdlib-android/releases)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/AkashPriyadarshii/tdlib-android/build.yml?branch=main&label=CI)](https://github.com/AkashPriyadarshii/tdlib-android/actions)
@@ -268,8 +268,9 @@ The repository runs completely automated cloud builds using GitHub Actions:
 
 ## License
 
-- **TDLib Native Code & Java Bindings:** [Boost Software License 1.0 (BSL-1.0)](https://www.boost.org/LICENSE_1_0.txt).
-- **Kotlin Wrapper Module (`:ktx`):** [Apache License 2.0](LICENSE).
+- **TDLib Native Code & Java Bindings (`:core`):** [Boost Software License 1.0 (BSL-1.0)](LICENSE-BSL) ([Upstream](https://www.boost.org/LICENSE_1_0.txt)).
+- **Kotlin Wrapper Module (`:ktx`):** [Apache License 2.0](LICENSE-APACHE).
+- See the consolidated [LICENSE](LICENSE) file for full terms.
 
 ---
 
