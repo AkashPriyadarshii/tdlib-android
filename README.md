@@ -21,7 +21,7 @@
 
 <p align="center">
   <a href="https://tdlib-android.vercel.app">
-    <img src="docs/og.png" alt="tdlib-android banner" width="100%" style="max-width:850px; border-radius:8px;" />
+    <img src="docs/banner.png" alt="tdlib-android banner" width="100%" style="max-width:850px; border-radius:8px;" />
   </a>
 </p>
 
