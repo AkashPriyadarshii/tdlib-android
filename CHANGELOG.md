@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 This project is an automated TDLib distribution that tracks the upstream repository [tdlib/td](https://github.com/tdlib/td).
 
+## [0.1.1] - September 2026
+
+### Fixed
+- Updated Maven Central Project and SCM URLs pointing to AkashPriyadarshii/tdlib-android.
+- Aligned documentation, metadata, and POM coordinate schemas across all distribution targets.
+
 ## [0.1.0] - August 2026 (TDLib v1.8.64)
 
 ### Added

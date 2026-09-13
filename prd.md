@@ -1,11 +1,11 @@
 # tdlib-android — Product Requirements Document (PRD)
 
-**Version:** 0.1.0  
+**Version:** 0.1.1  
 **Status:** Approved / Production Specification  
-**Target Release:** v0.1.0  
+**Target Release:** v0.1.1  
 **Maintainer:** Akash Priyadarshi ([@AkashPriyadarshii](https://github.com/AkashPriyadarshii))  
 **Organization:** `tdlib-android`  
-**Maven Central Artifacts:** `io.github.tdlib-android:core:0.1.0` · `io.github.tdlib-android:ktx:0.1.0`  
+**Maven Central Artifacts:** `io.github.tdlib-android:core:0.1.1` · `io.github.tdlib-android:ktx:0.1.1`  
 **License:** BSL-1.0 (`:core`) / Apache-2.0 (`:ktx`)  
 
 ---
@@ -25,7 +25,7 @@ Telegram Database Library ([TDLib](https://github.com/tdlib/td)) is the official
 
 | Persona | Pain Point | Value Provided by `tdlib-android` |
 | :--- | :--- | :--- |
-| **Android FOSS Client Developers** | Compiling C++ TDLib stalls local dev and CI runners. | Drop-in `implementation("io.github.tdlib-android:core:0.1.0")` via Maven Central. Zero local NDK required. |
+| **Android FOSS Client Developers** | Compiling C++ TDLib stalls local dev and CI runners. | Drop-in `implementation("io.github.tdlib-android:core:0.1.1")` via Maven Central. Zero local NDK required. |
 | **Telegram Infrastructure Builders** | Managing multi-ABI `.so` files and JNI glue manually. | Prebuilt AAR packaging all 4 ABIs with auto-generated `TdApi.java` and bundled ProGuard consumer rules. |
 | **Kotlin/Compose Engineers** | TDLib's raw native callback loop is cumbersome in reactive UIs. | Light reactive `:ktx` wrapper exposing `suspend fun send()` and `val updates: Flow<TdApi.Update>`. |
 | **Constrained CI Pipelines** | Runner timeout and RAM exhaustion during native builds. | All native compilation is offloaded to automated upstream GitHub Actions pipelines. |
@@ -34,7 +34,7 @@ Telegram Database Library ([TDLib](https://github.com/tdlib/td)) is the official
 
 ## 3. Product Scope
 
-### 3.1 In-Scope (v0.1.0)
+### 3.1 In-Scope (v0.1.1)
 
 1. **`:core` Module (AAR Distribution):**
    - Embedded `libtdjson.so` for all 4 production ABIs: `arm64-v8a`, `armeabi-v7a`, `x86_64`, `x86`.
@@ -214,7 +214,7 @@ Telegram Database Library ([TDLib](https://github.com/tdlib/td)) is the official
 
 ---
 
-## 8. Definition of Done (v0.1.0 Gate)
+## 8. Definition of Done (v0.1.1 Gate)
 
 - [x] Multi-module Gradle configuration (`:core`, `:ktx`, `:sample`) operational.
 - [x] Docker build configuration compiling pinned NDK r27c for all 4 ABIs with 16 KB page size support.
