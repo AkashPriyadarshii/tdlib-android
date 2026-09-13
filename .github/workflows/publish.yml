@@ -92,26 +92,39 @@ jobs:
         run: |
           gradle wrapper --gradle-version 8.7
 
-      - name: Decode GPG Secret Keyring
+      - name: Configure Gradle Signing and Publishing
         env:
-          SECRING_B64: ${{ secrets.GPG_SECRING_BASE64 }}
+          SONATYPE_USER: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+          GPG_ID: ${{ secrets.GPG_KEY_ID }}
+          GPG_PASS: ${{ secrets.GPG_KEY_PASSWORD }}
         run: |
+          set -euo pipefail
+          mkdir -p ~/.gradle
           python3 -c '
-          import base64, os
-          val = os.environ.get("SECRING_B64", "").strip()
-          with open("/tmp/secring.gpg", "wb") as f:
-              f.write(base64.b64decode(val))
-          print("Successfully decoded secret keyring")
+          import os
+          user = os.environ.get("SONATYPE_USER", "").strip()
+          passwd = os.environ.get("SONATYPE_PASS", "").strip()
+          key_id = os.environ.get("GPG_ID", "").strip()
+          key_pass = os.environ.get("GPG_PASS", "").strip()
+          key_raw = os.environ.get("GPG_KEY", "").strip()
+          escaped_key = key_raw.replace("\r\n", "\n").replace("\n", "\\\n")
+
+          lines = [
+              "mavenCentralUsername=" + user,
+              "mavenCentralPassword=" + passwd,
+              "signingInMemoryKeyId=" + key_id,
+              "signingInMemoryKeyPassword=" + key_pass,
+              "signingInMemoryKey=" + escaped_key,
+          ]
+          with open(os.path.expanduser("~/.gradle/gradle.properties"), "w") as f:
+              f.write("\n".join(lines) + "\n")
+          print("Successfully written ~/.gradle/gradle.properties")
           '
-          ls -lh /tmp/secring.gpg
 
       - name: Publish to Maven Central (Sonatype Portal)
         env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingKeyId: ${{ secrets.GPG_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.GPG_KEY_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingSecretKeyRingFile: /tmp/secring.gpg
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
