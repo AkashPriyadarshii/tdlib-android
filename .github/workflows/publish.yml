@@ -96,9 +96,13 @@ jobs:
         env:
           SECRING_B64: ${{ secrets.GPG_SECRING_BASE64 }}
         run: |
-          set -euo pipefail
-          # Decode robustly ignoring whitespace/newlines
-          echo "$SECRING_B64" | tr -d ' \r\n' | base64 -d > /tmp/secring.gpg
+          python3 -c '
+          import base64, os
+          val = os.environ.get("SECRING_B64", "").strip()
+          with open("/tmp/secring.gpg", "wb") as f:
+              f.write(base64.b64decode(val))
+          print("Successfully decoded secret keyring")
+          '
           ls -lh /tmp/secring.gpg
 
       - name: Publish to Maven Central (Sonatype Portal)
