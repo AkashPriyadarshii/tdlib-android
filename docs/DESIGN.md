@@ -31,9 +31,9 @@ Fused from **Linear** (skeleton) + **Supabase** (accent) + **Warp** (warm card t
 
   /* Text — ink ramp */
   --text: #161917;
-  --text-secondary: #59615C;
-  --text-tertiary: #59615C;
-  --text-faint: #646C66;
+  --text-secondary: #3F463F;
+  --text-tertiary: #4C554D;
+  --text-faint: #5B635C;
 
   /* Accent — deep emerald */
   --accent: #047857;
@@ -58,7 +58,7 @@ Fused from **Linear** (skeleton) + **Supabase** (accent) + **Warp** (warm card t
 - Every color via CSS vars. No hardcoded hex in markup.
 - Emerald = the ONLY chromatic event. Appears on: primary CTA, version badge, ABI "✓" states, active nav. Never decorative washes.
 - One accent per section. Green links in body = always underline, never just color.
-- Body text `#59615C` on `#FBFBFA` = contrast ≥ 4.5:1 (AA).
+- Body text `#3F463F` on `#FBFBFA` = contrast ≥ 9.4:1 (AA).
 
 ## 3. Typography
 
@@ -119,7 +119,7 @@ Grid: 12-col free-mix (not rigid 3-card rows). Hero = 8/4 split (copy + terminal
 
 ## 7. Accessibility Gate
 
-- Body text `#59615C` on `#FBFBFA` = contrast ≥ 7:1. Accent `#047857` on `#FBFBFA` = ≥ 5.5:1. All ≥ 4.5:1 (AA).
+- Body text `#3F463F` on `#FBFBFA` = contrast ≥ 9.4:1. Accent `#047857` on `#FBFBFA` = ≥ 5.5:1. All ≥ 4.5:1 (AA).
 - Nav, CTAs, links, terminal all keyboard-reachable with visible `:focus-visible`.
 - `prefers-reduced-motion: reduce` → animations/transitions collapsed to 0.01ms.
 - Decorative terminal dots `aria-hidden`; meaningful badges have aria-labels; images alt.
