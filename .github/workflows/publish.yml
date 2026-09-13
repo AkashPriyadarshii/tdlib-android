@@ -78,9 +78,10 @@ jobs:
             exit 1
           fi
 
-          # 3. Add classes.jar as a local jar dependency for core
-          mkdir -p core/libs
+          # 3. Add classes.jar as a local jar dependency for core and ktx
+          mkdir -p core/libs ktx/libs
           cp /tmp/core_extract/classes.jar core/libs/tdlib-classes.jar
+          cp /tmp/core_extract/classes.jar ktx/libs/tdlib-classes.jar
 
       - name: Verify 4 ABIs present and valid (readelf)
         run: |
