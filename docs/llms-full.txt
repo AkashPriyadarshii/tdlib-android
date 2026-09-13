@@ -94,7 +94,7 @@ class TelegramManager(private val context: Context) {
 
     fun start(apiId: Int, apiHash: String) {
         // Step 1: Load native JNI library
-        System.loadLibrary("tdjni")
+        System.loadLibrary("tdjson")
 
         // Step 2: Establish dedicated storage directory
         val tdlibDir = File(context.filesDir, "tdlib").apply { mkdirs() }

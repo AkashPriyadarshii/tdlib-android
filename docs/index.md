@@ -46,7 +46,7 @@ dependencies {
 
 ```kotlin
 // 1. Load native JNI library
-System.loadLibrary("tdjni")
+System.loadLibrary("tdjson")
 
 // 2. Initialize TdClient with dedicated app storage directory
 val client = TdClient(filesDir = context.filesDir.absolutePath + "/tdlib")

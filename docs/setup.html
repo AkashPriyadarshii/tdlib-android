@@ -1,20 +1,10 @@
 <!doctype html>
-<html lang="en" data-theme="system">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#FBFBFA">
-<script>
-(function(){
- var params = (window.location && window.location.search) ? new URLSearchParams(window.location.search) : null;
- var t = (params && params.get('theme')) || localStorage.getItem('tdlib-theme') || 'system';
- document.documentElement.setAttribute('data-theme',t);
- document.documentElement.classList.add('js');
- var isDark=t==='dark'||(t==='system'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
- var m=document.querySelector('meta[name="theme-color"]');
- if(m) m.setAttribute('content',isDark?'#0D110F':'#FBFBFA');
-})();
-</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -53,8 +43,6 @@
 <meta name="twitter:image" content="https://tdlib-android.vercel.app/og.png">
 
 <!-- theme -->
-<meta name="theme-color" content="#0a0a0b">
-
 <!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
 {
@@ -127,75 +115,6 @@
   --px-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]):not([data-theme="dark"]),
-  html[data-theme="system"] {
-    --bg: #0D110F;
-    --surface: #141A17;
-    --surface-alt: #1A221E;
-    --surface-warm: #141715;
-    --border: #232B26;
-    --border-hover: #323D36;
-    --text: #F2F5F3;
-    --text-secondary: #BDC7C1;
-    --text-tertiary: #849189;
-    --text-faint: #5C6761;
-    --accent: #3ECF8E;
-    --accent-hover: #6EE7B7;
-    --accent-deep: #059669;
-    --on-accent: #0D110F;
-    --bg-rgb: 13, 17, 15;
-    --code-bg: #141715;
-    --code-border: #242B26;
-    --nav-bg: rgba(13, 17, 15, 0.85);
-    --footer-bg: #0A0E0C;
-  }
-}
-
-html[data-theme="dark"] {
-  --bg: #0D110F;
-  --surface: #141A17;
-  --surface-alt: #1A221E;
-  --surface-warm: #141715;
-  --border: #232B26;
-  --border-hover: #323D36;
-  --text: #F2F5F3;
-  --text-secondary: #BDC7C1;
-  --text-tertiary: #849189;
-  --text-faint: #5C6761;
-  --accent: #3ECF8E;
-  --accent-hover: #6EE7B7;
-  --accent-deep: #059669;
-  --on-accent: #0D110F;
-  --bg-rgb: 13, 17, 15;
-  --code-bg: #141715;
-  --code-border: #242B26;
-  --nav-bg: rgba(13, 17, 15, 0.85);
-  --footer-bg: #0A0E0C;
-}
-
-html[data-theme="light"] {
-  --bg: #FBFBFA;
-  --surface: #FFFFFF;
-  --surface-alt: #F4F3EE;
-  --surface-warm: #141715;
-  --border: #E6E4DD;
-  --border-hover: #D4D1C7;
-  --text: #161917;
-  --text-secondary: #59615C;
-  --text-tertiary: #59615C;
-  --text-faint: #646C66;
-  --accent: #047857;
-  --accent-hover: #065F46;
-  --accent-deep: #064E3B;
-  --on-accent: #FFFFFF;
-  --bg-rgb: 251, 251, 250;
-  --code-bg: #141715;
-  --code-border: #242B26;
-  --nav-bg: rgba(251, 251, 250, 0.85);
-  --footer-bg: #F4F3EE;
-}
-
 .skip-link{position:absolute;top:-999px;left:8px;z-index:999;background:var(--accent);color:var(--on-accent);padding:8px 16px;border-radius:0 0 8px 8px;font-size:14px;font-weight:600;text-decoration:none}
 .skip-link:focus{top:0}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -241,20 +160,11 @@ code.inline{background:var(--surface-alt);border:1px solid var(--border);border-
 .footer-bottom a{color:var(--text-secondary)}
 .footer-bottom a:hover{color:var(--text)}
 .mono{font-family:var(--px-mono)}
-.theme-switcher{position:fixed;bottom:24px;right:24px;z-index:9999;display:inline-flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:9999px;padding:4px;box-shadow:0 4px 20px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08);font-family:var(--px-mono);font-size:12px;user-select:none;backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);transition:border-color .2s ease,box-shadow .2s ease,background-color 200ms ease}
-.theme-switcher:hover{border-color:var(--border-hover);box-shadow:0 6px 24px rgba(0,0,0,.16)}
-.theme-switcher-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:9999px;border:1px solid transparent;background:transparent;color:var(--text-tertiary);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:color 160ms ease,background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease,transform 160ms cubic-bezier(.16,1,.3,1);outline:none}
-.theme-switcher-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.theme-switcher-btn:hover{color:var(--text)}
-.theme-switcher-btn:active{transform:scale(.97)}
-.theme-switcher-btn.active{background:var(--accent);color:var(--on-accent);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.15)}
-.theme-switcher-btn svg{width:13px;height:13px;display:block}
-@media(max-width:640px){.theme-switcher{bottom:16px;right:16px}.theme-switcher-btn span{display:none}.theme-switcher-btn{padding:10px 12px;min-width:44px;min-height:44px;justify-content:center}}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 @media(prefers-reduced-transparency:reduce){
- .nav,.theme-switcher{background:var(--bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ .nav{background:var(--bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 }
 @media(prefers-contrast:more){
  :root{--border:#444852;--border-hover:#6a7180;--text-secondary:#ffffff}
@@ -455,78 +365,7 @@ client.send(parameters)</code></pre>
  <div><a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/agent-instructions">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
  </div>
 </div></footer>
-
-<!-- THEME SWITCHER -->
-<aside class="theme-switcher" role="region" aria-label="Theme switcher">
-  <button type="button" class="theme-switcher-btn" data-mode="light" aria-pressed="false" aria-label="Switch to light mode" title="Light mode">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-    <span>Light</span>
-  </button>
-  <button type="button" class="theme-switcher-btn" data-mode="dark" aria-pressed="false" aria-label="Switch to dark mode" title="Dark mode">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-    <span>Dark</span>
-  </button>
-  <button type="button" class="theme-switcher-btn active" data-mode="system" aria-pressed="true" aria-label="Switch to system preference" title="System mode">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-    <span>System</span>
-  </button>
-</aside>
-
 <script>
-// Floating Theme Switcher Controller
-(function(){
-  var STORAGE_KEY = 'tdlib-theme';
-  var html = document.documentElement;
-  var buttons = document.querySelectorAll('.theme-switcher-btn');
-  var metaTheme = document.querySelector('meta[name="theme-color"]');
-
-  function updateMetaTheme(isDark) {
-    if(metaTheme) {
-      metaTheme.setAttribute('content', isDark ? '#0D110F' : '#FBFBFA');
-    }
-  }
-
-  function applyTheme(mode) {
-    html.setAttribute('data-theme', mode);
-    var isDark = mode === 'dark';
-    if(mode === 'system') {
-      isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-    updateMetaTheme(isDark);
-
-    buttons.forEach(function(btn){
-      var active = btn.getAttribute('data-mode') === mode;
-      btn.classList.toggle('active', active);
-      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
-  }
-
-  buttons.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var mode = this.getAttribute('data-mode');
-      try {
-        localStorage.setItem(STORAGE_KEY, mode);
-      } catch(e) {}
-      applyTheme(mode);
-    });
-  });
-
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
-      var current = html.getAttribute('data-theme') || 'system';
-      if (current === 'system') {
-        updateMetaTheme(e.matches);
-      }
-    });
-  }
-
-  var saved = 'system';
-  try {
-    var p = new URLSearchParams(window.location.search);
-    saved = p.get('theme') || localStorage.getItem(STORAGE_KEY) || 'system';
-  } catch(e) {}
-  applyTheme(saved);
-})();
 
 // Copy button handler
 document.querySelectorAll('[data-copy]').forEach(function(btn){
