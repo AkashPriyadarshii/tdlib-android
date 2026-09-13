@@ -31,6 +31,7 @@ android {
 
 dependencies {
     compileOnly("androidx.annotation:annotation:1.8.0")
+    api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 }
 
 mavenPublishing {

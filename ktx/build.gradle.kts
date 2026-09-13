@@ -21,6 +21,8 @@ android {
 
 dependencies {
     api(project(":core"))
+    compileOnly(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    testImplementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(libs.kotlinx.coroutines)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
