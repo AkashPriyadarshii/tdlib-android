@@ -58,7 +58,7 @@ The `:core` AAR embeds `consumer-rules.pro` automatically. If using custom obfus
 ```kotlin
 import java.io.File
 import org.drinkless.tdlib.TdApi
-import io.github.tdlib.ktx.TdClient
+import io.github.tdlibandroid.ktx.TdClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>404 Not Found - tdlib-android</title>
 <meta name="description" content="The requested resource was not found. Here is where to look next on tdlib-android.">
 <meta name="robots" content="noindex, follow">
@@ -44,7 +44,7 @@
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6;transition:background-color 200ms ease,color 200ms ease}
+body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%;font-feature-settings:"cv02","cv03","cv04","cv11";transition:background-color 200ms ease,color 200ms ease}
 .container{max-width:min(800px,92vw);margin:0 auto;padding:0 24px}
 h1,h2{color:var(--text);font-weight:600;letter-spacing:-0.02em}
 a{color:var(--accent);text-decoration:none;transition:color 150ms ease}
@@ -57,9 +57,9 @@ a:hover{text-decoration:underline}
 @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.42;transform:scale(.9)}}
 .nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent);animation:pulse-dot 3.2s cubic-bezier(.4,0,.6,1) infinite}
 .box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin:24px 0;transition:background-color 200ms ease,border-color 200ms ease}
-pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:8px;padding:16px;font-family:var(--px-mono);font-size:13.5px;line-height:1.65;color:#E6EDF3;overflow-x:auto}
+pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:8px;padding:16px;font-family:var(--px-mono);font-size:13.5px;line-height:1.65;color:#E6EDF3;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .footer{background:var(--footer-bg);border-top:1px solid var(--border);padding:40px 0;font-size:14px;color:var(--text-tertiary);margin-top:60px;transition:background-color 200ms ease,border-color 200ms ease}
-.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:24px}
 .mono{font-family:var(--px-mono)}
 
 @media(prefers-reduced-motion:reduce){
@@ -71,10 +71,14 @@ pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:
 @media(prefers-contrast:more){
  :root{--border:#444852;--border-hover:#6a7180;--text-secondary:#ffffff}
 }
-@media(max-width:480px){
+@media(max-width:640px){
+ .container{max-width:100%;padding:0 16px}
  .nav-inner{flex-wrap:wrap;gap:8px;height:auto;padding:8px 0}
- .container{padding:0 16px}
+ .box{padding:18px 16px}
  pre{font-size:12.5px;padding:14px}
+}
+@media(max-width:480px){
+ .container{padding:0 16px}
 }
 </style>
 </head>
@@ -144,11 +148,26 @@ Please consult these canonical endpoints to proceed:
  </div>
  </div>
  </div>
- <div style="margin-top:36px;padding-top:20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--text-tertiary)">
- <div>&copy; 2026 Akash Priyadarshi &middot; Patna, Bihar, India</div>
- <div><a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/agent-instructions">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
- </div>
+  <div style="margin-top:36px;padding-top:20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--text-tertiary)">
+  <div>&copy; 2026 Akash Priyadarshi &middot; Patna, Bihar, India</div>
+  <div><a href="/">Home</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/404.html">404</a> &middot; <a href="/agent-instructions.md">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
+  </div>
 </div></footer>
 
+<script>
+// Local static preview routing
+(function(){
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') {
+        a.setAttribute('href', '/index.html');
+      } else if (!href.includes('.') && !href.includes('#')) {
+        a.setAttribute('href', href + '.html');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>
