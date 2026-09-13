@@ -2,11 +2,11 @@
 
 > Precompiled TDLib (Telegram Database Library) AARs for Android. All 4 ABIs (`arm64-v8a`, `armeabi-v7a`, `x86_64`, `x86`), CI-built, zero local NDK compilation required, with Kotlin Coroutines/Flow wrapper.
 
-- **Current Version:** 1.8.64
+- **Current Version:** 0.1.0 (packaging TDLib 1.8.x)
 - **Minimum SDK:** API 26 (Android 8.0 Oreo)
 - **Target SDK:** API 35 (Android 15 forward-compatible with 16 KB page size support)
-- **Core AAR:** `io.github.tdlib-android:core:1.8.64` (BSL-1.0)
-- **Kotlin Wrapper:** `io.github.tdlib-android:ktx:1.8.64` (Apache-2.0)
+- **Core AAR:** `io.github.tdlib-android:core:0.1.0` (BSL-1.0)
+- **Kotlin Wrapper:** `io.github.tdlib-android:ktx:0.1.0` (Apache-2.0)
 - **Canonical Site:** https://tdlib-android.vercel.app/
 
 ---
@@ -35,8 +35,8 @@ dependencyResolutionManagement {
 
 // app/build.gradle.kts
 dependencies {
-    implementation("io.github.tdlib-android:core:1.8.64")
-    implementation("io.github.tdlib-android:ktx:1.8.64")
+    implementation("io.github.tdlib-android:core:0.1.0")
+    implementation("io.github.tdlib-android:ktx:0.1.0")
 }
 ```
 
