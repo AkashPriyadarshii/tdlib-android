@@ -4,3 +4,11 @@ gradlew text eol=lf
 # Binary files
 *.jar binary
 *.so binary
+
+# GitHub Linguist overrides - hide helper scripts and tooling from repository language bar
+scripts/** linguist-vendored linguist-detectable=false
+docker/** linguist-vendored linguist-detectable=false
+*.sh linguist-vendored linguist-detectable=false
+*.py linguist-vendored linguist-detectable=false
+Dockerfile linguist-vendored linguist-detectable=false
+docs/** linguist-documentation linguist-detectable=false
