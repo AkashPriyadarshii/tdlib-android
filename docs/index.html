@@ -3,43 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>tdlib-android — Prebuilt TDLib AAR for Android | 4 ABIs, CI-Built, No NDK</title>
-<meta name="description" content="Drop-in precompiled TDLib for Android. all 4 ABIs (arm64-v8a, armeabi-v7a, x86_64, x86), built by GitHub CI, shipped as AARs. Kotlin Coroutines/Flow wrapper. No local NDK build, no .so wrangling. Tracks TDLib upstream automatically.">
-<meta name="keywords" content="tdlib android, TDLib AAR, prebuilt TDLib Android, telegram library android, libtdjson, android telegram sdk, TDLib maven central, kotlin coroutines telegram, android mtproto, telegram API android, TDLib armeabi-v7a, arm64-v8a TDLib, no ndk build">
+<title>TDLib Android — Prebuilt AAR (4 ABIs, Zero NDK)</title>
+<meta name="description" content="Drop-in precompiled TDLib for Android. All 4 ABIs (arm64-v8a, v7a, x86_64, x86) shipped as AARs with Kotlin Coroutines wrapper. Zero NDK. Get started.">
 <meta name="author" content="Akash Priyadarshi">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://tdlib-android.vercel.app/">
 
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+
 <!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="tdlib-android — Prebuilt TDLib AAR for Android">
-<meta property="og:description" content="Drop-in precompiled TDLib. 4 ABIs, CI-built, auto-updated. Kotlin Coroutines/Flow wrapper. No NDK, no source compile.">
+<meta property="og:title" content="TDLib Android — Prebuilt AAR (4 ABIs, Zero NDK)">
+<meta property="og:description" content="Drop-in precompiled TDLib for Android. All 4 ABIs shipped as AARs with Kotlin Coroutines wrapper. Zero NDK.">
 <meta property="og:url" content="https://tdlib-android.vercel.app/">
 <meta property="og:site_name" content="tdlib-android">
+<meta property="og:image" content="https://tdlib-android.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="tdlib-android precompiled AAR for Android">
 
 <!-- Twitter -->
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="tdlib-android — Prebuilt TDLib AAR for Android">
-<meta name="twitter:description" content="Drop-in precompiled TDLib. 4 ABIs, CI-built, auto-updated. No NDK, no source compile.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Akash__ydv001">
+<meta name="twitter:creator" content="@Akash__ydv001">
+<meta name="twitter:title" content="TDLib Android — Prebuilt AAR (4 ABIs, Zero NDK)">
+<meta name="twitter:description" content="Drop-in precompiled TDLib for Android. All 4 ABIs shipped as AARs with Kotlin Coroutines wrapper. Zero NDK.">
+<meta name="twitter:image" content="https://tdlib-android.vercel.app/og.png">
 
 <!-- theme -->
 <meta name="theme-color" content="#0a0a0b">
 
-<!-- JSON-LD SoftwareApplication -->
+<!-- JSON-LD Structured Data -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "tdlib-android",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Android",
-  "description": "Precompiled TDLib for Android distributed as AARs via GitHub Releases and Maven Central. Supports arm64-v8a, armeabi-v7a, x86_64 and x86.",
-  "author": { "@type": "Person", "name": "Akash Priyadarshi", "url": "https://github.com/AkashPriyadarshii" },
-  "url": "https://tdlib-android.vercel.app/",
-  "license": "https://www.boost.org/LICENSE_1_0.txt",
-  "softwareVersion": "1.8.64",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-  "codeRepository": "https://github.com/AkashPriyadarshii/tdlib-android"
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://tdlib-android.vercel.app/#website",
+      "url": "https://tdlib-android.vercel.app/",
+      "name": "tdlib-android",
+      "description": "Prebuilt TDLib AARs for Android across all 4 ABIs with zero NDK setup",
+      "publisher": {
+        "@type": "Person",
+        "name": "Akash Priyadarshi",
+        "url": "https://github.com/AkashPriyadarshii"
+      }
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://tdlib-android.vercel.app/#software",
+      "name": "tdlib-android",
+      "applicationCategory": "DeveloperApplication",
+      "applicationSubCategory": "Software Development Kit (SDK)",
+      "operatingSystem": "Android",
+      "softwareRequirements": "Android API level 26+ (minSdk 26), Gradle 8+, Kotlin Coroutines",
+      "description": "Precompiled TDLib for Android distributed as AARs via GitHub Releases and Maven Central. Supports arm64-v8a, armeabi-v7a, x86_64 and x86.",
+      "author": {
+        "@type": "Person",
+        "name": "Akash Priyadarshi",
+        "url": "https://github.com/AkashPriyadarshii",
+        "sameAs": [
+          "https://x.com/Akash__ydv001",
+          "https://linkedin.com/in/akash-priyadarshi-1aa51b37a",
+          "https://akashpriyadarshi.vercel.app"
+        ]
+      },
+      "url": "https://tdlib-android.vercel.app/",
+      "downloadUrl": "https://github.com/AkashPriyadarshii/tdlib-android/releases/latest",
+      "image": "https://tdlib-android.vercel.app/og.png",
+      "license": "https://www.boost.org/LICENSE_1_0.txt",
+      "softwareVersion": "1.8.64",
+      "offers": {
+        "@type": "Offer",
+        "price": "0.00",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "codeRepository": "https://github.com/AkashPriyadarshii/tdlib-android",
+      "sameAs": [
+        "https://central.sonatype.com/artifact/io.github.tdlib-android/core"
+      ]
+    }
+  ]
 }
 </script>
 
@@ -189,11 +238,13 @@ p{text-wrap:pretty}
     <a href="#abis">ABIs</a>
     <a href="#why">Why</a>
     <a href="#pipeline">Pipeline</a>
-    <a href="#setup">Setup</a>
+    <a href="#receipts">Receipts</a>
+    <a href="/setup">Setup Guide</a>
     <a class="nav-cta" href="https://github.com/AkashPriyadarshii/tdlib-android/releases/latest">Get the AAR</a>
   </div>
 </div></nav>
 
+<main id="main-content">
 <!-- HERO -->
 <header class="hero" id="top"><div class="container hero-grid">
   <div class="reveal">
@@ -202,7 +253,7 @@ p{text-wrap:pretty}
     <p class="hero-sub">The only community-maintained, auto-updated TDLib distribution for Android. All 4 ABIs built by CI — arm64-v8a, armeabi-v7a, x86_64, x86 — shipped as AARs. Drop one Gradle line into any Telegram client, bot UI, or MTProto app.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary" href="https://github.com/AkashPriyadarshii/tdlib-android/releases/latest">Get the AAR</a>
-      <a class="btn btn-ghost" href="https://github.com/AkashPriyadarshii/tdlib-android">View on GitHub</a>
+      <a class="btn btn-ghost" href="/setup">Setup Guide</a>
     </div>
     <p class="hero-meta">install · <strong>io.github.tdlib-android:core:1.8.64</strong></p>
   </div>
@@ -286,7 +337,7 @@ p{text-wrap:pretty}
 </div></section>
 
 <!-- CARDS / receipts -->
-<section class="section" id="setup"><div class="container">
+<section class="section" id="receipts"><div class="container">
   <div class="section-eyebrow reveal">The receipts</div>
   <h2 class="section-head reveal">Concrete. Not a pitch.</h2>
   <div class="cards">
@@ -302,9 +353,10 @@ p{text-wrap:pretty}
   <h2 class="section-head reveal">One dependency. Four ABIs. Zero NDK.</h2>
   <div class="hero-ctas reveal">
     <a class="btn btn-primary" href="https://github.com/AkashPriyadarshii/tdlib-android/releases/latest">Get the AAR</a>
-    <a class="btn btn-ghost" href="https://github.com/AkashPriyadarshii/tdlib-android">Read the docs</a>
+    <a class="btn btn-ghost" href="/setup">Setup Guide</a>
   </div>
 </div></section>
+</main>
 
 <!-- FOOTER -->
 <footer class="footer"><div class="container footer-grid">
@@ -313,12 +365,12 @@ p{text-wrap:pretty}
     <div>Maintained by <a href="https://github.com/AkashPriyadarshii">Akash Priyadarshi</a></div>
   </div>
   <div>
-    <div class="mono" style="margin-bottom:6px">License</div>
-    <div>TDLib core: <a href="https://www.boost.org/LICENSE_1_0.txt">BSL-1.0</a> · ktx wrapper: <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a></div>
+    <div class="mono" style="margin-bottom:6px">Documentation</div>
+    <div><a href="/setup">Setup Guide</a> · <a href="/llms.txt">llms.txt</a> · <a href="/llms-full.txt">LLM Full Specs</a></div>
   </div>
   <div>
     <div class="mono" style="margin-bottom:6px">Resources</div>
-    <div><a href="https://github.com/AkashPriyadarshii/tdlib-android/releases">Releases</a> · <a href="https://github.com/AkashPriyadarshii/tdlib-android/issues">Issues</a></div>
+    <div><a href="https://github.com/AkashPriyadarshii/tdlib-android/releases">Releases</a> · <a href="https://github.com/AkashPriyadarshii/tdlib-android">GitHub</a> · <a href="https://github.com/AkashPriyadarshii/tdlib-android/blob/main/LICENSE">License</a></div>
   </div>
 </div></footer>
 
