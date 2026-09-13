@@ -96,12 +96,12 @@
   --surface: #FFFFFF;
   --surface-alt: #F4F3EE;
   --surface-warm: #141715;
-  --border: #E6E4DD;
-  --border-hover: #D4D1C7;
+  --border: #DDD8C8;
+  --border-hover: #C8C4B8;
   --text: #161917;
-  --text-secondary: #3F463F;
-  --text-tertiary: #4C554D;
-  --text-faint: #5B635C;
+  --text-secondary: #2E342E;
+  --text-tertiary: #3F463F;
+  --text-faint: #4C554D;
   --accent: #047857;
   --accent-hover: #065F46;
   --accent-deep: #064E3B;
@@ -109,6 +109,9 @@
   --bg-rgb: 251, 251, 250;
   --code-bg: #141715;
   --code-border: #242B26;
+  --term-text: #C9C0AD;
+  --term-muted: #9AA39F;
+  --term-accent: #6EE7B7;
   --nav-bg: rgba(251, 251, 250, 0.85);
   --footer-bg: #F4F3EE;
   --px-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
@@ -125,12 +128,12 @@ a{color:var(--accent);text-decoration:none;transition:color 150ms ease}
 a:hover{text-decoration:underline}
 .code-wrap{position:relative;margin:16px 0}
 .code-wrap pre{margin:0}
-pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:12px;padding:18px 20px;font-family:var(--px-mono);font-size:13.5px;line-height:1.7;overflow-x:auto;color:#c9c0ad}
+pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:12px;padding:18px 20px;font-family:var(--px-mono);font-size:13.5px;line-height:1.7;overflow-x:auto;color:var(--term-text)}
 pre code{font-family:inherit;font-size:inherit}
-pre .c{color:var(--accent)}pre .d{color:#849189}
-.copy-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#c9c0ad;border-radius:6px;padding:4px 10px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background .15s,color .15s;z-index:2}
+pre .c{color:var(--term-accent)}pre .d{color:#849189}
+.copy-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:var(--term-text);border-radius:6px;padding:4px 10px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background .15s,color .15s;z-index:2}
 .copy-btn:hover{background:rgba(255,255,255,.16);color:#fff}
-.copy-btn.copied{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.copy-btn.copied{background:#065f46;border-color:var(--term-accent);color:#ffffff}
 .nav{position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);z-index:50;transition:background-color 200ms ease,border-color 200ms ease}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
 .nav-brand{font-family:var(--px-mono);color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
