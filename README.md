@@ -1,23 +1,43 @@
-# tdlib-android
+<p align="center">
+  <img src="docs/favicon.svg" width="72" height="72" alt="tdlib-android logo" />
+</p>
 
-[![Release](https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?color=27a644&label=release)](https://github.com/AkashPriyadarshii/tdlib-android/releases)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/AkashPriyadarshii/tdlib-android/build.yml?branch=main&label=CI)](https://github.com/AkashPriyadarshii/tdlib-android/actions)
-[![License](https://img.shields.io/badge/License-BSL%201.0%20%2F%20Apache%202.0-blue.svg)](LICENSE)
-[![minSdk](https://img.shields.io/badge/minSdk-26%20(Android%208.0%2B)-orange.svg)](https://developer.android.com)
-[![ABIs](https://img.shields.io/badge/ABIs-arm64--v8a%20%7C%20armeabi--v7a%20%7C%20x86__64%20%7C%20x86-purple.svg)](https://github.com/AkashPriyadarshii/tdlib-android)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0%2B-7f52ff.svg)](https://kotlinlang.org)
+<h1 align="center">tdlib-android</h1>
+
+<p align="center">
+  <strong>Precompiled TDLib for Android across all 4 ABIs. Zero local NDK. Zero source compile.</strong>
+</p>
+
+<p align="center">
+  <a href="https://tdlib-android.vercel.app"><img src="https://img.shields.io/badge/Website-tdlib--android.vercel.app-3ecf8e.svg" alt="Website"></a>
+  <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases"><img src="https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?color=27a644&label=release" alt="Release"></a>
+  <a href="https://github.com/AkashPriyadarshii/tdlib-android/actions"><img src="https://img.shields.io/github/actions/workflow/status/AkashPriyadarshii/tdlib-android/build.yml?branch=main&label=CI" alt="Build Status"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.0%20%2F%20Apache%202.0-blue.svg" alt="License"></a>
+  <a href="https://developer.android.com"><img src="https://img.shields.io/badge/minSdk-26%20(Android%208.0%2B)-orange.svg" alt="minSdk"></a>
+  <a href="https://github.com/AkashPriyadarshii/tdlib-android"><img src="https://img.shields.io/badge/ABIs-arm64--v8a%20%7C%20armeabi--v7a%20%7C%20x86__64%20%7C%20x86-purple.svg" alt="ABIs"></a>
+  <a href="https://tdlib-android.vercel.app/setup"><img src="https://img.shields.io/badge/Android%2015-16KB%20Page%20Ready-success.svg" alt="Android 15 Ready"></a>
+</p>
+
+<p align="center">
+  <a href="https://tdlib-android.vercel.app">
+    <img src="docs/og.png" alt="tdlib-android banner" width="100%" style="max-width:850px; border-radius:8px;" />
+  </a>
+</p>
 
 Precompiled [TDLib](https://github.com/tdlib/td) (Telegram Database Library) for Android. Packaged as standalone Android Archive (AAR) binaries for all 4 native architectures, built in CI, and paired with a Kotlin Coroutines and Flow wrapper.
 
 No compiling C++ from source. No Android NDK wrangling. Works with any Telegram client, bot frontend, cloud storage bridge, or MTProto Android application.
 
 > **Documentation Site:** Setup guides and architecture notes available at [tdlib-android.vercel.app](https://tdlib-android.vercel.app/).
+>
+> **For AI Coding Agents:** Point your agent to [`https://tdlib-android.vercel.app/llms.txt`](https://tdlib-android.vercel.app/llms.txt) or [`llms-full.txt`](https://tdlib-android.vercel.app/llms-full.txt) for token-efficient API and Gradle context.
 
 ---
 
 ## Key Features
 
 - **All 4 Android ABIs Included:** `arm64-v8a`, `armeabi-v7a`, `x86_64`, `x86`.
+- **Android 15 (16KB Page Size) Compatible:** Built with 16KB page alignment (`-Wl,-z,max-page-size=16384`) ensuring forward compatibility across Pixel 8/9 and modern Android devices.
 - **Zero Local Compilation:** Eliminates 30+ minute C++ compile times and out-of-memory crashes on developer workstations.
 - **Coroutines & Flow First (`:ktx`):** Thin Kotlin bridge with `suspend fun send()` and reactive `Flow<Update>` update streams.
 - **Built-in Proguard / R8 Rules:** Ships with consumer rules (`consumer-rules.pro`) preventing code shrinkers from stripping native JNI entry points.
@@ -271,6 +291,14 @@ The repository runs completely automated cloud builds using GitHub Actions:
 - **TDLib Native Code & Java Bindings (`:core`):** [Boost Software License 1.0 (BSL-1.0)](LICENSE-BSL) ([Upstream](https://www.boost.org/LICENSE_1_0.txt)).
 - **Kotlin Wrapper Module (`:ktx`):** [Apache License 2.0](LICENSE-APACHE).
 - See the consolidated [LICENSE](LICENSE) file for full terms.
+
+---
+
+## Community & Security
+
+- **Security Advisories:** Review our [Security Policy](SECURITY.md) to report vulnerabilities privately.
+- **Code of Conduct:** Read our [Code of Conduct](CODE_OF_CONDUCT.md) for community standards.
+- **Contributing:** Check [CONTRIBUTING.md](CONTRIBUTING.md) for build constraints and workflow architecture.
 
 ---
 
