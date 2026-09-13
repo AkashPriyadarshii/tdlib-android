@@ -97,7 +97,8 @@ jobs:
           SECRING_B64: ${{ secrets.GPG_SECRING_BASE64 }}
         run: |
           set -euo pipefail
-          echo "$SECRING_B64" | base64 -d > /tmp/secring.gpg
+          # Decode robustly ignoring whitespace/newlines
+          echo "$SECRING_B64" | tr -d ' \r\n' | base64 -d > /tmp/secring.gpg
           ls -lh /tmp/secring.gpg
 
       - name: Publish to Maven Central (Sonatype Portal)
