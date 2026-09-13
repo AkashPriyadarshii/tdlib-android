@@ -71,14 +71,19 @@ pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:
 @media(prefers-contrast:more){
  :root{--border:#444852;--border-hover:#6a7180;--text-secondary:#ffffff}
 }
+/* responsive */
+@media(max-width:768px){
+ .nav-inner{height:auto;padding:10px 0;flex-wrap:wrap;gap:10px}
+}
 @media(max-width:640px){
  .container{max-width:100%;padding:0 16px}
- .nav-inner{flex-wrap:wrap;gap:8px;height:auto;padding:8px 0}
- .box{padding:18px 16px}
- pre{font-size:12.5px;padding:14px}
+ .box{padding:18px 14px;border-radius:10px}
+ pre{font-size:12px;padding:14px 12px;line-height:1.6}
+ .footer-grid{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:24px}
 }
-@media(max-width:480px){
- .container{padding:0 16px}
+@media(max-width:400px){
+ .container{padding:0 12px}
+ pre{font-size:11px;padding:12px 10px}
 }
 </style>
 </head>
@@ -86,7 +91,7 @@ pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:
 <a href="#main-content" class="skip-link">Skip to content</a>
 <nav class="nav"><div class="container nav-inner">
  <a class="nav-brand" href="/"><span class="nav-dot" aria-hidden="true"></span>tdlib-android</a>
- <a href="/" style="font-size:14px">&larr; Back to Home</a>
+ <a href="/" style="font-size:14px;min-height:38px;display:inline-flex;align-items:center;padding:6px 14px;background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;text-decoration:none">&larr; Back to Home</a>
 </div></nav>
 
 <main id="main-content" style="padding:60px 0">
