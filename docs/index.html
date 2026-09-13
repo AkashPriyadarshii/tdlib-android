@@ -6,13 +6,19 @@
 <meta name="theme-color" content="#FBFBFA">
 <script>
 (function(){
- var t=localStorage.getItem('tdlib-theme')||'system';
+ var params = (window.location && window.location.search) ? new URLSearchParams(window.location.search) : null;
+ var t = (params && params.get('theme')) || localStorage.getItem('tdlib-theme') || 'system';
  document.documentElement.setAttribute('data-theme',t);
+ document.documentElement.classList.add('js');
  var isDark=t==='dark'||(t==='system'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
  var m=document.querySelector('meta[name="theme-color"]');
  if(m) m.setAttribute('content',isDark?'#0D110F':'#FBFBFA');
 })();
 </script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <title>TDLib Android - Prebuilt AAR (4 ABIs, Zero NDK)</title>
 <meta name="description" content="Drop-in precompiled TDLib for Android. All 4 ABIs (arm64-v8a, v7a, x86_64, x86) shipped as AARs with Kotlin Coroutines wrapper. Zero NDK. Get started.">
 <meta name="author" content="Akash Priyadarshi">
@@ -140,11 +146,11 @@
   --border-hover: #D4D1C7;
   --text: #161917;
   --text-secondary: #59615C;
-  --text-tertiary: #767F79;
-  --text-faint: #767F79;
+  --text-tertiary: #59615C;
+  --text-faint: #646C66;
   --accent: #047857;
-  --accent-hover: #059669;
-  --accent-deep: #065f46;
+  --accent-hover: #065f46;
+  --accent-deep: #064e3b;
   --on-accent: #FFFFFF;
   --bg-rgb: 251, 251, 250;
   --accent-rgb: 4, 120, 87;
@@ -235,11 +241,11 @@ html[data-theme="light"] {
   --border-hover: #D4D1C7;
   --text: #161917;
   --text-secondary: #59615C;
-  --text-tertiary: #767F79;
-  --text-faint: #767F79;
-  --accent: #059669;
-  --accent-hover: #10B981;
-  --accent-deep: #047857;
+  --text-tertiary: #59615C;
+  --text-faint: #646C66;
+  --accent: #047857;
+  --accent-hover: #065f46;
+  --accent-deep: #064e3b;
   --on-accent: #FFFFFF;
   --bg-rgb: 251, 251, 250;
   --accent-rgb: 5, 150, 105;
@@ -300,6 +306,11 @@ p{text-wrap:pretty}
 .btn-ghost:active{transform:scale(.97);transition:transform 120ms ease-out}
 .hero-meta{font-family:var(--px-mono);font-size:13px;color:var(--text-tertiary)}
 .hero-meta strong{color:var(--accent);font-variant-numeric:tabular-nums}
+.hero-badges{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.badge-link{display:inline-flex;align-items:center;font-family:var(--px-mono);font-size:12px;border:1px solid var(--border);border-radius:6px;overflow:hidden;text-decoration:none;transition:border-color .15s ease,transform .15s ease}
+.badge-link:hover{border-color:var(--accent);text-decoration:none;transform:translateY(-1px)}
+.badge-label{background:var(--surface-alt);color:var(--text-tertiary);padding:3px 8px;font-weight:500}
+.badge-val{background:var(--surface);color:var(--text);padding:3px 8px;font-weight:600}
 
 /* terminal frame */
 .terminal{background:var(--surface-warm);border:1px solid var(--code-border);border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06)}
@@ -311,6 +322,9 @@ p{text-wrap:pretty}
 .terminal .c{color:var(--accent)}.terminal .d{color:#6b7280}.terminal .s{color:#c9a86a}
 .terminal .ok{color:var(--success)}
 .term-badge{margin-left:auto;background:rgba(var(--accent-rgb),.12);color:var(--accent);font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(var(--accent-rgb),.3)}
+.terminal-head .copy-btn{margin-left:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--text-tertiary);border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:all 150ms ease}
+.terminal-head .copy-btn:hover{color:var(--text);border-color:var(--accent);background:rgba(255,255,255,.1)}
+.terminal-head .copy-btn.copied{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
 
 /* proof strip */
 .proof{border-bottom:1px solid var(--border);padding:18px 0}
@@ -379,15 +393,9 @@ p{text-wrap:pretty}
 .footer-bottom a{color:var(--text-secondary)}
 .footer-bottom a:hover{color:var(--text)}
 
-.copy-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#c9c0ad;border-radius:6px;padding:4px 10px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background .15s,color .15s;z-index:2}
-.copy-btn:hover{background:rgba(255,255,255,.16);color:#fff}
+.copy-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#c9c0ad;border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.copy-btn:hover{background:rgba(255,255,255,.16);color:#fff;border-color:var(--accent)}
 .copy-btn.copied{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
-.terminal{position:relative}
-.hero-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-.badge-link{display:inline-flex;overflow:hidden;border-radius:6px;text-decoration:none;font-family:var(--px-mono);font-size:12px;border:1px solid var(--border);transition:border-color .15s}
-.badge-link:hover{border-color:var(--border-hover)}
-.badge-label{background:var(--surface-alt);color:var(--text-secondary);padding:3px 8px}
-.badge-val{background:var(--accent);color:var(--on-accent);padding:3px 8px;font-weight:600}
 /* theme switcher */
 .theme-switcher{position:fixed;bottom:24px;right:24px;z-index:9999;display:inline-flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:9999px;padding:4px;box-shadow:0 4px 20px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08);font-family:var(--px-mono);font-size:12px;user-select:none;backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);transition:border-color .2s ease,box-shadow .2s ease,background-color 200ms ease}
 .theme-switcher:hover{border-color:var(--border-hover);box-shadow:0 6px 24px rgba(0,0,0,.16)}
@@ -400,11 +408,11 @@ p{text-wrap:pretty}
 @media(max-width:640px){.theme-switcher{bottom:16px;right:16px}.theme-switcher-btn span{display:none}.theme-switcher-btn{padding:10px 12px;min-width:44px;min-height:44px;justify-content:center}}
 
 /* reveal + reduced motion */
-.reveal{opacity:0;transform:translateY(8px);transition:opacity 320ms cubic-bezier(.16,1,.3,1),transform 320ms cubic-bezier(.16,1,.3,1)}
-.reveal.in-view{opacity:1;transform:none}
+html.js .reveal{opacity:0;transform:translateY(8px);transition:opacity 320ms cubic-bezier(.16,1,.3,1),transform 320ms cubic-bezier(.16,1,.3,1)}
+html.js .reveal.in-view{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
- .reveal{opacity:1;transform:none}
+ html.js .reveal, .reveal{opacity:1!important;transform:none!important}
 }
 @media(prefers-reduced-transparency:reduce){
  .nav,.theme-switcher{background:var(--bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
@@ -424,14 +432,14 @@ p{text-wrap:pretty}
 
 <!-- NAV -->
 <nav class="nav reveal in-view"><div class="container nav-inner">
- <a class="nav-brand" href="#top"><span class="nav-dot"></span>tdlib-android</a>
+ <a class="nav-brand" href="#top"><span class="nav-dot" aria-hidden="true"></span>tdlib-android</a>
  <div class="nav-links">
  <a href="#abis">ABIs</a>
- <a href="#why">Why</a>
  <a href="#pipeline">Pipeline</a>
- <a href="#receipts">Receipts</a>
  <a href="/setup">Setup</a>
  <a href="/about">About</a>
+ <a href="/contact">Contact</a>
+ <a href="/privacy">Privacy</a>
  <a class="nav-cta" href="https://github.com/AkashPriyadarshii/tdlib-android/releases/latest">Get the AAR</a>
  </div>
 </div></nav>
@@ -448,13 +456,28 @@ p{text-wrap:pretty}
  <a class="btn btn-ghost" href="/setup">Setup Guide</a>
  </div>
  <p class="hero-meta">install · <strong>io.github.tdlib-android:core:0.1.0</strong></p>
+ <div class="hero-badges">
+  <a class="badge-link" href="https://github.com/AkashPriyadarshii/tdlib-android/releases" target="_blank" rel="noopener" aria-label="Latest release version">
+   <span class="badge-label">Release</span>
+   <span class="badge-val" id="badge-ver">v0.1.0</span>
+  </a>
+  <a class="badge-link" href="https://github.com/AkashPriyadarshii/tdlib-android" target="_blank" rel="noopener" aria-label="GitHub repository stars">
+   <span class="badge-label">Stars</span>
+   <span class="badge-val" id="badge-stars">★</span>
+  </a>
+  <a class="badge-link" href="https://central.sonatype.com/artifact/io.github.tdlib-android/core" target="_blank" rel="noopener" aria-label="Maven Central Artifact">
+   <span class="badge-label">Maven</span>
+   <span class="badge-val">Central</span>
+  </a>
+ </div>
  </div>
 
  <div class="terminal reveal">
  <div class="terminal-head">
- <span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span>
+ <span class="term-dot" aria-hidden="true"></span><span class="term-dot" aria-hidden="true"></span><span class="term-dot" aria-hidden="true"></span>
  <span class="term-title">build.gradle.kts</span>
  <span class="term-badge">v0.1.0</span>
+ <button type="button" class="copy-btn" data-copy aria-label="Copy Gradle snippet">Copy</button>
  </div>
  <div class="terminal-body">
  <span class="d">// settings.gradle.kts</span><br>
@@ -463,7 +486,7 @@ p{text-wrap:pretty}
  <span class="s">implementation</span>(<span class="c">"io.github.tdlib-android:core:0.1.0"</span>)<br>
  <span class="s">implementation</span>(<span class="c">"io.github.tdlib-android:ktx:0.1.0"</span>)<br><br>
  <span class="d">$</span> ./gradlew :app:assembleDebug<br>
- <span class="ok"><svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> BUILD SUCCESSFUL in 3s</span>
+ <span class="ok"><svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> BUILD SUCCESSFUL</span>
  </div>
  </div>
 </div></header>
@@ -510,7 +533,7 @@ p{text-wrap:pretty}
  </div>
  <aside class="why-note reveal">
  <h3 style="font-size:1.1rem;margin-bottom:10px">Built on a 4 GB machine</h3>
- <p style="font-size:15px">This project was made on a Windows 11 laptop with 4 GB of RAM - where local TDLib compilation is impossible. The answer: let GitHub Actions do the work. That's the whole philosophy. No local NDK, no Docker on your box, no frozen forks.</p>
+ <p style="font-size:15px">This project was made on a Windows 11 laptop with 4 GB of RAM - where local TDLib compilation is impossible. The answer: let GitHub Actions do the work. That's the whole philosophy. <a href="/about" style="display:inline-block;margin-top:6px;font-weight:600">Read architecture &amp; origin story &rarr;</a></p>
  </aside>
 </div></section>
 
@@ -571,6 +594,7 @@ p{text-wrap:pretty}
  <div class="hero-ctas reveal">
  <a class="btn btn-primary" href="https://github.com/AkashPriyadarshii/tdlib-android/releases/latest">Get the AAR</a>
  <a class="btn btn-ghost" href="/setup">Setup Guide</a>
+ <a class="btn btn-ghost" href="/contact">Support &amp; Community</a>
  </div>
 </div></section>
 </main>
@@ -608,7 +632,7 @@ p{text-wrap:pretty}
  </div>
  <div class="footer-bottom">
  <div>&copy; 2026 Akash Priyadarshi &middot; Patna, Bihar, India</div>
- <div><a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/agent-instructions">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
+  <div><a href="/">Home</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/404.html">404</a> &middot; <a href="/agent-instructions">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
  </div>
 </div></footer>
 
@@ -688,7 +712,8 @@ p{text-wrap:pretty}
   // Initialize theme (Default: system)
   var saved = 'system';
   try {
-    saved = localStorage.getItem(STORAGE_KEY) || 'system';
+    var p = new URLSearchParams(window.location.search);
+    saved = p.get('theme') || localStorage.getItem(STORAGE_KEY) || 'system';
   } catch(e) {}
   applyTheme(saved);
 })();
@@ -697,22 +722,38 @@ p{text-wrap:pretty}
 <script>
 // L2 scroll reveal
 (function(){
- var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- if(reduced) return;
- var els = document.querySelectorAll('.reveal');
- if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in-view')}); return; }
- var io = new IntersectionObserver(function(entries){
- entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in-view'); io.unobserve(en.target); } });
- }, {threshold:0.15});
- els.forEach(function(e){ io.observe(e); });
+  var els = document.querySelectorAll('.reveal');
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced || !('IntersectionObserver' in window)){
+    els.forEach(function(e){ e.classList.add('in-view'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        en.target.classList.add('in-view');
+        io.unobserve(en.target);
+      }
+    });
+  }, {threshold: 0.01, rootMargin: '60px 0px'});
+  els.forEach(function(e){
+    var rect = e.getBoundingClientRect();
+    if(rect.top < window.innerHeight && rect.bottom > 0){
+      e.classList.add('in-view');
+    } else {
+      io.observe(e);
+    }
+  });
 })();
 </script>
 <script>
 // copy button
 document.querySelectorAll('[data-copy]').forEach(function(btn){
   btn.addEventListener('click',function(){
-    var body=btn.closest('.terminal').querySelector('.terminal-body');
-    var text=body.innerText.replace(/ /g,' ');
+    var container = btn.closest('.terminal, .code-card') || btn.parentElement;
+    var body = container ? (container.querySelector('.terminal-body, code') || container) : null;
+    var text = body ? (body.innerText || body.textContent || '').replace(/\u00a0/g,' ') : '';
+    if(!text) return;
     navigator.clipboard.writeText(text).then(function(){
       btn.textContent='Copied!';btn.classList.add('copied');
       setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1600);
@@ -735,6 +776,19 @@ fetch('https://api.github.com/repos/AkashPriyadarshii/tdlib-android')
     var bs=document.getElementById('badge-stars');
     if(bs&&d.stargazers_count!=null)bs.textContent=d.stargazers_count;
   }).catch(function(){});
+// Local static preview routing
+(function(){
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') {
+        a.setAttribute('href', '/index.html');
+      } else if (!href.includes('.') && !href.includes('#')) {
+        a.setAttribute('href', href + '.html');
+      }
+    });
+  }
+})();
 </script>
 </body>
 </html>

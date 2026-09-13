@@ -1,8 +1,23 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="system">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#FBFBFA">
+<script>
+(function(){
+ var params = (window.location && window.location.search) ? new URLSearchParams(window.location.search) : null;
+ var t = (params && params.get('theme')) || localStorage.getItem('tdlib-theme') || 'system';
+ document.documentElement.setAttribute('data-theme',t);
+ document.documentElement.classList.add('js');
+ var isDark=t==='dark'||(t==='system'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+ var m=document.querySelector('meta[name="theme-color"]');
+ if(m) m.setAttribute('content',isDark?'#0D110F':'#FBFBFA');
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <title>Set Up TDLib on Android in 3 Steps - tdlib-android</title>
 <meta name="description" content="Add TDLib to Android in 3 steps without compiling from source. Add the Gradle AAR, load JNI, and collect updates via Kotlin Flow. No NDK needed.">
 <meta name="author" content="Akash Priyadarshi">
@@ -88,27 +103,123 @@
 </script>
 
 <style>
-:root{
- --bg:#0a0a0b;--surface:#121214;--border:#23252a;--border-hover:#34343a;
- --text:#f7f8f8;--text-secondary:#d0d6e0;--text-tertiary:#8a8f98;
- --accent:#3ecf8e;--accent-hover:#4ade80;--code-bg:#0d0d0f;--code-border:#1f2227;
- --px-sans:'IBM Plex Sans',system-ui,sans-serif;--px-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace
+:root {
+  --bg: #FBFBFA;
+  --surface: #FFFFFF;
+  --surface-alt: #F4F3EE;
+  --surface-warm: #141715;
+  --border: #E6E4DD;
+  --border-hover: #D4D1C7;
+  --text: #161917;
+  --text-secondary: #59615C;
+  --text-tertiary: #59615C;
+  --text-faint: #646C66;
+  --accent: #047857;
+  --accent-hover: #065F46;
+  --accent-deep: #064E3B;
+  --on-accent: #FFFFFF;
+  --bg-rgb: 251, 251, 250;
+  --code-bg: #141715;
+  --code-border: #242B26;
+  --nav-bg: rgba(251, 251, 250, 0.85);
+  --footer-bg: #F4F3EE;
+  --px-sans: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --px-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
 }
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]):not([data-theme="dark"]),
+  html[data-theme="system"] {
+    --bg: #0D110F;
+    --surface: #141A17;
+    --surface-alt: #1A221E;
+    --surface-warm: #141715;
+    --border: #232B26;
+    --border-hover: #323D36;
+    --text: #F2F5F3;
+    --text-secondary: #BDC7C1;
+    --text-tertiary: #849189;
+    --text-faint: #5C6761;
+    --accent: #3ECF8E;
+    --accent-hover: #6EE7B7;
+    --accent-deep: #059669;
+    --on-accent: #0D110F;
+    --bg-rgb: 13, 17, 15;
+    --code-bg: #141715;
+    --code-border: #242B26;
+    --nav-bg: rgba(13, 17, 15, 0.85);
+    --footer-bg: #0A0E0C;
+  }
+}
+
+html[data-theme="dark"] {
+  --bg: #0D110F;
+  --surface: #141A17;
+  --surface-alt: #1A221E;
+  --surface-warm: #141715;
+  --border: #232B26;
+  --border-hover: #323D36;
+  --text: #F2F5F3;
+  --text-secondary: #BDC7C1;
+  --text-tertiary: #849189;
+  --text-faint: #5C6761;
+  --accent: #3ECF8E;
+  --accent-hover: #6EE7B7;
+  --accent-deep: #059669;
+  --on-accent: #0D110F;
+  --bg-rgb: 13, 17, 15;
+  --code-bg: #141715;
+  --code-border: #242B26;
+  --nav-bg: rgba(13, 17, 15, 0.85);
+  --footer-bg: #0A0E0C;
+}
+
+html[data-theme="light"] {
+  --bg: #FBFBFA;
+  --surface: #FFFFFF;
+  --surface-alt: #F4F3EE;
+  --surface-warm: #141715;
+  --border: #E6E4DD;
+  --border-hover: #D4D1C7;
+  --text: #161917;
+  --text-secondary: #59615C;
+  --text-tertiary: #59615C;
+  --text-faint: #646C66;
+  --accent: #047857;
+  --accent-hover: #065F46;
+  --accent-deep: #064E3B;
+  --on-accent: #FFFFFF;
+  --bg-rgb: 251, 251, 250;
+  --code-bg: #141715;
+  --code-border: #242B26;
+  --nav-bg: rgba(251, 251, 250, 0.85);
+  --footer-bg: #F4F3EE;
+}
+
+.skip-link{position:absolute;top:-999px;left:8px;z-index:999;background:var(--accent);color:var(--on-accent);padding:8px 16px;border-radius:0 0 8px 8px;font-size:14px;font-weight:600;text-decoration:none}
+.skip-link:focus{top:0}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6}
-.container{max-width:min(780px,92vw);margin:0 auto;padding:0 24px}
+body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6;transition:background-color 200ms ease,color 200ms ease}
+.container{max-width:min(860px,92vw);margin:0 auto;padding:0 24px}
 h1,h2,h3{color:var(--text);font-weight:600;letter-spacing:-0.02em;text-wrap:balance}
 a{color:var(--accent);text-decoration:none;transition:color 150ms ease}
 a:hover{text-decoration:underline}
-pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:12px;padding:18px 20px;font-family:var(--px-mono);font-size:13.5px;line-height:1.7;overflow-x:auto;color:#c9c0ad;margin:16px 0}
+.code-wrap{position:relative;margin:16px 0}
+.code-wrap pre{margin:0}
+pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:12px;padding:18px 20px;font-family:var(--px-mono);font-size:13.5px;line-height:1.7;overflow-x:auto;color:#c9c0ad}
 pre code{font-family:inherit;font-size:inherit}
-pre .c{color:var(--accent)}pre .d{color:#6b7280}
-.nav{position:sticky;top:0;background:rgba(10,10,11,.72);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 32px rgba(0,0,0,.36);z-index:50}
+pre .c{color:var(--accent)}pre .d{color:#849189}
+.copy-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#c9c0ad;border-radius:6px;padding:4px 10px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background .15s,color .15s;z-index:2}
+.copy-btn:hover{background:rgba(255,255,255,.16);color:#fff}
+.copy-btn.copied{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.nav{position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);z-index:50;transition:background-color 200ms ease,border-color 200ms ease}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
 .nav-brand{font-family:var(--px-mono);color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
 @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.42;transform:scale(.9)}}
 .nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent);animation:pulse-dot 3.2s cubic-bezier(.4,0,.6,1) infinite}
-.nav-back{color:var(--text-secondary);text-decoration:none;font-size:14px}
+.nav-links{display:flex;gap:18px;font-size:14px;align-items:center}
+.nav-links a{color:var(--text-secondary);text-decoration:none;transition:color 150ms ease}
+.nav-links a:hover{color:var(--text)}
 .article{padding:clamp(2.5rem,6vh,4rem) 0 4rem}
 .step{margin:36px 0;padding-bottom:28px;border-bottom:1px solid var(--border)}
 .step:last-of-type{border-bottom:none}
@@ -118,9 +229,9 @@ h3{font-size:1.2rem;margin:20px 0 8px}
 p{margin:12px 0}
 ul{margin:12px 0 16px 24px}
 li{margin:6px 0}
-code.inline{background:var(--code-bg);border:1px solid var(--code-border);border-radius:6px;padding:2px 6px;font-family:var(--px-mono);font-size:0.85em;color:var(--text)}
-.tip-box{background:var(--surface-alt);border:1px solid var(--border);padding:16px 20px;border-radius:10px;margin:22px 0;box-shadow:0 1px 3px rgba(0,0,0,.08)}
-.footer{border-top:1px solid var(--border);padding:48px 0 36px;font-size:14px;color:var(--text-tertiary);background:#070708}
+code.inline{background:var(--surface-alt);border:1px solid var(--border);border-radius:6px;padding:2px 6px;font-family:var(--px-mono);font-size:0.85em;color:var(--accent)}
+.tip-box{background:var(--surface-alt);border:1px solid var(--border);padding:16px 20px;border-radius:10px;margin:22px 0;box-shadow:0 1px 3px rgba(0,0,0,.08);transition:background-color 200ms ease,border-color 200ms ease}
+.footer{border-top:1px solid var(--border);padding:48px 0 36px;font-size:14px;color:var(--text-tertiary);background:var(--footer-bg);transition:background-color 200ms ease,border-color 200ms ease}
 .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
 .footer-col-title{font-family:var(--px-mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--text);margin-bottom:12px;font-weight:600}
 .footer-links{display:flex;flex-direction:column;gap:8px}
@@ -130,11 +241,20 @@ code.inline{background:var(--code-bg);border:1px solid var(--code-border);border
 .footer-bottom a{color:var(--text-secondary)}
 .footer-bottom a:hover{color:var(--text)}
 .mono{font-family:var(--px-mono)}
+.theme-switcher{position:fixed;bottom:24px;right:24px;z-index:9999;display:inline-flex;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:9999px;padding:4px;box-shadow:0 4px 20px rgba(0,0,0,.12),0 1px 3px rgba(0,0,0,.08);font-family:var(--px-mono);font-size:12px;user-select:none;backdrop-filter:blur(16px) saturate(180%);-webkit-backdrop-filter:blur(16px) saturate(180%);transition:border-color .2s ease,box-shadow .2s ease,background-color 200ms ease}
+.theme-switcher:hover{border-color:var(--border-hover);box-shadow:0 6px 24px rgba(0,0,0,.16)}
+.theme-switcher-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:9999px;border:1px solid transparent;background:transparent;color:var(--text-tertiary);font-family:inherit;font-size:12px;font-weight:500;cursor:pointer;transition:color 160ms ease,background-color 160ms ease,border-color 160ms ease,box-shadow 160ms ease,transform 160ms cubic-bezier(.16,1,.3,1);outline:none}
+.theme-switcher-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.theme-switcher-btn:hover{color:var(--text)}
+.theme-switcher-btn:active{transform:scale(.97)}
+.theme-switcher-btn.active{background:var(--accent);color:var(--on-accent);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.theme-switcher-btn svg{width:13px;height:13px;display:block}
+@media(max-width:640px){.theme-switcher{bottom:16px;right:16px}.theme-switcher-btn span{display:none}.theme-switcher-btn{padding:10px 12px;min-width:44px;min-height:44px;justify-content:center}}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
 @media(prefers-reduced-transparency:reduce){
- .nav{background:#0a0a0b!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+ .nav,.theme-switcher{background:var(--bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 }
 @media(prefers-contrast:more){
  :root{--border:#444852;--border-hover:#6a7180;--text-secondary:#ffffff}
@@ -142,10 +262,12 @@ code.inline{background:var(--code-bg);border:1px solid var(--code-border);border
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to content</a>
 <nav class="nav"><div class="container nav-inner">
- <a class="nav-brand" href="/"><span class="nav-dot"></span>tdlib-android</a>
- <div style="display:flex;gap:18px;font-size:14px;align-items:center">
+ <a class="nav-brand" href="/"><span class="nav-dot" aria-hidden="true"></span>tdlib-android</a>
+ <div class="nav-links">
  <a href="/">Home</a>
+ <a href="/setup" style="color:var(--accent);font-weight:600">Setup</a>
  <a href="/about">About</a>
  <a href="/contact">Contact</a>
  <a href="/privacy">Privacy</a>
@@ -165,6 +287,8 @@ code.inline{background:var(--code-bg);border:1px solid var(--code-border);border
  <span class="step-idx">Step 1 - add the dependencies</span>
  <h2>Point Gradle at the prebuilt AAR</h2>
  <p>The <code class="inline">core</code> module bundles <code class="inline">libtdjson.so</code> for all 4 Android architectures (<code class="inline">arm64-v8a</code>, <code class="inline">armeabi-v7a</code>, <code class="inline">x86_64</code>, and <code class="inline">x86</code>). The <code class="inline">ktx</code> module provides coroutines and Flow bridges.</p>
+<div class="code-wrap">
+<button type="button" class="copy-btn" data-copy aria-label="Copy Gradle coordinates">Copy</button>
 <pre><code class="language-kotlin"><span class="d">// settings.gradle.kts</span>
 dependencyResolutionManagement {
  repositories {
@@ -178,7 +302,10 @@ dependencies {
  <span class="c">implementation</span>("io.github.tdlib-android:core:0.1.0")
  <span class="c">implementation</span>("io.github.tdlib-android:ktx:0.1.0")
 }</code></pre>
+</div>
  <p>If you want to restrict which architectures get bundled into your final APK (for instance, releasing separate 64-bit and 32-bit APKs), configure <code class="inline">ndk.abiFilters</code> inside <code class="inline">defaultConfig</code>:</p>
+<div class="code-wrap">
+<button type="button" class="copy-btn" data-copy aria-label="Copy abiFilters snippet">Copy</button>
 <pre><code class="language-kotlin">android {
  defaultConfig {
  ndk {
@@ -186,33 +313,38 @@ dependencies {
  }
  }
 }</code></pre>
+</div>
  </div>
 
  <div class="step">
  <span class="step-idx">Step 2 - configure ProGuard / R8</span>
  <h2>Keep native symbols unobfuscated</h2>
  <p>TDLib invokes JNI bridge methods and requires reflection over generated data structures. The <code class="inline">core</code> AAR embeds consumer rules automatically. If you customize obfuscation in <code class="inline">app/proguard-rules.pro</code>, ensure these keep rules are intact:</p>
+<div class="code-wrap">
+<button type="button" class="copy-btn" data-copy aria-label="Copy ProGuard rules">Copy</button>
 <pre><code class="language-proguard"># Keep TDLib JNI bridge and generated API classes
 -keep class org.drinkless.tdlib.** { *; }
 -keepclassmembers class org.drinkless.tdlib.** { *; }
 -dontwarn org.drinkless.tdlib.**</code></pre>
+</div>
  </div>
 
  <div class="step">
  <span class="step-idx">Step 3 - load native library & initialize</span>
  <h2>Boot a TdClient & react to updates</h2>
- <p>Load the native JNI library using <code class="inline">System.loadLibrary("tdjni")</code>, establish a dedicated internal directory for TDLib SQLite databases and encryption keys, then collect updates reactively:</p>
-<pre><code class="language-kotlin"><span class="d">// 1. Load native JNI binaries</span>
-System.<span class="c">loadLibrary</span>("tdjni")
-
-<span class="d">// 2. Initialize TdClient with dedicated storage</span>
+ <p>When using the <code class="inline">ktx</code> module, <code class="inline">TdClient</code> initializes internal database directories and manages Kotlin coroutine dispatchers automatically:</p>
+<div class="code-wrap">
+<button type="button" class="copy-btn" data-copy aria-label="Copy Kotlin TdClient initialization snippet">Copy</button>
+<pre><code class="language-kotlin"><span class="d">// 1. Initialize TdClient (storage path + credentials)</span>
 val client = TdClient(
  filesDir = File(context.filesDir, "tdlib").absolutePath,
+ apiId = BuildConfig.TELEGRAM_API_ID,
+ apiHash = BuildConfig.TELEGRAM_API_HASH,
  verbosityLevel = 1
 )
 client.init()
 
-<span class="d">// 3. Collect MTProto updates reactively via Flow</span>
+<span class="d">// 2. Collect MTProto updates reactively via Flow</span>
 CoroutineScope(Dispatchers.IO).launch {
  client.updates.collect { update ->
  when (update) {
@@ -225,7 +357,28 @@ CoroutineScope(Dispatchers.IO).launch {
  }
  }
 }</code></pre>
- <p>When TDLib emits <code class="inline">UpdateAuthorizationState</code> with <code class="inline">AuthorizationStateWaitTdlibParameters</code>, send your Telegram API credentials via <code class="inline">client.send(TdApi.SetTdlibParameters(...))</code> to complete startup.</p>
+</div>
+ <p>If you use the low-level <code class="inline">core</code> module directly, load the native binary via <code class="inline">System.loadLibrary("tdjson")</code> and send your initialization parameters when receiving <code class="inline">AuthorizationStateWaitTdlibParameters</code>:</p>
+<div class="code-wrap">
+<button type="button" class="copy-btn" data-copy aria-label="Copy SetTdlibParameters snippet">Copy</button>
+<pre><code class="language-kotlin"><span class="d">// Send parameters on AuthorizationStateWaitTdlibParameters</span>
+val parameters = TdApi.SetTdlibParameters().apply {
+ useTestDc = false
+ databaseDirectory = File(context.filesDir, "tdlib").absolutePath
+ filesDirectory = File(context.filesDir, "tdlib/files").absolutePath
+ useFileDatabase = true
+ useChatInfoDatabase = true
+ useMessageDatabase = true
+ useSecretChats = false
+ apiId = BuildConfig.TELEGRAM_API_ID
+ apiHash = BuildConfig.TELEGRAM_API_HASH
+ systemLanguageCode = "en"
+ deviceModel = android.os.Build.MODEL
+ systemVersion = android.os.Build.VERSION.RELEASE
+ applicationVersion = "1.0.0"
+}
+client.send(parameters)</code></pre>
+</div>
  </div>
 
  <div class="step">
@@ -279,5 +432,95 @@ CoroutineScope(Dispatchers.IO).launch {
  </div>
 </div></footer>
 
+<!-- THEME SWITCHER -->
+<aside class="theme-switcher" role="region" aria-label="Theme switcher">
+  <button type="button" class="theme-switcher-btn" data-mode="light" aria-pressed="false" aria-label="Switch to light mode" title="Light mode">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    <span>Light</span>
+  </button>
+  <button type="button" class="theme-switcher-btn" data-mode="dark" aria-pressed="false" aria-label="Switch to dark mode" title="Dark mode">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+    <span>Dark</span>
+  </button>
+  <button type="button" class="theme-switcher-btn active" data-mode="system" aria-pressed="true" aria-label="Switch to system preference" title="System mode">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+    <span>System</span>
+  </button>
+</aside>
+
+<script>
+// Floating Theme Switcher Controller
+(function(){
+  var STORAGE_KEY = 'tdlib-theme';
+  var html = document.documentElement;
+  var buttons = document.querySelectorAll('.theme-switcher-btn');
+  var metaTheme = document.querySelector('meta[name="theme-color"]');
+
+  function updateMetaTheme(isDark) {
+    if(metaTheme) {
+      metaTheme.setAttribute('content', isDark ? '#0D110F' : '#FBFBFA');
+    }
+  }
+
+  function applyTheme(mode) {
+    html.setAttribute('data-theme', mode);
+    var isDark = mode === 'dark';
+    if(mode === 'system') {
+      isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    updateMetaTheme(isDark);
+
+    buttons.forEach(function(btn){
+      var active = btn.getAttribute('data-mode') === mode;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  buttons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var mode = this.getAttribute('data-mode');
+      try {
+        localStorage.setItem(STORAGE_KEY, mode);
+      } catch(e) {}
+      applyTheme(mode);
+    });
+  });
+
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+      var current = html.getAttribute('data-theme') || 'system';
+      if (current === 'system') {
+        updateMetaTheme(e.matches);
+      }
+    });
+  }
+
+  var saved = 'system';
+  try {
+    var p = new URLSearchParams(window.location.search);
+    saved = p.get('theme') || localStorage.getItem(STORAGE_KEY) || 'system';
+  } catch(e) {}
+  applyTheme(saved);
+})();
+
+// Copy button handler
+document.querySelectorAll('[data-copy]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var container = btn.closest('.code-wrap') || btn.parentElement;
+    var code = container ? (container.querySelector('code, pre') || container) : null;
+    var text = code ? (code.innerText || code.textContent || '').replace(/\u00a0/g,' ') : '';
+    if(!text) return;
+    navigator.clipboard.writeText(text).then(function(){
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function(){
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 1600);
+    });
+  });
+});
+</script>
 </body>
 </html>

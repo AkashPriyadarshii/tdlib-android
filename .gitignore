@@ -35,6 +35,7 @@ secrets/
 # Tooling & caches
 .impeccable/
 .vercel/
+screenshots/
 
 # OS specific
 Thumbs.db
