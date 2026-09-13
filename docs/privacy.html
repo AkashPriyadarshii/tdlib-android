@@ -127,6 +127,17 @@ li{margin:8px 0}
 }
 @media(prefers-contrast:more){
  :root{--border:#444852;--border-hover:#6a7180;--text-secondary:#ffffff}
+
+/* responsive */
+@media(max-width:640px){
+ .nav-inner{height:auto;padding:10px 0;flex-wrap:wrap;gap:10px}
+ .nav-links{gap:12px;overflow-x:auto;width:100%;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+ .nav-links::-webkit-scrollbar{display:none}
+ .nav-links a{white-space:nowrap;font-size:13.5px}
+}
+@media(max-width:480px){
+ .container{padding:0 16px}
+}
 }
 </style>
 </head>
