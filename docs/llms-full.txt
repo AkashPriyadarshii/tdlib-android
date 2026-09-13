@@ -85,7 +85,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.drinkless.tdlib.TdApi
-import io.github.tdlib.ktx.TdClient
+import io.github.tdlibandroid.ktx.TdClient
 import java.io.File
 
 class TelegramManager(private val context: Context) {

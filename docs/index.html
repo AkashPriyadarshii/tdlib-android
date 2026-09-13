@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#FBFBFA">
 
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
@@ -167,7 +167,7 @@
 .skip-link:focus{top:0}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;transition:background-color 200ms ease,color 200ms ease}
+body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%;font-feature-settings:"cv02","cv03","cv04","cv11";transition:background-color 200ms ease,color 200ms ease}
 [id]{scroll-margin-top:80px}
 a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;transition:color 150ms ease}
 a:hover{color:var(--accent-hover)}
@@ -190,11 +190,11 @@ p{text-wrap:pretty}
 .nav-cta:hover{background:var(--accent-hover);color:var(--on-accent);transform:translateY(-1px)}
 .nav-cta:active{transform:scale(.97)}
 @media(max-width:640px){
- .nav-inner{height:auto;padding:10px 0;flex-wrap:wrap;gap:10px}
- .nav-links{gap:12px;overflow-x:auto;width:100%;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+ .nav-inner{height:auto;padding:8px 0;flex-wrap:wrap;gap:8px}
+ .nav-links{gap:8px;overflow-x:auto;width:100%;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}
  .nav-links::-webkit-scrollbar{display:none}
- .nav-links a{white-space:nowrap;font-size:13.5px}
- .nav-cta{padding:6px 12px;font-size:13px}
+ .nav-links a{white-space:nowrap;font-size:13.5px;min-height:36px;display:inline-flex;align-items:center;padding:4px 8px;flex-shrink:0}
+ .nav-cta{padding:6px 14px;font-size:13px;flex-shrink:0;min-height:36px;display:inline-flex;align-items:center}
 }
 
 /* hero */
@@ -231,7 +231,7 @@ p{text-wrap:pretty}
 .terminal .c{color:var(--term-accent)}.terminal .d{color:#6b7280}.terminal .s{color:#c9a86a}
 .terminal .ok{color:var(--term-accent)}
 .term-badge{margin-left:auto;background:rgba(110,231,183,.15);color:var(--term-accent);font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(110,231,183,.3)}
-.terminal-head .copy-btn{margin-left:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--term-text);border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:all 150ms ease}
+.terminal-head .copy-btn{margin-left:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--term-text);border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background 150ms ease,color 150ms ease,border-color 150ms ease}
 .terminal-head .copy-btn:hover{color:#ffffff;border-color:var(--term-accent);background:rgba(255,255,255,.14)}
 .terminal-head .copy-btn.copied{background:#065f46;color:#ffffff;border-color:var(--term-accent)}
 
@@ -248,7 +248,8 @@ p{text-wrap:pretty}
 .section-sub{max-width:60ch;color:var(--text-secondary);margin-bottom:48px}
 
 /* ABI table */
-.abi-table{width:100%;border-collapse:collapse;font-family:var(--px-mono);font-size:14px}
+.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:10px}
+.abi-table{width:100%;min-width:480px;border-collapse:collapse;font-family:var(--px-mono);font-size:14px;font-variant-numeric:tabular-nums}
 .abi-table th{text-align:left;color:var(--text-faint);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:14px 16px;border-bottom:1px solid var(--border-hover)}
 .abi-table td{padding:16px;border-bottom:1px solid var(--border);vertical-align:top}
 .abi-table td:first-child{color:var(--text);font-weight:500}
@@ -324,17 +325,41 @@ html.js .reveal.in-view{opacity:1;transform:none}
 }
 
 /* responsive */
-@media(max-width:900px){.hero-grid,.why-grid{grid-template-columns:1fr}.bento-grid{grid-template-columns:1fr}.bento-card--wide{grid-template-columns:1fr;gap:16px}.terminal{margin-top:24px}}
-@media(max-width:640px){
- .proof{padding:14px 0}.proof-inner{gap:8px 16px;font-size:12px}
- .abi-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
- .terminal-body{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:900px){
+ .hero-grid,.why-grid{grid-template-columns:1fr}
+ .bento-grid{grid-template-columns:1fr}
+ .bento-card--wide{grid-template-columns:1fr;gap:16px}
+ .terminal{margin-top:24px}
 }
-@media(max-width:480px){
- .container{padding:0 16px}
- .hero-grid{gap:28px}
- .terminal-body{padding:14px}
- .hero-ctas .btn{width:100%}
+@media(max-width:640px){
+ .container{max-width:100%;padding:0 16px}
+ .hero{padding:clamp(2.5rem,6vh,3.5rem) 0}
+ .hero h1{font-size:clamp(1.9rem,6.5vw,2.5rem)}
+ .hero-sub{font-size:1rem;margin-bottom:24px}
+ .hero-ctas{display:flex;flex-direction:column;width:100%;gap:10px;margin-bottom:20px}
+ .hero-ctas .btn{width:100%;justify-content:center}
+ .proof{padding:12px 0}
+ .proof-inner{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 10px;font-size:12px}
+ .proof-inner span{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:7px 10px;gap:6px}
+ .proof-inner span:nth-child(4){grid-column:1 / -1}
+ .section{padding:clamp(3rem,8vh,4.5rem) 0}
+ .section-head{font-size:1.6rem}
+ .section-sub{margin-bottom:32px;font-size:15px}
+ .terminal-head{padding:8px 12px}
+ .terminal-body{padding:14px;font-size:12.5px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ .why-list li{gap:10px;padding:12px 0;font-size:14.5px}
+ .why-note{padding:18px 16px;margin-top:20px}
+ .bento-card{padding:20px 16px}
+ .pipe-step{gap:12px;padding:12px 0}
+ .pipe-idx{width:52px;font-size:11.5px}
+ .footer-grid{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:24px}
+ .footer-bottom{flex-direction:column;align-items:flex-start;gap:10px}
+}
+@media(max-width:380px){
+ .proof-inner{grid-template-columns:1fr}
+ .proof-inner span:nth-child(4){grid-column:auto}
+ .pipe-step{gap:8px}
+ .pipe-idx{width:46px;font-size:11px}
 }
 </style>
 </head>
@@ -417,7 +442,7 @@ html.js .reveal.in-view{opacity:1;transform:none}
  <div class="section-eyebrow reveal">Coverage</div>
  <h2 class="section-head reveal">Every device. Every emulator. One AAR.</h2>
  <p class="section-sub reveal">Four ABIs built in parallel on GitHub runners with pinned NDK <code class="abi-code">27.2.12479018</code>. Fail-fast - a drop in any ABI blocks the release, never a partial set.</p>
- <div class="reveal">
+ <div class="reveal table-wrap">
  <table class="abi-table">
  <thead><tr><th>ABI</th><th>Devices</th><th>Status</th></tr></thead>
  <tbody>
@@ -544,7 +569,7 @@ html.js .reveal.in-view{opacity:1;transform:none}
  </div>
  <div class="footer-bottom">
  <div>&copy; 2026 Akash Priyadarshi &middot; Patna, Bihar, India</div>
-  <div><a href="/">Home</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/404.html">404</a> &middot; <a href="/agent-instructions">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
+  <div><a href="/">Home</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/404.html">404</a> &middot; <a href="/agent-instructions.md">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
  </div>
 </div></footer>
 

@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#FBFBFA">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -90,7 +90,7 @@
 .skip-link{position:absolute;top:-999px;left:8px;z-index:999;background:var(--accent);color:var(--on-accent);padding:8px 16px;border-radius:0 0 8px 8px;font-size:14px;font-weight:600;text-decoration:none}
 .skip-link:focus{top:0}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6;transition:background-color 200ms ease,color 200ms ease}
+body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%;font-feature-settings:"cv02","cv03","cv04","cv11";transition:background-color 200ms ease,color 200ms ease}
 .container{max-width:min(860px,92vw);margin:0 auto;padding:0 24px}
 h1,h2,h3{color:var(--text);font-weight:600;letter-spacing:-0.02em;text-wrap:balance}
 a{color:var(--accent);text-decoration:none;transition:color 150ms ease}
@@ -127,17 +127,21 @@ li{margin:8px 0}
 }
 @media(prefers-contrast:more){
  :root{--border:#444852;--border-hover:#6a7180;--text-secondary:#ffffff}
+}
 
 /* responsive */
 @media(max-width:640px){
- .nav-inner{height:auto;padding:10px 0;flex-wrap:wrap;gap:10px}
- .nav-links{gap:12px;overflow-x:auto;width:100%;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+ .container{max-width:100%;padding:0 16px}
+ .nav-inner{height:auto;padding:8px 0;flex-wrap:wrap;gap:8px}
+ .nav-links{gap:8px;overflow-x:auto;width:100%;padding-bottom:4px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}
  .nav-links::-webkit-scrollbar{display:none}
- .nav-links a{white-space:nowrap;font-size:13.5px}
+ .nav-links a{white-space:nowrap;font-size:13.5px;min-height:36px;display:inline-flex;align-items:center;padding:4px 8px;flex-shrink:0}
+ .callout{padding:16px 14px}
+ .footer-grid{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:24px}
+ .footer-bottom{flex-direction:column;align-items:flex-start;gap:10px}
 }
 @media(max-width:480px){
  .container{padding:0 16px}
-}
 }
 </style>
 </head>
@@ -220,9 +224,24 @@ li{margin:8px 0}
  </div>
   <div class="footer-bottom">
   <div>&copy; 2026 Akash Priyadarshi &middot; Patna, Bihar, India</div>
-  <div><a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/agent-instructions">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
+  <div><a href="/">Home</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/agent-instructions.md">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
   </div>
 </div></footer>
 
+<script>
+// Local static preview routing
+(function(){
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') {
+        a.setAttribute('href', '/index.html');
+      } else if (!href.includes('.') && !href.includes('#')) {
+        a.setAttribute('href', href + '.html');
+      }
+    });
+  }
+})();
+</script>
 </body>
 </html>

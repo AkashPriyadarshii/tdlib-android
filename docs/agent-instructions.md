@@ -82,7 +82,7 @@ The `:core` AAR automatically supplies bundled consumer rules. If generating or 
 ```kotlin
 import java.io.File
 import org.drinkless.tdlib.TdApi
-import io.github.tdlib.ktx.TdClient
+import io.github.tdlibandroid.ktx.TdClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
