@@ -8,8 +8,8 @@
 - **Canonical Domain:** https://tdlib-android.vercel.app/
 - **Repository:** https://github.com/AkashPriyadarshii/tdlib-android
 - **Artifacts:**
-  - Core AAR: `io.github.tdlib-android:core:0.1.0` (BSL-1.0)
-  - Kotlin Flow Wrapper: `io.github.tdlib-android:ktx:0.1.0` (Apache-2.0)
+  - Core AAR: `io.github.tdlib-android:core:0.1.1` (BSL-1.0)
+  - Kotlin Flow Wrapper: `io.github.tdlib-android:ktx:0.1.1` (Apache-2.0)
 - **Primary Function:** Provides precompiled native Telegram Database Library (`libtdjson.so`) binaries bundled across all 4 Android architectures with zero local C++/NDK compilation requirements, 16 KB page size support (Android 15+), and a reactive Kotlin Coroutines/Flow bridge.
 
 ---
@@ -63,8 +63,8 @@ dependencyResolutionManagement {
 Add the dependencies to `app/build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("io.github.tdlib-android:core:0.1.0")
-    implementation("io.github.tdlib-android:ktx:0.1.0")
+    implementation("io.github.tdlib-android:core:0.1.1")
+    implementation("io.github.tdlib-android:ktx:0.1.1")
 }
 ```
 
