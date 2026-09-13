@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://central.sonatype.com/artifact/io.github.tdlib-android/core"><img src="https://img.shields.io/maven-central/v/io.github.tdlib-android/core?color=27a644&label=Maven%20Central" alt="Maven Central"></a>
   <a href="https://tdlib-android.vercel.app"><img src="https://img.shields.io/badge/Website-tdlib--android.vercel.app-3ecf8e.svg" alt="Website"></a>
   <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases"><img src="https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?color=27a644&label=release" alt="Release"></a>
   <a href="https://github.com/AkashPriyadarshii/tdlib-android/actions"><img src="https://img.shields.io/github/actions/workflow/status/AkashPriyadarshii/tdlib-android/build.yml?branch=main&label=CI" alt="Build Status"></a>
@@ -93,8 +94,31 @@ Why this repository exists compared to historical and abandoned alternatives:
 ---
 
 ## Installation
+ 
+### Option 1: Maven Central (Recommended)
+ 
+Add the prebuilt TDLib artifacts directly from Maven Central:
+ 
+```kotlin
+// settings.gradle.kts
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
-### Option 1: Direct AAR Download (GitHub Releases)
+// app/build.gradle.kts
+dependencies {
+    // Core prebuilt TDLib with 4 ABIs + Java JNI classes
+    implementation("io.github.tdlib-android:core:0.1.0")
+
+    // Kotlin Coroutines & Flow wrapper
+    implementation("io.github.tdlib-android:ktx:0.1.0")
+}
+```
+
+### Option 2: Direct AAR Download (GitHub Releases / Offline)
 
 Download precompiled artifacts from the [latest release](https://github.com/AkashPriyadarshii/tdlib-android/releases/latest):
 
