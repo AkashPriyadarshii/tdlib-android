@@ -133,12 +133,12 @@
   --surface-alt: #F4F3EE;
   --surface-warm: #141715;
   --surface-hover: #F2F0E8;
-  --border: #E6E4DD;
-  --border-hover: #D4D1C7;
+  --border: #DDD8C8;
+  --border-hover: #C8C4B8;
   --text: #161917;
-  --text-secondary: #3F463F;
-  --text-tertiary: #4C554D;
-  --text-faint: #5B635C;
+  --text-secondary: #2E342E;
+  --text-tertiary: #3F463F;
+  --text-faint: #4C554D;
   --accent: #047857;
   --accent-hover: #065f46;
   --accent-deep: #064e3b;
@@ -152,6 +152,9 @@
   --footer-bg: #F4F3EE;
   --code-bg: #141715;
   --code-border: #242B26;
+  --term-text: #C9C0AD;
+  --term-muted: #9AA39F;
+  --term-accent: #6EE7B7;
   --card-shadow: 0 1px 3px rgba(22, 25, 23, 0.04), 0 8px 24px rgba(22, 25, 23, 0.04);
   --card-shadow-hover: 0 4px 12px rgba(22, 25, 23, 0.08), 0 16px 32px rgba(22, 25, 23, 0.08);
   --px-sans: 'IBM Plex Sans', system-ui, -apple-system, Segoe UI, sans-serif;
@@ -223,14 +226,14 @@ p{text-wrap:pretty}
 .terminal-head{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--code-border)}
 .term-dot{width:11px;height:11px;border-radius:50%}
 .term-dot:first-child{background:#ff5f57}.term-dot:nth-child(2){background:#febc2e}.term-dot:nth-child(3){background:#28c840}
-.term-title{margin-left:8px;font-family:var(--px-mono);font-size:12px;color:var(--text-faint)}
-.terminal-body{padding:18px 20px;font-family:var(--px-mono);font-size:13px;line-height:1.8;color:#c9c0ad}
-.terminal .c{color:var(--accent)}.terminal .d{color:#6b7280}.terminal .s{color:#c9a86a}
-.terminal .ok{color:var(--success)}
-.term-badge{margin-left:auto;background:rgba(var(--accent-rgb),.12);color:var(--accent);font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(var(--accent-rgb),.3)}
-.terminal-head .copy-btn{margin-left:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--text-tertiary);border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:all 150ms ease}
-.terminal-head .copy-btn:hover{color:var(--text);border-color:var(--accent);background:rgba(255,255,255,.1)}
-.terminal-head .copy-btn.copied{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.term-title{margin-left:8px;font-family:var(--px-mono);font-size:12px;color:var(--term-muted)}
+.terminal-body{padding:18px 20px;font-family:var(--px-mono);font-size:13px;line-height:1.8;color:var(--term-text)}
+.terminal .c{color:var(--term-accent)}.terminal .d{color:#6b7280}.terminal .s{color:#c9a86a}
+.terminal .ok{color:var(--term-accent)}
+.term-badge{margin-left:auto;background:rgba(110,231,183,.15);color:var(--term-accent);font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(110,231,183,.3)}
+.terminal-head .copy-btn{margin-left:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--term-text);border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:all 150ms ease}
+.terminal-head .copy-btn:hover{color:#ffffff;border-color:var(--term-accent);background:rgba(255,255,255,.14)}
+.terminal-head .copy-btn.copied{background:#065f46;color:#ffffff;border-color:var(--term-accent)}
 
 /* proof strip */
 .proof{border-bottom:1px solid var(--border);padding:18px 0}
@@ -301,9 +304,9 @@ p{text-wrap:pretty}
 .footer-bottom a{color:var(--text-secondary)}
 .footer-bottom a:hover{color:var(--text)}
 
-.copy-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#c9c0ad;border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
-.copy-btn:hover{background:rgba(255,255,255,.16);color:#fff;border-color:var(--accent)}
-.copy-btn.copied{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.copy-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:var(--term-text);border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
+.copy-btn:hover{background:rgba(255,255,255,.16);color:#fff;border-color:var(--term-accent)}
+.copy-btn.copied{background:#065f46;border-color:var(--term-accent);color:#ffffff}
 /* theme switcher */
 
 /* reveal + reduced motion */

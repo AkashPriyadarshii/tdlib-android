@@ -26,14 +26,14 @@ Fused from **Linear** (skeleton) + **Supabase** (accent) + **Warp** (warm card t
   --surface-hover: #F2F0E8;
 
   /* Borders — warm hairline */
-  --border: #E6E4DD;
-  --border-hover: #D4D1C7;
+  --border: #DDD8C8;
+  --border-hover: #C8C4B8;
 
   /* Text — ink ramp */
   --text: #161917;
-  --text-secondary: #3F463F;
-  --text-tertiary: #4C554D;
-  --text-faint: #5B635C;
+  --text-secondary: #2E342E;
+  --text-tertiary: #3F463F;
+  --text-faint: #4C554D;
 
   /* Accent — deep emerald */
   --accent: #047857;
@@ -51,6 +51,11 @@ Fused from **Linear** (skeleton) + **Supabase** (accent) + **Warp** (warm card t
   --warning: #D97706;
   --code-bg: #141715;
   --code-border: #242B26;
+
+  /* Terminal (warm-dark) — independent of light ink; must stay ≥ 4.5:1 on #141715 */
+  --term-text: #C9C0AD;            /* terminal body + copy button */
+  --term-muted: #9AA39F;           /* terminal title / header labels */
+  --term-accent: #6EE7B7;          /* syntax highlight + live badge on dark */
 }
 ```
 
@@ -58,7 +63,7 @@ Fused from **Linear** (skeleton) + **Supabase** (accent) + **Warp** (warm card t
 - Every color via CSS vars. No hardcoded hex in markup.
 - Emerald = the ONLY chromatic event. Appears on: primary CTA, version badge, ABI "✓" states, active nav. Never decorative washes.
 - One accent per section. Green links in body = always underline, never just color.
-- Body text `#3F463F` on `#FBFBFA` = contrast ≥ 9.4:1 (AA).
+- Body text `#2E342E` on `#FBFBFA` = contrast ≥ 12:1. Secondary `#3F463F` ≥ 9:1. Terminal `#C9C0AD`/`#6EE7B7` on `#141715` = ≥ 7:1. All ≥ 4.5:1 (AA).
 
 ## 3. Typography
 
