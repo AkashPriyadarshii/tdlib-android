@@ -1,0 +1,124 @@
+name: Publish Prebuilt to Maven Central
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish (matches GitHub Release tag)"
+        required: true
+        default: "0.1.0"
+
+concurrency:
+  group: publish-maven-central-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Download existing release assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          echo "=== Downloading release assets for v${TAG_VERSION} ==="
+          mkdir -p release_download
+          gh release download "v${TAG_VERSION}" \
+            -R "${{ github.repository }}" \
+            -p "core-release.aar" \
+            -p "ktx-release.aar" \
+            -p "checksums.txt" \
+            -D release_download
+
+          ls -lh release_download/
+
+      - name: Extract prebuilt native libraries and Java sources
+        run: |
+          set -euo pipefail
+          echo "=== Extracting .so files and Java classes ==="
+          mkdir -p /tmp/core_extract
+          unzip -q release_download/core-release.aar -d /tmp/core_extract
+
+          # 1. Stage .so files for all 4 ABIs into core/src/main/jniLibs/
+          for ABI in arm64-v8a armeabi-v7a x86_64 x86; do
+            mkdir -p "core/src/main/jniLibs/$ABI"
+            if [ -f "/tmp/core_extract/jni/$ABI/libtdjni.so" ]; then
+              cp "/tmp/core_extract/jni/$ABI/libtdjni.so" "core/src/main/jniLibs/$ABI/"
+            else
+              echo "ERROR: Missing libtdjni.so for ABI $ABI in core-release.aar"
+              exit 1
+            fi
+          done
+
+          # 2. Extract classes.jar from core to get compiled class files
+          mkdir -p /tmp/classes_extract
+          unzip -q /tmp/core_extract/classes.jar -d /tmp/classes_extract
+
+          # Verify TdApi and Client classes exist
+          if [ ! -f /tmp/classes_extract/org/drinkless/tdlib/TdApi.class ]; then
+            echo "ERROR: TdApi.class missing from core-release.aar classes.jar"
+            exit 1
+          fi
+          if [ ! -f /tmp/classes_extract/org/drinkless/tdlib/Client.class ]; then
+            echo "ERROR: Client.class missing from core-release.aar classes.jar"
+            exit 1
+          fi
+
+          # 3. Add classes.jar as a local jar dependency for core
+          mkdir -p core/libs
+          cp /tmp/core_extract/classes.jar core/libs/tdlib-classes.jar
+
+      - name: Verify 4 ABIs present and valid (readelf)
+        run: |
+          set -euo pipefail
+          chmod +x ./scripts/verify-abi-count.sh
+          ./scripts/verify-abi-count.sh core/src/main/jniLibs
+
+      - name: Restore Gradle Wrapper
+        run: |
+          gradle wrapper --gradle-version 8.7
+
+      - name: Publish to Maven Central (Sonatype Portal)
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.GPG_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_KEY_PASSWORD }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          chmod +x gradlew
+
+          echo "=== Publishing to Maven Central ==="
+          BACKOFF=10
+          for attempt in 1 2 3 4 5; do
+            echo "Publish attempt $attempt"
+            if ./gradlew publishAllPublicationsToMavenCentralRepository; then
+              echo "Published successfully to Maven Central"
+              break
+            fi
+            if [ $attempt -eq 5 ]; then
+              echo "PUBLISH FAILED after 5 attempts"
+              gh issue create -R "${{ github.repository }}" \
+                --title "PUBLISH FAILED: TDLib ${{ inputs.version }}" \
+                --body "Failed to publish v${{ inputs.version }} to Maven Central. Check Sonatype credentials and GPG key."
+              exit 1
+            fi
+            sleep $BACKOFF
+            BACKOFF=$((BACKOFF * 2))
+          done
