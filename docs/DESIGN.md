@@ -89,7 +89,7 @@ Grid: 12-col free-mix (not rigid 3-card rows). Hero = 8/4 split (copy + terminal
 
 **Layout archetype (reject centered-hero-3-cards):**
 1. **Hero** — full-width. Left: display headline + sub + 2 CTAs (primary `Add to build.gradle.kts` / ghost `See the releases`). Right: a real **terminal window** (dark surface-warm, mono, fake prompt output showing Gradle dependency resolve) — the product IS the code.
-2. **Proof strip** — one line mono: `TDLib 1.8.64 · 4 ABIs · Realme GT 7 ✓`.
+2. **Proof strip** — one line mono: `TDLib v0.1.0 · 4 ABIs · Realme GT 7 ✓`.
 3. **ABI matrix** — honest 4-col table (mono, tabular-nums, emerald ✓), not fluffy badges.
 4. **Why-this-exists** — dense editorial block, the "every other option is dead" argument. Copy carries it.
 5. **Pipeline** — vertical flow (mono steps, `→` connectors) showing the automated CI loop. Signature detail home.
