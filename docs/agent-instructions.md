@@ -88,7 +88,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 // Step 1: Load native JNI library
-System.loadLibrary("tdjni")
+System.loadLibrary("tdjson")
 
 // Step 2: Initialize TdClient with isolated app storage
 val tdlibDir = File(context.filesDir, "tdlib").apply { mkdirs() }

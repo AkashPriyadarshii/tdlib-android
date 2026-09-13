@@ -4,12 +4,12 @@
 
 ## 1. Visual Theme & Atmosphere
 
-**Style**: Terminal-native infra documentation page.
-**Keywords**: precise, dense, hardware, CLI, dark-ops, single-signal, tabular, code-first.
+**Style**: Light vellum + warm dark terminal. Single theme, no switcher.
+**Keywords**: precise, dense, hardware, CLI, light-vellum, single-signal, tabular, code-first.
 **Tone**: Technical and unhurried — NOT startup-boilerplate hype.
-**Feel**: A well-lit engineering console at 2am. Everything on screen earns its pixels.
+**Feel**: A clean light workbench with a warm dark terminal at center. Everything earns its pixels.
 
-**Interaction Tier**: L2 — sticky blur nav, scroll-reveal, hero layered entrance, hover/focus states, reduced-motion fallback.
+**Interaction Tier**: L2 — sticky blur nav, scroll-reveal (index only), hover/focus states, reduced-motion fallback. Single light theme, no theme switcher.
 **Dependencies**: CSS-only (no framework). Vanilla JS `IntersectionObserver` for reveal.
 
 ## 2. Color Palette & Roles
@@ -18,39 +18,39 @@ Fused from **Linear** (skeleton) + **Supabase** (accent) + **Warp** (warm card t
 
 ```css
 :root {
-  /* Backgrounds — Linear near-black */
-  --bg: #0a0a0b;                 /* page */
-  --surface: #121214;            /* cards/containers */
-  --surface-alt: #161618;        /* alternating section */
-  --surface-warm: #1a1714;       /* Warp-tinted card (terminal frame) */
-  --surface-hover: #1c1c1f;
+  /* Backgrounds — light vellum */
+  --bg: #FBFBFA;                 /* page */
+  --surface: #FFFFFF;            /* cards/containers */
+  --surface-alt: #F4F3EE;        /* alternating section */
+  --surface-warm: #141715;       /* terminal frame (warm dark) */
+  --surface-hover: #F2F0E8;
 
-  /* Borders — Linear hairline */
-  --border: #23252a;
-  --border-hover: #34343a;
+  /* Borders — warm hairline */
+  --border: #E6E4DD;
+  --border-hover: #D4D1C7;
 
-  /* Text — Linear ink ramp */
-  --text: #f7f8f8;
-  --text-secondary: #d0d6e0;
-  --text-tertiary: #8a8f98;
-  --text-faint: #62666d;
+  /* Text — ink ramp */
+  --text: #161917;
+  --text-secondary: #59615C;
+  --text-tertiary: #59615C;
+  --text-faint: #646C66;
 
-  /* Accent — Supabase emerald (#3ecf8e, HSL 152° — off-orange) */
-  --accent: #3ecf8e;
-  --accent-hover: #4ade80;
-  --accent-deep: #24b47e;
-  --on-accent: #0a0a0b;
+  /* Accent — deep emerald */
+  --accent: #047857;
+  --accent-hover: #065f46;
+  --accent-deep: #064e3b;
+  --on-accent: #FFFFFF;
 
   /* RGB variants */
-  --bg-rgb: 10,10,11;
-  --accent-rgb: 62,207,142;
+  --bg-rgb: 251, 251, 250;
+  --accent-rgb: 4, 120, 87;
 
-  /* Semantic — Linear */
-  --success: #27a644;
-  --error: #e5484d;
-  --warning: #f5a524;
-  --code-bg: #0d0d0f;
-  --code-border: #1f2227;
+  /* Semantic */
+  --success: #047857;
+  --error: #DC2626;
+  --warning: #D97706;
+  --code-bg: #141715;
+  --code-border: #242B26;
 }
 ```
 
@@ -58,7 +58,7 @@ Fused from **Linear** (skeleton) + **Supabase** (accent) + **Warp** (warm card t
 - Every color via CSS vars. No hardcoded hex in markup.
 - Emerald = the ONLY chromatic event. Appears on: primary CTA, version badge, ABI "✓" states, active nav. Never decorative washes.
 - One accent per section. Green links in body = always underline, never just color.
-- Body text never below `#8a8f98` on `#0a0a0b` (contrast ≥ 4.5:1).
+- Body text `#59615C` on `#FBFBFA` = contrast ≥ 4.5:1 (AA).
 
 ## 3. Typography
 
@@ -119,7 +119,7 @@ Grid: 12-col free-mix (not rigid 3-card rows). Hero = 8/4 split (copy + terminal
 
 ## 7. Accessibility Gate
 
-- Body text `#d0d6e0` on `#0a0a0b` = ~10:1. Accent `#3ecf8e` on `#0a0a0b` = ~8.5:1. All ≥ 4.5:1 (AA). Large display `#f7f8f8` ≥ 3:1.
+- Body text `#59615C` on `#FBFBFA` = contrast ≥ 7:1. Accent `#047857` on `#FBFBFA` = ≥ 5.5:1. All ≥ 4.5:1 (AA).
 - Nav, CTAs, links, terminal all keyboard-reachable with visible `:focus-visible`.
 - `prefers-reduced-motion: reduce` → animations/transitions collapsed to 0.01ms.
 - Decorative terminal dots `aria-hidden`; meaningful badges have aria-labels; images alt.
@@ -144,18 +144,19 @@ Grid: 12-col free-mix (not rigid 3-card rows). Hero = 8/4 split (copy + terminal
 
 - No centered hero + 3 decorative cards. Hero carries a real terminal.
 - No purple/blue gradient. Emerald only chromatic event.
-- No warm-cream / orange-amber palette (accents are emerald, bg near-black).
+- No warm-cream / orange-amber palette (accents are emerald, bg light vellum).
 - No Inter/Roboto/Space Grotesk defaults (IBM Plex Sans + JetBrains Mono).
+- No theme switcher. Single light theme. Warm dark terminal only in code blocks.
 - Max one eyebrow per 3 sections. No "powerful/seamless/cutting-edge" copy.
 - Motion present + reduced-motion fallback. Focus states everywhere.
 
 ---
 
 ### Fused systems
-**Linear** (skeleton: near-black `#010102`, hairline borders, dense technical type scale) **+ Supabase** (texture: signature emerald `#3ecf8e` as sole chromatic accent). **Warp** borrowed: warm-charcoal `#2b2622`-derived terminal framing + tight geometry.
+**Linear** (skeleton: light vellum `#FBFBFA`, hairline borders, dense technical type scale) **+ Supabase** (texture: deep emerald `#047857` as sole chromatic accent). **Warp** borrowed: warm dark `#141715` terminal framing + tight geometry. Single theme, no switcher.
 
 ### Signature detail
 The live auto-update pipeline as a vertical mono flow, emerald-lit at the publish/verify step.
 
 ### One-line pitch
-"An engineering console for TDLib-on-Android: near-black, mono-precise, one emerald signal — the page is a piece of tooling, not a pitch deck."
+"Light vellum workbench with a warm dark terminal at center: one emerald signal, zero theme split, the page is a piece of tooling, not a pitch deck."
