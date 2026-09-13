@@ -1,0 +1,159 @@
+# tdlib-android — Complete Reference for LLMs and Coding Agents
+
+> tdlib-android is a community-maintained distribution providing precompiled AARs for Telegram Database Library (TDLib) on Android across all 4 native architectures (arm64-v8a, armeabi-v7a, x86_64, x86), accompanied by a lightweight Kotlin Coroutines wrapper.
+
+## Architecture
+
+The project consists of two modules:
+
+1. `:core`
+   - Shipped as a precompiled `.aar` containing `libtdjson.so` for all 4 ABIs.
+   - Includes full generated `org.drinkless.tdlib.TdApi` and `Client.java` bindings.
+   - Ships with embedded `consumer-rules.pro` R8/ProGuard configuration.
+   - Zero third-party runtime dependencies.
+   - License: Boost Software License 1.0 (BSL-1.0).
+
+2. `:ktx`
+   - Thin Kotlin Coroutines wrapper (`TdClient`).
+   - Exposes asynchronous requests via `suspend fun send(...)` and event streaming via `val updates: Flow<TdApi.Update>`.
+   - Depends on `:core` and `kotlinx-coroutines-core`.
+   - License: Apache License 2.0.
+
+## Gradle Dependency Setup
+
+### 1. Repository Configuration
+
+In `settings.gradle.kts`:
+```kotlin
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+```
+
+### 2. Module Dependencies
+
+In `app/build.gradle.kts`:
+```kotlin
+android {
+    defaultConfig {
+        minSdk = 26
+        targetSdk = 35
+
+        // Optional: reduce APK size by packaging only specific architectures
+        ndk {
+            abiFilters += setOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
+        }
+    }
+}
+
+dependencies {
+    // TDLib prebuilt native engine + Java API
+    implementation("io.github.tdlib-android:core:1.8.64")
+
+    // Kotlin Coroutines & Flow wrapper
+    implementation("io.github.tdlib-android:ktx:1.8.64")
+
+    // Kotlin coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+}
+```
+
+## ProGuard / R8 Rules
+
+When building release APKs with minification enabled, TDLib requires reflection and JNI symbols to remain unobfuscated. The `:core` AAR embeds these rules automatically via `consumer-rules.pro`, but you can also include them manually in `app/proguard-rules.pro`:
+
+```proguard
+# Preserve TDLib native bindings and generated data classes
+-keep class org.drinkless.tdlib.** { *; }
+-keepclassmembers class org.drinkless.tdlib.** { *; }
+-dontwarn org.drinkless.tdlib.**
+```
+
+## Full Implementation Example
+
+```kotlin
+package com.example.telegram
+
+import android.content.Context
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import org.drinkless.tdlib.TdApi
+import io.github.tdlib.ktx.TdClient
+import java.io.File
+
+class TelegramManager(private val context: Context) {
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private lateinit var client: TdClient
+
+    fun start(apiId: Int, apiHash: String) {
+        // Step 1: Load native JNI library
+        System.loadLibrary("tdjni")
+
+        // Step 2: Establish dedicated storage directory
+        val tdlibDir = File(context.filesDir, "tdlib").apply { mkdirs() }
+
+        // Step 3: Initialize client
+        client = TdClient(filesDir = tdlibDir.absolutePath)
+        client.init()
+
+        // Step 4: Listen to updates
+        scope.launch {
+            client.updates.collect { update ->
+                handleUpdate(update, apiId, apiHash)
+            }
+        }
+    }
+
+    private suspend fun handleUpdate(update: TdApi.Update, apiId: Int, apiHash: String) {
+        when (update) {
+            is TdApi.UpdateAuthorizationState -> {
+                when (update.authorizationState) {
+                    is TdApi.AuthorizationStateWaitTdlibParameters -> {
+                        val params = TdApi.SetTdlibParameters().apply {
+                            databaseDirectory = File(context.filesDir, "tdlib_db").absolutePath
+                            useMessageDatabase = true
+                            useSecretChats = true
+                            apiId = apiId
+                            apiHash = apiHash
+                            systemLanguageCode = "en"
+                            deviceModel = "Android"
+                            applicationVersion = "1.0.0"
+                        }
+                        client.send(params)
+                    }
+                    is TdApi.AuthorizationStateWaitPhoneNumber -> {
+                        // Request phone number from user
+                    }
+                    is TdApi.AuthorizationStateReady -> {
+                        // User successfully logged in
+                    }
+                }
+            }
+        }
+    }
+
+    suspend fun sendRequest(function: TdApi.Function<out TdApi.Object>): TdApi.Object {
+        return client.send(function)
+    }
+}
+```
+
+## Troubleshooting & FAQ
+
+1. `java.lang.UnsatisfiedLinkError: dlopen failed: library "libtdjson.so" not found`
+   - Cause: ABI mismatch or packaging exclusion.
+   - Solution: Ensure target device architecture is included in `ndk.abiFilters`. `tdlib-android` supports all 4 standard ABIs: `arm64-v8a`, `armeabi-v7a`, `x86_64`, and `x86`.
+
+2. Memory issues during local compilation
+   - Cause: Building TDLib from C++ source requires 16GB+ RAM and up to 2 hours of compilation.
+   - Solution: Use `tdlib-android` prebuilt binaries. Zero local NDK compilation is performed.
+
+3. Compatibility with Android 14 / 15 (Target SDK 34 / 35)
+   - Tested and verified with 16KB memory page alignment on Android 15.

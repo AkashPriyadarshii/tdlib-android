@@ -1,36 +1,65 @@
 # tdlib-android
 
-Precompiled TDLib for Android — all 4 ABIs, built by CI, distributed as AARs via GitHub Releases and Maven Central.
+> Precompiled TDLib (Telegram Database Library) AARs for Android. All 4 ABIs (arm64-v8a, armeabi-v7a, x86_64, x86), CI-built, zero local NDK compilation required, with Kotlin Coroutines Flow wrapper.
 
-- Repo: https://github.com/AkashPriyadarshii/tdlib-android
-- Releases: https://github.com/AkashPriyadarshii/tdlib-android/releases
-- Maven: io.github.tdlib-android:core / io.github.tdlib-android:ktx
-- Current version: 1.8.64
-- ABIs: arm64-v8a, armeabi-v7a, x86_64, x86
-- License: BSL-1.0 (core) / Apache-2.0 (ktx)
+## Key Metadata
 
-## Install
+- Current Shipped Version: 1.8.64
+- Supported ABIs: arm64-v8a, armeabi-v7a, x86_64, x86
+- Core AAR: `io.github.tdlib-android:core:1.8.64`
+- Kotlin KTX Wrapper: `io.github.tdlib-android:ktx:1.8.64`
+- Minimum Android SDK: 26 (Android 8.0 Oreo)
+- Licenses: BSL-1.0 (`:core` TDLib upstream) / Apache-2.0 (`:ktx` wrapper)
+- Website: https://tdlib-android.vercel.app/
+- Setup Guide: https://tdlib-android.vercel.app/setup
+- Full LLM Context: https://tdlib-android.vercel.app/llms-full.txt
+
+## Quick Setup
 
 ```kotlin
 // settings.gradle.kts
-dependencyResolutionManagement { repositories { google(); mavenCentral() } }
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
 // app/build.gradle.kts
 dependencies {
-  implementation("io.github.tdlib-android:core:1.8.64")
-  implementation("io.github.tdlib-android:ktx:1.8.64")
+    implementation("io.github.tdlib-android:core:1.8.64")
+    implementation("io.github.tdlib-android:ktx:1.8.64")
 }
 ```
 
-## Usage
+## Basic Usage
 
 ```kotlin
+// 1. Load native JNI library
 System.loadLibrary("tdjni")
+
+// 2. Initialize TdClient with isolated storage directory
 val client = TdClient(filesDir = context.filesDir.absolutePath + "/tdlib")
 client.init()
+
+// 3. Collect updates reactively via Kotlin Coroutines Flow
 CoroutineScope(Dispatchers.IO).launch {
-  client.updates.collect { update -> /* handle */ }
+    client.updates.collect { update ->
+        when (update) {
+            is TdApi.UpdateAuthorizationState -> {
+                // handle authorization state
+            }
+            is TdApi.UpdateNewMessage -> {
+                // handle incoming message
+            }
+        }
+    }
 }
 ```
 
-See docs/setup.html for the full guide.
+## Documentation & Links
+
+- [Setup Guide](https://tdlib-android.vercel.app/setup): 3-step Gradle configuration, ProGuard/R8 rules, and API setup.
+- [GitHub Repository](https://github.com/AkashPriyadarshii/tdlib-android): Source code, CI workflows, and issue tracker.
+- [Releases](https://github.com/AkashPriyadarshii/tdlib-android/releases): Download signed AARs and verify SHA-256 checksums.
+- [Maven Central Core](https://central.sonatype.com/artifact/io.github.tdlib-android/core): Central Portal package details.

@@ -4,22 +4,100 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Set Up TDLib on Android in 3 Steps — tdlib-android</title>
-<meta name="description" content="How to add TDLib to an Android project without compiling from source. Gradle dependency, load the JNI library, init TdClient, and collect Flow&lt;Update&gt;. Prebuilt 4-ABI AAR, no NDK required.">
-<meta name="keywords" content="tdlib android setup, add TDLib to android gradle, TDLib kotlin example, TdClient android, telegram api android setup, TDLib AAR gradle dependency, libtdjson kotlin">
-<meta name="robots" content="index, follow">
+<meta name="description" content="Add TDLib to Android in 3 steps without compiling from source. Add the Gradle AAR, load JNI, and collect updates via Kotlin Flow. No NDK needed.">
+<meta name="author" content="Akash Priyadarshi">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://tdlib-android.vercel.app/setup">
-<meta property="og:title" content="Set Up TDLib on Android in 3 Steps">
-<meta property="og:description" content="Add TDLib to any Android project via a prebuilt AAR. No NDK, no source compile.">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+
+<!-- Open Graph -->
 <meta property="og:type" content="article">
+<meta property="og:title" content="Set Up TDLib on Android in 3 Steps — tdlib-android">
+<meta property="og:description" content="Add TDLib to any Android project via a prebuilt AAR. No NDK, no source compile.">
+<meta property="og:url" content="https://tdlib-android.vercel.app/setup">
+<meta property="og:site_name" content="tdlib-android">
+<meta property="og:image" content="https://tdlib-android.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="tdlib-android setup guide">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Akash__ydv001">
+<meta name="twitter:creator" content="@Akash__ydv001">
+<meta name="twitter:title" content="Set Up TDLib on Android in 3 Steps — tdlib-android">
+<meta name="twitter:description" content="Add TDLib to any Android project via a prebuilt AAR. No NDK, no source compile.">
+<meta name="twitter:image" content="https://tdlib-android.vercel.app/og.png">
+
+<!-- theme -->
 <meta name="theme-color" content="#0a0a0b">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://tdlib-android.vercel.app/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Setup Guide",
+          "item": "https://tdlib-android.vercel.app/setup"
+        }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "headline": "Set Up TDLib on Android in 3 Steps",
+      "description": "Add TDLib to any Android project via prebuilt 4-ABI AAR. Step-by-step guide for Gradle, JNI loading, and Kotlin Flow updates.",
+      "author": {
+        "@type": "Person",
+        "name": "Akash Priyadarshi",
+        "url": "https://github.com/AkashPriyadarshii"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "tdlib-android",
+        "url": "https://tdlib-android.vercel.app/"
+      },
+      "datePublished": "2026-09-13",
+      "dateModified": "2026-09-13",
+      "inLanguage": "en",
+      "mainEntityOfPage": "https://tdlib-android.vercel.app/setup",
+      "dependencies": "Android minSdk 26, Kotlin 1.9+, Gradle 8.0+",
+      "proficiencyLevel": "Intermediate"
+    }
+  ]
+}
+</script>
+
 <style>
-:root{--bg:#0a0a0b;--surface:#121214;--border:#23252a;--border-hover:#34343a;--text:#f7f8f8;--text-secondary:#d0d6e0;--text-tertiary:#8a8f98;--accent:#3ecf8e;--accent-hover:#4ade80;--code-bg:#0d0d0f;--code-border:#1f2227;--px-sans:'IBM Plex Sans',system-ui,sans-serif;--px-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+:root{
+  --bg:#0a0a0b;--surface:#121214;--border:#23252a;--border-hover:#34343a;
+  --text:#f7f8f8;--text-secondary:#d0d6e0;--text-tertiary:#8a8f98;
+  --accent:#3ecf8e;--accent-hover:#4ade80;--code-bg:#0d0d0f;--code-border:#1f2227;
+  --px-sans:'IBM Plex Sans',system-ui,sans-serif;--px-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6}
-.container{max-width:min(760px,92vw);margin:0 auto;padding:0 24px}
+.container{max-width:min(780px,92vw);margin:0 auto;padding:0 24px}
 h1,h2,h3{color:var(--text);font-weight:600;letter-spacing:-0.02em;text-wrap:balance}
-a{color:var(--accent)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
 pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:12px;padding:18px 20px;font-family:var(--px-mono);font-size:13.5px;line-height:1.7;overflow-x:auto;color:#c9c0ad;margin:16px 0}
+pre code{font-family:inherit;font-size:inherit}
 pre .c{color:var(--accent)}pre .d{color:#6b7280}
 .nav{position:sticky;top:0;background:rgba(10,10,11,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:50}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
@@ -27,66 +105,132 @@ pre .c{color:var(--accent)}pre .d{color:#6b7280}
 .nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent)}
 .nav-back{color:var(--text-secondary);text-decoration:none;font-size:14px}
 .article{padding:clamp(2.5rem,6vh,4rem) 0 4rem}
-.step{margin:32px 0}
+.step{margin:36px 0;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.step:last-of-type{border-bottom:none}
 .step-idx{font-family:var(--px-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:8px}
-h2{font-size:1.5rem;margin-bottom:8px}
-p{margin:10px 0}
-code.inline{background:var(--code-bg);border:1px solid var(--code-border);border-radius:6px;padding:2px 6px;font-family:var(--px-mono);font-size:0.85em}
+h2{font-size:1.5rem;margin-bottom:10px}
+h3{font-size:1.2rem;margin:20px 0 8px}
+p{margin:12px 0}
+ul{margin:12px 0 16px 24px}
+li{margin:6px 0}
+code.inline{background:var(--code-bg);border:1px solid var(--code-border);border-radius:6px;padding:2px 6px;font-family:var(--px-mono);font-size:0.85em;color:var(--text)}
+.tip-box{background:var(--surface);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:18px 0}
+.footer{border-top:1px solid var(--border);padding:40px 0;font-size:14px;color:var(--text-tertiary)}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
+.mono{font-family:var(--px-mono)}
 </style>
 </head>
 <body>
 <nav class="nav"><div class="container nav-inner">
-  <a class="nav-brand" href="./"><span class="nav-dot"></span>tdlib-android</a>
-  <a class="nav-back" href="./">← back to home</a>
+  <a class="nav-brand" href="/"><span class="nav-dot"></span>tdlib-android</a>
+  <a class="nav-back" href="/">← back to home</a>
 </div></nav>
 
+<main id="main-content">
 <article class="article"><div class="container">
   <h1 style="font-size:clamp(2rem,5vw,2.75rem);line-height:1.1;margin-bottom:12px">Set Up TDLib on Android in 3 Steps</h1>
-  <p style="color:var(--text-tertiary)">No NDK. No compiling TDLib from source. A prebuilt 4-ABI AAR plus a Kotlin Coroutines/Flow wrapper. Tracks TDLib upstream automatically.</p>
+  <p style="color:var(--text-tertiary);font-size:1.1rem">No NDK. No compiling TDLib from C++ source. Prebuilt 4-ABI AARs paired with a lightweight Kotlin Coroutines and Flow wrapper.</p>
+
+  <div class="tip-box">
+    <strong>Prerequisites:</strong> Obtain your <code class="inline">api_id</code> and <code class="inline">api_hash</code> by creating an application on <a href="https://my.telegram.org" target="_blank" rel="noopener">my.telegram.org</a>. Store these in your <code class="inline">local.properties</code> or environment variables, exposed through <code class="inline">BuildConfig</code>.
+  </div>
 
   <div class="step">
-    <span class="step-idx">Step 1 — add the dependency</span>
+    <span class="step-idx">Step 1 — add the dependencies</span>
     <h2>Point Gradle at the prebuilt AAR</h2>
-    <p>Add the <code class="inline">core</code> module — it bundles <code class="inline">libtdjson.so</code> for all 4 ABIs (<code class="inline">arm64-v8a</code>, <code class="inline">armeabi-v7a</code>, <code class="inline">x86_64</code>, <code class="inline">x86</code>). Add <code class="inline">ktx</code> for the coroutines wrapper.</p>
-<pre><span class="d">// settings.gradle.kts</span>
+    <p>The <code class="inline">core</code> module bundles <code class="inline">libtdjson.so</code> for all 4 Android architectures (<code class="inline">arm64-v8a</code>, <code class="inline">armeabi-v7a</code>, <code class="inline">x86_64</code>, and <code class="inline">x86</code>). The <code class="inline">ktx</code> module provides coroutines and Flow bridges.</p>
+<pre><code class="language-kotlin"><span class="d">// settings.gradle.kts</span>
 dependencyResolutionManagement {
-  repositories { google(); mavenCentral() }
+  repositories {
+    google()
+    mavenCentral()
+  }
 }
 
 <span class="d">// app/build.gradle.kts</span>
 dependencies {
   <span class="c">implementation</span>("io.github.tdlib-android:core:1.8.64")
   <span class="c">implementation</span>("io.github.tdlib-android:ktx:1.8.64")
-}</pre>
-  </div>
-
-  <div class="step">
-    <span class="step-idx">Step 2 — load the native library</span>
-    <h2>Boot a TdClient</h2>
-    <p>Load the JNI bridge, then create the client with your database path and Telegram API credentials from <code class="inline">BuildConfig</code>.</p>
-<pre>System.<span class="c">loadLibrary</span>("tdjni")
-
-val client = TdClient(
-  filesDir = context.filesDir.absolutePath + "/tdlib",
-  verbosityLevel = 1,
-  apiId = BuildConfig.TELEGRAM_API_ID,
-  apiHash = BuildConfig.TELEGRAM_API_HASH
-)
-client.init()</pre>
-  </div>
-
-  <div class="step">
-    <span class="step-idx">Step 3 — react to updates</span>
-    <h2>Collect updates as a Flow</h2>
-    <p>The <code class="inline">ktx</code> wrapper exposes MTProto updates as a hot <code class="inline">Flow&lt;TdApi.Update&gt;</code>. Handle them with coroutines, or use <code class="inline">send(function)</code> for typed requests.</p>
-<pre>CoroutineScope(Dispatchers.IO).launch {
-  client.updates.collect { update ->
-    <span class="d">// handle incoming MTProto updates reactively</span>
+}</code></pre>
+    <p>If you want to restrict which architectures get bundled into your final APK (for instance, releasing separate 64-bit and 32-bit APKs), configure <code class="inline">ndk.abiFilters</code> inside <code class="inline">defaultConfig</code>:</p>
+<pre><code class="language-kotlin">android {
+  defaultConfig {
+    ndk {
+      abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
+    }
   }
-}</pre>
+}</code></pre>
   </div>
 
-  <p style="margin-top:40px">Runtime ~2 minutes. For the full docs, CI architecture, and the release pipeline, see the <a href="https://github.com/AkashPriyadarshii/tdlib-android">GitHub repository</a>.</p>
+  <div class="step">
+    <span class="step-idx">Step 2 — configure ProGuard / R8</span>
+    <h2>Keep native symbols unobfuscated</h2>
+    <p>TDLib invokes JNI bridge methods and requires reflection over generated data structures. The <code class="inline">core</code> AAR embeds consumer rules automatically. If you customize obfuscation in <code class="inline">app/proguard-rules.pro</code>, ensure these keep rules are intact:</p>
+<pre><code class="language-proguard"># Keep TDLib JNI bridge and generated API classes
+-keep class org.drinkless.tdlib.** { *; }
+-keepclassmembers class org.drinkless.tdlib.** { *; }
+-dontwarn org.drinkless.tdlib.**</code></pre>
+  </div>
+
+  <div class="step">
+    <span class="step-idx">Step 3 — load native library & initialize</span>
+    <h2>Boot a TdClient & react to updates</h2>
+    <p>Load the native JNI library using <code class="inline">System.loadLibrary("tdjni")</code>, establish a dedicated internal directory for TDLib SQLite databases and encryption keys, then collect updates reactively:</p>
+<pre><code class="language-kotlin"><span class="d">// 1. Load native JNI binaries</span>
+System.<span class="c">loadLibrary</span>("tdjni")
+
+<span class="d">// 2. Initialize TdClient with dedicated storage</span>
+val client = TdClient(
+  filesDir = File(context.filesDir, "tdlib").absolutePath,
+  verbosityLevel = 1
+)
+client.init()
+
+<span class="d">// 3. Collect MTProto updates reactively via Flow</span>
+CoroutineScope(Dispatchers.IO).launch {
+  client.updates.collect { update ->
+    when (update) {
+      is TdApi.UpdateAuthorizationState -> {
+        handleAuthState(client, update.authorizationState)
+      }
+      is TdApi.UpdateNewMessage -> {
+        handleIncomingMessage(update.message)
+      }
+    }
+  }
+}</code></pre>
+    <p>When TDLib emits <code class="inline">UpdateAuthorizationState</code> with <code class="inline">AuthorizationStateWaitTdlibParameters</code>, send your Telegram API credentials via <code class="inline">client.send(TdApi.SetTdlibParameters(...))</code> to complete startup.</p>
+  </div>
+
+  <div class="step">
+    <span class="step-idx">Verification & Architecture Notes</span>
+    <h2>Compatibility & 16KB Page Size Support</h2>
+    <p>Android 15 (API 35) introduces support for devices configured with 16KB memory page sizes. Binaries published in <code class="inline">tdlib-android</code> are built with Android NDK 27+ with maximum page size alignment (<code class="inline">-Wl,-z,max-page-size=16384</code>), ensuring full forward compatibility across Pixel 8, Pixel 9, and future Android hardware.</p>
+    <ul>
+      <li><strong>Supported ABIs:</strong> <code class="inline">arm64-v8a</code> (modern devices), <code class="inline">armeabi-v7a</code> (legacy 32-bit), <code class="inline">x86_64</code> (64-bit emulators), <code class="inline">x86</code> (32-bit emulators).</li>
+      <li><strong>Minimum Android SDK:</strong> API 26 (Android 8.0 Oreo).</li>
+      <li><strong>Zero local compilation:</strong> Shipped as standard AARs directly through Maven Central.</li>
+    </ul>
+  </div>
+
+  <p style="margin-top:32px">For complete CI architecture, binary verification scripts, and sample apps, visit the <a href="https://github.com/AkashPriyadarshii/tdlib-android">tdlib-android GitHub repository</a>.</p>
 </div></article>
+</main>
+
+<footer class="footer"><div class="container footer-grid">
+  <div>
+    <div class="mono" style="margin-bottom:6px"><span style="color:var(--accent)">tdlib-android</span></div>
+    <div>Precompiled TDLib AARs for Android. Built and maintained by <a href="https://github.com/AkashPriyadarshii">Akash Priyadarshi</a>.</div>
+  </div>
+  <div>
+    <div class="mono" style="margin-bottom:6px">Documentation</div>
+    <div><a href="/">Overview</a> · <a href="/setup">Setup Guide</a> · <a href="/llms.txt">llms.txt</a> · <a href="/llms-full.txt">Full LLM Reference</a></div>
+  </div>
+  <div>
+    <div class="mono" style="margin-bottom:6px">Ecosystem & Source</div>
+    <div><a href="https://github.com/AkashPriyadarshii/tdlib-android/releases">Releases</a> · <a href="https://github.com/AkashPriyadarshii/tdlib-android">GitHub</a> · <a href="https://github.com/AkashPriyadarshii/tdlib-android/blob/main/LICENSE">License (BSL-1.0 / Apache-2.0)</a></div>
+  </div>
+</div></footer>
+
 </body>
 </html>
