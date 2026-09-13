@@ -11,7 +11,7 @@ Precompiled [TDLib](https://github.com/tdlib/td) (Telegram Database Library) for
 
 No compiling C++ from source. No Android NDK wrangling. Works with any Telegram client, bot frontend, cloud storage bridge, or MTProto Android application.
 
-> **Documentation Site:** Setup guides and architecture notes available at [akashpriyadarshii.github.io/tdlib-android](https://akashpriyadarshii.github.io/tdlib-android/).
+> **Documentation Site:** Setup guides and architecture notes available at [tdlib-android.vercel.app](https://tdlib-android.vercel.app/).
 
 ---
 
