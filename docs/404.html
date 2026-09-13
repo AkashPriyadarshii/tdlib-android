@@ -25,17 +25,27 @@
 body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6}
 .container{max-width:min(800px,92vw);margin:0 auto;padding:0 24px}
 h1,h2{color:var(--text);font-weight:600;letter-spacing:-0.02em}
-a{color:var(--accent);text-decoration:none}
+a{color:var(--accent);text-decoration:none;transition:color 150ms ease}
 a:hover{text-decoration:underline}
-.nav{position:sticky;top:0;background:rgba(10,10,11,.75);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:50}
+.nav{position:sticky;top:0;background:rgba(10,10,11,.72);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 32px rgba(0,0,0,.36);z-index:50}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
 .nav-brand{font-family:var(--px-mono);color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;font-weight:600}
-.nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent)}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.42;transform:scale(.9)}}
+.nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent);animation:pulse-dot 3.2s cubic-bezier(.4,0,.6,1) infinite}
 .box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;margin:24px 0}
 pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:8px;padding:16px;font-family:var(--px-mono);font-size:13.5px;line-height:1.65;color:#c9c0ad;overflow-x:auto}
 .footer{border-top:1px solid var(--border);padding:40px 0;font-size:14px;color:var(--text-tertiary);margin-top:60px}
 .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
 .mono{font-family:var(--px-mono)}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
+@media(prefers-reduced-transparency:reduce){
+ .nav{background:#0a0a0b!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+@media(prefers-contrast:more){
+ :root{--border:#444852;--border-hover:#6a7180;--text-secondary:#ffffff}
+}
 </style>
 </head>
 <body>

@@ -138,7 +138,7 @@
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
 [id]{scroll-margin-top:80px}
-a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;transition:color 150ms ease}
 a:hover{color:var(--accent-hover)}
 .container{max-width:min(1200px,92vw);margin:0 auto;padding:0 24px}
 h1,h2,h3{color:var(--text);text-wrap:balance;font-weight:600;letter-spacing:-0.02em}
@@ -146,36 +146,40 @@ p{text-wrap:pretty}
 ::selection{background:var(--accent);color:var(--on-accent)}
 
 /* nav */
-.nav{position:sticky;top:0;z-index:50;background:rgba(10,10,11,.72);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav{position:sticky;top:0;z-index:50;background:rgba(10,10,11,.72);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 32px rgba(0,0,0,.36)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
 .nav-brand{font-family:var(--px-mono);font-weight:500;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
-.nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent)}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.42;transform:scale(.9)}}
+.nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent);animation:pulse-dot 3.2s cubic-bezier(.4,0,.6,1) infinite}
 .nav-links{display:flex;gap:24px;align-items:center}
-.nav-links a{color:var(--text-secondary);text-decoration:none;font-size:15px}
+.nav-links a{color:var(--text-secondary);text-decoration:none;font-size:15px;transition:color 150ms ease}
 .nav-links a:hover{color:var(--text)}
-.nav-cta{background:var(--accent);color:var(--on-accent);border-radius:8px;padding:8px 14px;font-weight:600;text-decoration:none;font-size:14px}
-.nav-cta:hover{background:var(--accent-hover);color:var(--on-accent)}
+.nav-cta{background:var(--accent);color:var(--on-accent);border-radius:8px;padding:8px 14px;font-weight:600;text-decoration:none;font-size:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.24);transition:background .2s,transform .12s ease-out}
+.nav-cta:hover{background:var(--accent-hover);color:var(--on-accent);transform:translateY(-1px)}
+.nav-cta:active{transform:scale(.97)}
 @media(max-width:640px){.nav-links a{display:none}}
 
 /* hero */
 .hero{padding:clamp(3rem,8vh,5.5rem) 0 clamp(3rem,8vh,5rem);border-bottom:1px solid var(--border)}
 .hero-grid{display:grid;grid-template-columns:8fr 4fr;gap:48px;align-items:center}
 .hero-eyebrow{font-family:var(--px-mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
-.hero h1{font-size:clamp(2.5rem,6vw,4rem);line-height:1.05;margin-bottom:20px}
+.hero h1{font-size:clamp(2.5rem,6vw,4rem);line-height:1.02;letter-spacing:-0.03em;font-optical-sizing:auto;margin-bottom:20px}
 .hero h1 .accent{color:var(--accent)}
 .hero-sub{font-size:1.125rem;max-width:56ch;color:var(--text-secondary);margin-bottom:32px}
 .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:28px}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:10px;font-size:15px;font-weight:600;text-decoration:none;transition:transform .2s,border-color .2s,background .2s;cursor:pointer;border:1px solid transparent}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:10px;font-size:15px;font-weight:600;text-decoration:none;transition:transform 160ms cubic-bezier(.16,1,.3,1),border-color 160ms ease,background 160ms ease;cursor:pointer;border:1px solid transparent}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.btn-primary{background:var(--accent);color:var(--on-accent)}
-.btn-primary:hover{background:var(--accent-hover);color:var(--on-accent);transform:scale(1.02)}
-.btn-ghost{border:1px solid var(--border-hover);color:var(--text)}
-.btn-ghost:hover{border-color:var(--accent);color:var(--text)}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.24)}
+.btn-primary:hover{background:var(--accent-hover);color:var(--on-accent);transform:translateY(-1px)}
+.btn-primary:active{transform:scale(.97);transition:transform 120ms ease-out}
+.btn-ghost{border:1px solid var(--border-hover);color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.btn-ghost:hover{border-color:var(--accent);color:var(--text);transform:translateY(-1px)}
+.btn-ghost:active{transform:scale(.97);transition:transform 120ms ease-out}
 .hero-meta{font-family:var(--px-mono);font-size:13px;color:var(--text-tertiary)}
 .hero-meta strong{color:var(--accent);font-variant-numeric:tabular-nums}
 
 /* terminal frame */
-.terminal{background:var(--surface-warm);border:1px solid var(--code-border);border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.terminal{background:var(--surface-warm);border:1px solid var(--code-border);border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06)}
 .terminal-head{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--code-border)}
 .term-dot{width:11px;height:11px;border-radius:50%}
 .term-dot:first-child{background:#ff5f57}.term-dot:nth-child(2){background:#febc2e}.term-dot:nth-child(3){background:#28c840}
@@ -223,16 +227,19 @@ p{text-wrap:pretty}
 .pipe-step .line .arrow{color:var(--accent)}
 .pipe-step .desc{font-size:14px;color:var(--text-tertiary);margin-top:4px}
 .pipe-step.active .line{color:var(--accent)}
-.pipe-step.active{border:1px solid rgba(var(--accent-rgb),.4);background:rgba(var(--accent-rgb),.06);border-radius:12px;padding:14px 16px}
+.pipe-step.active{border:1px solid rgba(var(--accent-rgb),.5);background:rgba(var(--accent-rgb),.06);border-radius:12px;padding:14px 16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
 
-/* cards */
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;transition:transform .2s,border-color .2s}
-.card:hover{transform:translateY(-2px);border-color:var(--border-hover)}
-.card-num{font-family:var(--px-mono);font-size:2rem;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums;display:block;margin-bottom:12px}
-.card h3{font-size:1.25rem;margin-bottom:10px}
-.card p{font-size:15px;color:var(--text-secondary)}
-.addon{margin-top:14px;font-family:var(--px-mono);font-size:12.5px;color:var(--text-faint);border-top:1px solid var(--border);padding-top:12px}
+/* bento receipts */
+.bento-grid{display:grid;grid-template-columns:7fr 5fr;gap:20px}
+.bento-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05);transition:transform 180ms cubic-bezier(.16,1,.3,1),border-color 180ms ease,box-shadow 180ms ease}
+.bento-card:hover{transform:translateY(-2px);border-color:var(--border-hover);box-shadow:inset 0 1px 0 rgba(255,255,255,.09),0 12px 32px rgba(0,0,0,.35)}
+.bento-card--wide{grid-column:1 / -1;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
+.bento-num{font-family:var(--px-mono);font-size:2.25rem;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1;margin-bottom:12px}
+.bento-card h3{font-size:1.25rem;margin-bottom:10px}
+.bento-card p{font-size:15px;color:var(--text-secondary);line-height:1.6}
+.bento-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.bento-chip{font-family:var(--px-mono);font-size:12px;background:var(--code-bg);border:1px solid var(--code-border);border-radius:6px;padding:3px 8px;color:var(--text-secondary)}
+.addon{margin-top:16px;font-family:var(--px-mono);font-size:12.5px;color:var(--text-faint);border-top:1px solid var(--border);padding-top:12px}
 
 /* cta band */
 .cta-band{text-align:left}
@@ -250,15 +257,21 @@ p{text-wrap:pretty}
 .footer-bottom a:hover{color:var(--text)}
 
 /* reveal + reduced motion */
-.reveal{opacity:0;transform:translateY(8px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1)}
+.reveal{opacity:0;transform:translateY(8px);transition:opacity 320ms cubic-bezier(.16,1,.3,1),transform 320ms cubic-bezier(.16,1,.3,1)}
 .reveal.in-view{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
  .reveal{opacity:1;transform:none}
 }
+@media(prefers-reduced-transparency:reduce){
+ .nav{background:#0a0a0b!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+}
+@media(prefers-contrast:more){
+ :root{--border:#444852;--border-hover:#6a7180;--text-secondary:#ffffff}
+}
 
 /* responsive */
-@media(max-width:900px){.hero-grid,.why-grid{grid-template-columns:1fr}.cards{grid-template-columns:1fr}.terminal{margin-top:24px}}
+@media(max-width:900px){.hero-grid,.why-grid{grid-template-columns:1fr}.bento-grid{grid-template-columns:1fr}.bento-card--wide{grid-template-columns:1fr;gap:16px}.terminal{margin-top:24px}}
 @media(max-width:480px){.hero-ctas .btn{width:100%}}
 </style>
 </head>
@@ -370,14 +383,39 @@ p{text-wrap:pretty}
  </div>
 </div></section>
 
-<!-- CARDS / receipts -->
+<!-- BENTO / receipts -->
 <section class="section" id="receipts"><div class="container">
  <div class="section-eyebrow reveal">The receipts</div>
  <h2 class="section-head reveal">Concrete. Not a pitch.</h2>
- <div class="cards">
- <div class="card reveal"><span class="card-num">4</span><h3>ABIs, one dependency</h3><p>arm64-v8a, armeabi-v7a, x86_64, x86 in a single prebuilt core AAR - zero .so relocation.</p><div class="addon">all 4 verified · build.gradle.kts only</div></div>
- <div class="card reveal"><span class="card-num">6h</span><h3>Upstream watchdog</h3><p>Cron polls TDLib master. New version = auto-triggered rebuild, PR, and publish. You're never behind.</p><div class="addon">self-updating · one merge per bump</div></div>
- <div class="card reveal"><span class="card-num">150</span><h3>Lines in the Kotlin wrapper</h3><p>A thin Coroutines/Flow bridge - <code class="abi-code">suspend fun send()</code> + <code class="abi-code">Flow&lt;Update&gt;</code>. No opinion on your auth or app structure.</p><div class="addon">ktx module · Apache-2.0</div></div>
+ <div class="bento-grid">
+ <div class="bento-card reveal">
+  <span class="bento-num">4</span>
+  <h3>ABIs, one dependency</h3>
+  <p>arm64-v8a, armeabi-v7a, x86_64, and x86 packaged into a single core AAR. Zero NDK toolchain, zero .so file relocation.</p>
+  <div class="bento-chips">
+   <span class="bento-chip">arm64-v8a</span>
+   <span class="bento-chip">armeabi-v7a</span>
+   <span class="bento-chip">x86_64</span>
+   <span class="bento-chip">x86</span>
+  </div>
+  <div class="addon">all 4 ABIs verified by ELF header · build.gradle.kts only</div>
+ </div>
+ <div class="bento-card reveal">
+  <span class="bento-num">6h</span>
+  <h3>Upstream watchdog</h3>
+  <p>Cron poller inspects tdlib/td master every 6 hours. Version change triggers auto-build matrix, PR with checksums, and publish.</p>
+  <div class="addon">self-updating · deterministic GitHub runner builds</div>
+ </div>
+ <div class="bento-card bento-card--wide reveal">
+  <div>
+   <span class="bento-num">150</span>
+  </div>
+  <div>
+   <h3>Lines in the Kotlin wrapper</h3>
+   <p>A thin Coroutines and Flow bridge providing <code class="abi-code">suspend fun send()</code> and <code class="abi-code">Flow&lt;Update&gt;</code>. Zero application logic, zero opinionated auth, zero bloat.</p>
+   <div class="addon">ktx module · Apache-2.0 · minSdk 26</div>
+  </div>
+ </div>
  </div>
 </div></section>
 
