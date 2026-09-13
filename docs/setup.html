@@ -8,6 +8,10 @@
 <meta name="author" content="Akash Priyadarshi">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <link rel="canonical" href="https://tdlib-android.vercel.app/setup">
+<link rel="alternate" type="text/markdown" href="/setup.md">
+<meta name="application-name" content="tdlib-android">
+<meta name="apple-mobile-web-app-title" content="tdlib-android">
+<meta name="keywords" content="tdlib-android setup, tdlib android gradle, prebuilt tdlib android, telegram database library aar, android kotlin tdlib">
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -115,15 +119,27 @@ ul{margin:12px 0 16px 24px}
 li{margin:6px 0}
 code.inline{background:var(--code-bg);border:1px solid var(--code-border);border-radius:6px;padding:2px 6px;font-family:var(--px-mono);font-size:0.85em;color:var(--text)}
 .tip-box{background:var(--surface);border-left:3px solid var(--accent);padding:14px 18px;border-radius:0 8px 8px 0;margin:18px 0}
-.footer{border-top:1px solid var(--border);padding:40px 0;font-size:14px;color:var(--text-tertiary)}
-.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
+.footer{border-top:1px solid var(--border);padding:48px 0 36px;font-size:14px;color:var(--text-tertiary);background:#070708}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
+.footer-col-title{font-family:var(--px-mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--text);margin-bottom:12px;font-weight:600}
+.footer-links{display:flex;flex-direction:column;gap:8px}
+.footer-links a{color:var(--text-tertiary);font-size:14px}
+.footer-links a:hover{color:var(--text)}
+.footer-bottom{margin-top:36px;padding-top:20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--text-tertiary)}
+.footer-bottom a{color:var(--text-secondary)}
+.footer-bottom a:hover{color:var(--text)}
 .mono{font-family:var(--px-mono)}
 </style>
 </head>
 <body>
 <nav class="nav"><div class="container nav-inner">
   <a class="nav-brand" href="/"><span class="nav-dot"></span>tdlib-android</a>
-  <a class="nav-back" href="/">← back to home</a>
+  <div style="display:flex;gap:18px;font-size:14px;align-items:center">
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <a href="/privacy">Privacy</a>
+  </div>
 </div></nav>
 
 <main id="main-content">
@@ -217,18 +233,39 @@ CoroutineScope(Dispatchers.IO).launch {
 </div></article>
 </main>
 
-<footer class="footer"><div class="container footer-grid">
-  <div>
-    <div class="mono" style="margin-bottom:6px"><span style="color:var(--accent)">tdlib-android</span></div>
-    <div>Precompiled TDLib AARs for Android. Built and maintained by <a href="https://github.com/AkashPriyadarshii">Akash Priyadarshi</a>.</div>
+<footer class="footer"><div class="container">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-col-title">Ecosystem</div>
+      <div class="footer-links">
+        <a href="https://github.com/AkashPriyadarshii/design-genius" target="_blank" rel="noopener">design-genius</a>
+        <a href="https://github.com/AkashPriyadarshii/akash-design-engineering" target="_blank" rel="noopener">akash-design-engineering</a>
+        <a href="https://github.com/AkashPriyadarshii/tdlib-android" target="_blank" rel="noopener">tdlib-android</a>
+        <a href="https://github.com/AkashPriyadarshii/kharcha" target="_blank" rel="noopener">kharcha</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Author</div>
+      <div class="footer-links">
+        <a href="https://akashpriyadarshii.github.io/Resume/" target="_blank" rel="noopener">Resume</a>
+        <a href="https://akashpriyadarshi.vercel.app" target="_blank" rel="noopener">Portfolio</a>
+        <a href="https://github.com/AkashPriyadarshii" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/akash-priyadarshi-1aa51b37a" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Social</div>
+      <div class="footer-links">
+        <a href="https://x.com/Akash__ydv001" target="_blank" rel="noopener">X / Twitter</a>
+        <a href="https://www.threads.com/@free_dev2026" target="_blank" rel="noopener">Threads</a>
+        <a href="https://www.instagram.com/akash.priyadarshii/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://reddit.com/user/DragonfruitWeak2801" target="_blank" rel="noopener">Reddit</a>
+      </div>
+    </div>
   </div>
-  <div>
-    <div class="mono" style="margin-bottom:6px">Documentation</div>
-    <div><a href="/">Overview</a> · <a href="/setup">Setup Guide</a> · <a href="/llms.txt">llms.txt</a> · <a href="/llms-full.txt">Full LLM Reference</a></div>
-  </div>
-  <div>
-    <div class="mono" style="margin-bottom:6px">Ecosystem & Source</div>
-    <div><a href="https://github.com/AkashPriyadarshii/tdlib-android/releases">Releases</a> · <a href="https://github.com/AkashPriyadarshii/tdlib-android">GitHub</a> · <a href="https://github.com/AkashPriyadarshii/tdlib-android/blob/main/LICENSE">License (BSL-1.0 / Apache-2.0)</a></div>
+  <div class="footer-bottom">
+    <div>&copy; 2026 Akash Priyadarshi &middot; Patna, Bihar, India</div>
+    <div><a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/agent-instructions">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
   </div>
 </div></footer>
 
