@@ -280,38 +280,62 @@ code.inline{background:var(--surface-alt);border:1px solid var(--border);border-
  <p style="color:var(--text-tertiary);font-size:1.1rem">No NDK. No compiling TDLib from C++ source. Prebuilt 4-ABI AARs paired with a lightweight Kotlin Coroutines and Flow wrapper.</p>
 
  <div class="tip-box">
- <strong>Prerequisites:</strong> Obtain your <code class="inline">api_id</code> and <code class="inline">api_hash</code> by creating an application on <a href="https://my.telegram.org" target="_blank" rel="noopener">my.telegram.org</a>. Store these in your <code class="inline">local.properties</code> or environment variables, exposed through <code class="inline">BuildConfig</code>.
+ <strong>Prerequisites:</strong>
+ <ul style="margin:8px 0 0 18px">
+  <li>Ensure your <code>app/src/main/AndroidManifest.xml</code> requests network permission:
+   <div class="code-wrap" style="margin:6px 0">
+    <button type="button" class="copy-btn" data-copy aria-label="Copy AndroidManifest permission">Copy</button>
+    <pre style="padding:10px 14px;font-size:12.5px"><code class="language-xml">&lt;uses-permission android:name="android.permission.INTERNET" /&gt;</code></pre>
+   </div>
+  </li>
+  <li>Obtain your <code class="inline">api_id</code> and <code class="inline">api_hash</code> by creating an application on <a href="https://my.telegram.org" target="_blank" rel="noopener">my.telegram.org</a>. Store these securely in your <code class="inline">local.properties</code> or CI environment variables, exposed through <code class="inline">BuildConfig</code>.</li>
+ </ul>
  </div>
 
  <div class="step">
  <span class="step-idx">Step 1 - add the dependencies</span>
  <h2>Point Gradle at the prebuilt AAR</h2>
  <p>The <code class="inline">core</code> module bundles <code class="inline">libtdjson.so</code> for all 4 Android architectures (<code class="inline">arm64-v8a</code>, <code class="inline">armeabi-v7a</code>, <code class="inline">x86_64</code>, and <code class="inline">x86</code>). The <code class="inline">ktx</code> module provides coroutines and Flow bridges.</p>
+
+ <h3>1. Enable Maven Central in repository management:</h3>
 <div class="code-wrap">
-<button type="button" class="copy-btn" data-copy aria-label="Copy Gradle coordinates">Copy</button>
+<button type="button" class="copy-btn" data-copy aria-label="Copy settings.gradle.kts snippet">Copy</button>
 <pre><code class="language-kotlin"><span class="d">// settings.gradle.kts</span>
 dependencyResolutionManagement {
- repositories {
- google()
- mavenCentral()
- }
-}
-
-<span class="d">// app/build.gradle.kts</span>
-dependencies {
- <span class="c">implementation</span>("io.github.tdlib-android:core:0.1.0")
- <span class="c">implementation</span>("io.github.tdlib-android:ktx:0.1.0")
+    repositories {
+        google()
+        mavenCentral()
+    }
 }</code></pre>
 </div>
- <p>If you want to restrict which architectures get bundled into your final APK (for instance, releasing separate 64-bit and 32-bit APKs), configure <code class="inline">ndk.abiFilters</code> inside <code class="inline">defaultConfig</code>:</p>
+
+ <h3>2. Add dependencies to your app module:</h3>
+<div class="code-wrap">
+<button type="button" class="copy-btn" data-copy aria-label="Copy app dependencies snippet">Copy</button>
+<pre><code class="language-kotlin"><span class="d">// app/build.gradle.kts (Kotlin DSL)</span>
+dependencies {
+    implementation("io.github.tdlib-android:core:0.1.0")
+    implementation("io.github.tdlib-android:ktx:0.1.0")
+}
+
+<span class="d">// Or app/build.gradle (Groovy DSL)</span>
+// implementation 'io.github.tdlib-android:core:0.1.0'
+// implementation 'io.github.tdlib-android:ktx:0.1.0'</code></pre>
+</div>
+
+ <div class="tip-box" style="margin:16px 0">
+  <strong>APK &amp; App Bundle Size:</strong> When shipping as an Android App Bundle (AAB), Google Play serves only the specific native ABI for each target device (~8–10 MB compressed per ABI). Universal APKs with all 4 ABIs bundled weigh ~35 MB uncompressed.
+ </div>
+
+ <p>To explicitly filter which architectures are bundled in your APK (for example, releasing separate 64-bit and 32-bit APKs), configure <code class="inline">ndk.abiFilters</code> inside <code class="inline">defaultConfig</code>:</p>
 <div class="code-wrap">
 <button type="button" class="copy-btn" data-copy aria-label="Copy abiFilters snippet">Copy</button>
 <pre><code class="language-kotlin">android {
- defaultConfig {
- ndk {
- abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
- }
- }
+    defaultConfig {
+        ndk {
+            abiFilters += listOf("arm64-v8a", "armeabi-v7a", "x86_64", "x86")
+        }
+    }
 }</code></pre>
 </div>
  </div>
