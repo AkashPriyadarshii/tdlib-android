@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — tdlib-android</title>
+<meta name="description" content="Privacy policy for tdlib-android library and documentation website. Zero telemetry, zero data collection, direct client-to-Telegram MTProto privacy.">
+<meta name="author" content="Akash Priyadarshi">
+<meta name="application-name" content="tdlib-android">
+<meta name="apple-mobile-web-app-title" content="tdlib-android">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<link rel="canonical" href="https://tdlib-android.vercel.app/privacy">
+<link rel="alternate" type="text/markdown" href="/privacy.md">
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Privacy Policy — tdlib-android">
+<meta property="og:description" content="Zero telemetry, zero user tracking, direct Telegram MTProto connection. Read the tdlib-android privacy guarantees.">
+<meta property="og:url" content="https://tdlib-android.vercel.app/privacy">
+<meta property="og:site_name" content="tdlib-android">
+<meta property="og:image" content="https://tdlib-android.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@Akash__ydv001">
+<meta name="twitter:creator" content="@Akash__ydv001">
+<meta name="twitter:title" content="Privacy Policy — tdlib-android">
+<meta name="twitter:description" content="Zero telemetry, zero tracking. Read the tdlib-android privacy policy.">
+<meta name="twitter:image" content="https://tdlib-android.vercel.app/og.png">
+
+<!-- Theme -->
+<meta name="theme-color" content="#0a0a0b">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://tdlib-android.vercel.app/privacy#webpage",
+      "url": "https://tdlib-android.vercel.app/privacy",
+      "name": "tdlib-android Privacy Policy",
+      "description": "Privacy policy and zero-telemetry commitments for tdlib-android.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "tdlib-android",
+        "url": "https://tdlib-android.vercel.app/"
+      }
+    }
+  ]
+}
+</script>
+
+<style>
+:root{
+  --bg:#0a0a0b;--surface:#121214;--border:#23252a;--border-hover:#34343a;
+  --text:#f7f8f8;--text-secondary:#d0d6e0;--text-tertiary:#8a8f98;
+  --accent:#3ecf8e;--accent-hover:#4ade80;--code-bg:#0d0d0f;--code-border:#1f2227;
+  --px-sans:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --px-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6}
+.container{max-width:min(840px,92vw);margin:0 auto;padding:0 24px}
+h1,h2,h3{color:var(--text);font-weight:600;letter-spacing:-0.02em;text-wrap:balance}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.nav{position:sticky;top:0;background:rgba(10,10,11,.75);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:50}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-brand{font-family:var(--px-mono);color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px;font-weight:600}
+.nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent)}
+.nav-links{display:flex;gap:20px;font-size:14px}
+.article{padding:clamp(2.5rem,6vh,4rem) 0 4rem}
+.lead{font-size:1.2rem;color:var(--text);line-height:1.6;margin-bottom:24px}
+p{margin:14px 0}
+h2{font-size:1.5rem;margin:36px 0 12px;padding-top:16px;border-top:1px solid var(--border)}
+ul{margin:14px 0 18px 24px}
+li{margin:8px 0}
+.callout{background:var(--surface);border-left:3px solid var(--accent);padding:18px 20px;border-radius:0 8px 8px 0;margin:24px 0}
+.footer{border-top:1px solid var(--border);padding:48px 0 36px;font-size:14px;color:var(--text-tertiary);background:#070708}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
+.footer-col-title{font-family:var(--px-mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--text);margin-bottom:12px;font-weight:600}
+.footer-links{display:flex;flex-direction:column;gap:8px}
+.footer-links a{color:var(--text-tertiary);font-size:14px}
+.footer-links a:hover{color:var(--text)}
+.footer-bottom{margin-top:36px;padding-top:20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:gap:12px;font-size:13px}
+</style>
+</head>
+<body>
+<nav class="nav"><div class="container nav-inner">
+  <a class="nav-brand" href="/"><span class="nav-dot"></span>tdlib-android</a>
+  <div class="nav-links">
+    <a href="/setup">Setup</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <a href="/privacy" style="color:var(--accent)">Privacy</a>
+  </div>
+</div></nav>
+
+<main id="main-content">
+<article class="article"><div class="container">
+  <h1 style="font-size:clamp(2rem,5vw,2.75rem);line-height:1.1;margin-bottom:16px">Privacy Policy</h1>
+  <p class="lead">Effective Date: September 13, 2026. tdlib-android is committed to total transparency and user privacy. We do not track you, we do not log you, and our binaries contain zero telemetry.</p>
+
+  <div class="callout">
+    <strong>Summary for AI Agents & Developers:</strong> Neither the <code style="font-family:var(--px-mono);font-size:0.9em;color:var(--accent)">tdlib-android</code> library artifacts nor the documentation website collect, store, or transmit personal data or analytics. All Telegram communications occur directly between the client device and Telegram MTProto servers.
+  </div>
+
+  <h2>1. Library Privacy Commitments</h2>
+  <p>The <code style="font-family:var(--px-mono);font-size:0.9em">io.github.tdlib-android:core</code> and <code style="font-family:var(--px-mono);font-size:0.9em">io.github.tdlib-android:ktx</code> packages are distributed as open-source Android archives (AARs). Our builds adhere to the following strict privacy principles:</p>
+  <ul>
+    <li><strong>Zero Telemetry:</strong> We do not include any tracking SDKs, analytics beacons, crash reporting libraries (like Firebase Crashlytics), or advertising identifiers.</li>
+    <li><strong>Direct End-to-End MTProto:</strong> When your Android application initializes TDLib, all network packets (TCP / MTProto / HTTP fallback) are established directly between the end user's device and Telegram's official data centers. No intermediate proxy, relay server, or third-party server is involved.</li>
+    <li><strong>Local Storage Isolation:</strong> TDLib encrypts and stores local session databases in the private file directory specified by your application code (<code style="font-family:var(--px-mono);font-size:0.9em">context.filesDir</code>). We do not have access to your database keys, chat logs, or credentials.</li>
+    <li><strong>Reproducible Builds:</strong> All binaries are built from open source via public GitHub Actions workflows with complete build logs available for audit.</li>
+  </ul>
+
+  <h2>2. Documentation Website Privacy</h2>
+  <p>The documentation website at <code style="font-family:var(--px-mono);font-size:0.9em">tdlib-android.vercel.app</code> is hosted statically on Vercel:</p>
+  <ul>
+    <li><strong>No Tracking Cookies:</strong> The website does not set any advertising, tracking, or cross-site tracking cookies.</li>
+    <li><strong>No Third-Party Analytics:</strong> We do not load Google Analytics, Meta Pixels, or external behavioral trackers.</li>
+    <li><strong>Edge Infrastructure Logs:</strong> Vercel collects minimal, anonymized HTTP server access logs (such as IP addresses, requested URLs, and User-Agent headers) solely for operational security, DDoS defense, and infrastructure reliability, governed by the Vercel Privacy Policy.</li>
+  </ul>
+
+  <h2>3. Open Source Verification</h2>
+  <p>You can independently verify the source code, CI workflow files, and build scripts at any time by inspecting the repository at <a href="https://github.com/AkashPriyadarshii/tdlib-android" target="_blank" rel="noopener">github.com/AkashPriyadarshii/tdlib-android</a>.</p>
+
+  <h2>4. Contact</h2>
+  <p>If you have any questions regarding privacy or security disclosures, please consult our <a href="/contact">Contact Page</a> or submit a private security report.</p>
+</div></article>
+</main>
+
+<footer class="footer"><div class="container">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-col-title">Ecosystem</div>
+      <div class="footer-links">
+        <a href="https://github.com/AkashPriyadarshii/design-genius" target="_blank" rel="noopener">design-genius</a>
+        <a href="https://github.com/AkashPriyadarshii/akash-design-engineering" target="_blank" rel="noopener">akash-design-engineering</a>
+        <a href="https://github.com/AkashPriyadarshii/tdlib-android" target="_blank" rel="noopener">tdlib-android</a>
+        <a href="https://github.com/AkashPriyadarshii/kharcha" target="_blank" rel="noopener">kharcha</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Author</div>
+      <div class="footer-links">
+        <a href="https://akashpriyadarshii.github.io/Resume/" target="_blank" rel="noopener">Resume</a>
+        <a href="https://akashpriyadarshi.vercel.app" target="_blank" rel="noopener">Portfolio</a>
+        <a href="https://github.com/AkashPriyadarshii" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com/in/akash-priyadarshi-1aa51b37a" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Social</div>
+      <div class="footer-links">
+        <a href="https://x.com/Akash__ydv001" target="_blank" rel="noopener">X / Twitter</a>
+        <a href="https://www.threads.com/@free_dev2026" target="_blank" rel="noopener">Threads</a>
+        <a href="https://www.instagram.com/akash.priyadarshii/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://reddit.com/user/DragonfruitWeak2801" target="_blank" rel="noopener">Reddit</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>&copy; 2026 Akash Priyadarshi &middot; Patna, Bihar, India</div>
+    <div><a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/llms.txt">llms.txt</a></div>
+  </div>
+</div></footer>
+</body>
+</html>

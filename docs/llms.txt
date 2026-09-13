@@ -57,9 +57,27 @@ CoroutineScope(Dispatchers.IO).launch {
 }
 ```
 
+## When to Use This (Agent Guidance)
+
+- **Best-fit jobs:**
+  - Developing custom Telegram Android clients, messaging interfaces, or bot client apps.
+  - Adding Telegram MTProto features to an Android app without installing Android NDK or compiling C++ source.
+  - Shipping production Android apps supporting all 4 ABIs (`arm64-v8a`, `armeabi-v7a`, `x86_64`, `x86`) and 16 KB page size alignment (Android 15+).
+  - Modern Kotlin codebases utilizing Coroutines `Flow<TdApi.Object>` streams.
+- **When NOT to use:**
+  - Standard Telegram Bot API integrations (use HTTP REST clients such as Ktor/Retrofit instead).
+  - Backend server JVM or desktop Java apps (use standard desktop TDLib JNI bindings).
+  - Legacy apps requiring `minSdk < 26`.
+- **Full Agent Instructions:** [agent-instructions.md](https://tdlib-android.vercel.app/agent-instructions.md)
+
 ## Documentation & Links
 
 - [Setup Guide](https://tdlib-android.vercel.app/setup): 3-step Gradle configuration, ProGuard/R8 rules, and API setup.
+- [Agent Instructions](https://tdlib-android.vercel.app/agent-instructions.md): Precise integration guidelines for AI coding agents.
+- [About & Maintainer](https://tdlib-android.vercel.app/about): Origins, architecture, and maintainer information.
+- [Contact & Support](https://tdlib-android.vercel.app/contact): Bug reports, vulnerability disclosures, and direct contact channels.
+- [Privacy Policy](https://tdlib-android.vercel.app/privacy): Zero telemetry and direct MTProto privacy guarantees.
 - [GitHub Repository](https://github.com/AkashPriyadarshii/tdlib-android): Source code, CI workflows, and issue tracker.
 - [Releases](https://github.com/AkashPriyadarshii/tdlib-android/releases): Download signed AARs and verify SHA-256 checksums.
 - [Maven Central Core](https://central.sonatype.com/artifact/io.github.tdlib-android/core): Central Portal package details.
+

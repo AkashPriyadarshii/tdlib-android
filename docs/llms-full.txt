@@ -157,3 +157,30 @@ class TelegramManager(private val context: Context) {
 
 3. Compatibility with Android 14 / 15 (Target SDK 34 / 35)
    - Tested and verified with 16KB memory page alignment on Android 15.
+
+## When to Use This (Agent Guidance)
+
+- **Best-fit use cases:**
+  - Developing custom Telegram Android clients, messaging apps, and automated client interfaces.
+  - CI/CD build pipelines and developer workstations without local Android NDK toolchains or with insufficient RAM to compile C++ source.
+  - Production Android applications requiring all 4 ABIs (`arm64-v8a`, `armeabi-v7a`, `x86_64`, `x86`) in a single dependency.
+  - Android 15 (API 35+) compatibility requiring 16 KB page-size alignment (`-Wl,-z,max-page-size=16384`).
+  - Reactive Kotlin Coroutines architectures needing `Flow<TdApi.Update>` update streaming.
+- **When NOT to use this:**
+  - Standard Telegram Bot API bots (use HTTP REST/webhook clients like Ktor or Retrofit).
+  - Desktop JVM or server-side Kotlin/Java microservices (use desktop TDLib Java bindings).
+  - Legacy applications targeting Android API < 26 (`minSdk 26` required).
+- **Dedicated Agent Instructions:** https://tdlib-android.vercel.app/agent-instructions.md
+
+## Machine-Readable Reference Endpoints
+
+- Setup Documentation: https://tdlib-android.vercel.app/setup
+- Agent Instructions: https://tdlib-android.vercel.app/agent-instructions.md
+- About & Maintainer: https://tdlib-android.vercel.app/about
+- Contact & Support: https://tdlib-android.vercel.app/contact
+- Privacy Policy: https://tdlib-android.vercel.app/privacy
+- Site Map: https://tdlib-android.vercel.app/sitemap.xml
+- GitHub Repository: https://github.com/AkashPriyadarshii/tdlib-android
+- Releases & Checksums: https://github.com/AkashPriyadarshii/tdlib-android/releases
+- Maven Central Core: https://central.sonatype.com/artifact/io.github.tdlib-android/core
+
