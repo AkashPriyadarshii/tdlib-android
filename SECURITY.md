@@ -28,7 +28,7 @@ This repository builds and publishes prebuilt Android AARs for TDLib:
 Please do not disclose security issues publicly in GitHub Issues or Discussions.
 
 1. **GitHub Private Vulnerability Report (Preferred)**:
-   Submit an advisory report through the **Security** tab of this repository under [Advisories](https://github.com/tdlib-android/tdlib-android/security/advisories/new).
+   Submit an advisory report through the **Security** tab of this repository under [Advisories](https://github.com/AkashPriyadarshii/tdlib-android/security/advisories/new).
 2. **Direct Contact**:
    Contact Akash Priyadarshi via GitHub ([@AkashPriyadarshii](https://github.com/AkashPriyadarshii)).
 

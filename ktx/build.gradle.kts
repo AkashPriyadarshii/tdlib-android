@@ -40,7 +40,7 @@ mavenPublishing {
         name.set("tdlib-android-ktx")
         description.set("Kotlin Coroutines + Flow wrapper for TDLib Android. Suspend send() + Flow<Update>.")
         inceptionYear.set("2026")
-        url.set("https://github.com/tdlib-android/tdlib-android")
+        url.set("https://github.com/AkashPriyadarshii/tdlib-android")
         licenses {
             license {
                 name.set("Apache-2.0")
@@ -55,9 +55,9 @@ mavenPublishing {
             }
         }
         scm {
-            url.set("https://github.com/tdlib-android/tdlib-android")
-            connection.set("scm:git:git://github.com/tdlib-android/tdlib-android.git")
-            developerConnection.set("scm:git:ssh://git@github.com/tdlib-android/tdlib-android.git")
+            url.set("https://github.com/AkashPriyadarshii/tdlib-android")
+            connection.set("scm:git:git://github.com/AkashPriyadarshii/tdlib-android.git")
+            developerConnection.set("scm:git:ssh://git@github.com/AkashPriyadarshii/tdlib-android.git")
         }
     }
 }
