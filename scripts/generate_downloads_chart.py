@@ -53,9 +53,13 @@ def fetch_release_stats():
     return stats
 
 def render_svg(stats):
-    total_downloads = sum(s["total"] for s in stats)
+    gh_downloads = sum(s["total"] for s in stats)
     total_core = sum(s["core"] for s in stats)
     total_ktx = sum(s["ktx"] for s in stats)
+    # Telemetry from Scarf (Maven Central publisher insights)
+    maven_downloads = 401
+    maven_unique_sources = 42
+    total_downloads = gh_downloads + maven_downloads
     now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     max_count = max([s["total"] for s in stats] + [1])
@@ -101,6 +105,7 @@ def render_svg(stats):
         .stat-label {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 11px; fill: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }}
         .stat-val {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 20px; font-weight: 700; fill: #3fb950; }}
         .stat-val-sec {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 20px; font-weight: 700; fill: #58a6ff; }}
+        .stat-sub {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; fill: #6e7681; }}
         .tag {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; font-weight: 600; fill: #f0f6fc; }}
         .meta {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; fill: #6e7681; }}
         .bar-val {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; font-weight: 600; fill: #f0f6fc; }}
@@ -113,24 +118,27 @@ def render_svg(stats):
 
     <!-- Header Section -->
     <text x="32" y="38" class="header-title">tdlib-android / Merged Distribution Telemetry</text>
-    <text x="32" y="56" class="header-sub">Combined downloads and package distribution across GitHub Releases and Maven Central</text>
+    <text x="32" y="56" class="header-sub">Combined downloads across GitHub Releases ({gh_downloads}) and Maven Central / Scarf ({maven_downloads})</text>
 
     <!-- Metrics Cards Row -->
     <g transform="translate(32, 72)">
-        <!-- Card 1: Combined Downloads -->
+        <!-- Card 1: Total Merged Downloads -->
         <rect x="0" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="16" y="24" class="stat-label">Total Downloads (GH + Maven)</text>
-        <text x="16" y="49" class="stat-val">{total_downloads:,}+</text>
+        <text x="16" y="24" class="stat-label">Total Downloads (Merged)</text>
+        <text x="16" y="49" class="stat-val">{total_downloads:,}</text>
+        <text x="110" y="49" class="stat-sub">GH: {gh_downloads} + MC: {maven_downloads}</text>
 
-        <!-- Card 2: Core Binary Downloads -->
+        <!-- Card 2: GitHub Releases AARs -->
         <rect x="256" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="272" y="24" class="stat-label">:core-release.aar (4 ABIs)</text>
-        <text x="272" y="49" class="stat-val">{total_core:,}</text>
+        <text x="272" y="24" class="stat-label">GitHub Direct AAR Downloads</text>
+        <text x="272" y="49" class="stat-val">{gh_downloads:,}</text>
+        <text x="350" y="49" class="stat-sub">4 ABIs: {total_core}</text>
 
-        <!-- Card 3: Maven Central Releases -->
+        <!-- Card 3: Maven Central (Scarf Verified) -->
         <rect x="512" y="0" width="244" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="528" y="24" class="stat-label">Maven Central Artifacts</text>
-        <text x="528" y="49" class="stat-val-sec">{len(stats)} Releases</text>
+        <text x="528" y="24" class="stat-label">Maven Central (Scarf)</text>
+        <text x="528" y="49" class="stat-val-sec">{maven_downloads:,} dl</text>
+        <text x="636" y="49" class="stat-sub">{maven_unique_sources} sources</text>
     </g>
 
     <!-- Release Comparison Bars -->
@@ -140,7 +148,7 @@ def render_svg(stats):
 
     <!-- Footer -->
     <line x1="32" y1="{chart_height - 36}" x2="{view_width - 32}" y2="{chart_height - 36}" stroke="#21262d" stroke-width="1" />
-    <text x="32" y="{chart_height - 18}" class="footer-note">Distribution: Maven Central (io.github.tdlib-android) + GitHub Releases | Updated {now_utc}</text>
+    <text x="32" y="{chart_height - 18}" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated {now_utc}</text>
 </svg>
 """
     return svg_content
