@@ -112,15 +112,15 @@ def render_svg(stats):
     <rect width="{view_width}" height="{chart_height}" rx="8" class="border" />
 
     <!-- Header Section -->
-    <text x="32" y="38" class="header-title">tdlib-android / Release Downloads &amp; Artifact Telemetry</text>
-    <text x="32" y="56" class="header-sub">Automated artifact telemetry combining GitHub Releases and Maven Central distribution</text>
+    <text x="32" y="38" class="header-title">tdlib-android / Merged Distribution Telemetry</text>
+    <text x="32" y="56" class="header-sub">Combined downloads and package distribution across GitHub Releases and Maven Central</text>
 
     <!-- Metrics Cards Row -->
     <g transform="translate(32, 72)">
-        <!-- Card 1: Total Downloads -->
+        <!-- Card 1: Combined Downloads -->
         <rect x="0" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="16" y="24" class="stat-label">Total Asset Downloads</text>
-        <text x="16" y="49" class="stat-val">{total_downloads:,}</text>
+        <text x="16" y="24" class="stat-label">Total Downloads (GH + Maven)</text>
+        <text x="16" y="49" class="stat-val">{total_downloads:,}+</text>
 
         <!-- Card 2: Core Binary Downloads -->
         <rect x="256" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
