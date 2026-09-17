@@ -16,6 +16,8 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.0%20%2F%20Apache%202.0-blue.svg" alt="License"></a>
   <a href="https://developer.android.com"><img src="https://img.shields.io/badge/minSdk-26%20(Android%208.0%2B)-orange.svg" alt="minSdk"></a>
   <a href="https://github.com/AkashPriyadarshii/tdlib-android"><img src="https://img.shields.io/badge/ABIs-arm64--v8a%20%7C%20armeabi--v7a%20%7C%20x86__64%20%7C%20x86-purple.svg" alt="ABIs"></a>
+  <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases"><img src="https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/total?color=27a644&label=downloads" alt="Total Downloads"></a>
+  <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases/latest"><img src="https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/latest/total?color=2ea44f&label=latest%20release%20downloads" alt="Latest Downloads"></a>
   <a href="https://tdlib-android.vercel.app/setup"><img src="https://img.shields.io/badge/Android%2015-16KB%20Page%20Ready-success.svg" alt="Android 15 Ready"></a>
 </p>
 
@@ -90,6 +92,13 @@ Why this repository exists compared to historical and abandoned alternatives:
 | `tdlibx/td-ktx` | Dead (Archived 2024) | Incomplete | Partial | Broken dependencies |
 | `g000sha256/tdl-coroutines` | Inactive | 3 ABIs | Yes | Broken build path |
 | Local NDK Build | Manual | Manual | No | High RAM + Long compile times |
+
+---
+
+## Downloads & Adoption
+
+[![GitHub Release Downloads](https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/total?style=for-the-badge&logo=github&color=27a644)](https://github.com/AkashPriyadarshii/tdlib-android/releases)
+[![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tdlib-android/core?style=for-the-badge&logo=apachemaven&color=blue)](https://central.sonatype.com/artifact/io.github.tdlib-android/core)
 
 ---
 
