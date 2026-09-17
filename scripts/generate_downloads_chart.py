@@ -166,5 +166,19 @@ def main():
         f.write(svg)
     print(f"Rendered {OUTPUT_SVG} with {len(stats)} releases.")
 
+    # Write dynamic badge JSON endpoint for Shields.io
+    gh_downloads = sum(s["total"] for s in stats)
+    maven_downloads = 401
+    total_downloads = gh_downloads + maven_downloads
+    badge_data = {
+        "schemaVersion": 1,
+        "label": "downloads",
+        "message": f"{total_downloads:,}+",
+        "color": "27a644"
+    }
+    with open("docs/downloads-badge.json", "w", encoding="utf-8") as f:
+        json.dump(badge_data, f, indent=2)
+    print(f"Rendered docs/downloads-badge.json with {total_downloads:,}+ total downloads.")
+
 if __name__ == "__main__":
     main()
