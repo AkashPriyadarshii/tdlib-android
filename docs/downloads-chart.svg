@@ -76,5 +76,5 @@
 
     <!-- Footer -->
     <line x1="32" y1="326" x2="788" y2="326" stroke="#21262d" stroke-width="1" />
-    <text x="32" y="344" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated 2026-09-17 07:00 UTC</text>
+    <text x="32" y="344" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated 2026-09-17 07:03 UTC</text>
 </svg>
