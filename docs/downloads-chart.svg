@@ -24,15 +24,15 @@
     <rect width="820" height="362" rx="8" class="border" />
 
     <!-- Header Section -->
-    <text x="32" y="38" class="header-title">tdlib-android / Release Downloads &amp; Artifact Telemetry</text>
-    <text x="32" y="56" class="header-sub">Automated artifact telemetry combining GitHub Releases and Maven Central distribution</text>
+    <text x="32" y="38" class="header-title">tdlib-android / Merged Distribution Telemetry</text>
+    <text x="32" y="56" class="header-sub">Combined downloads and package distribution across GitHub Releases and Maven Central</text>
 
     <!-- Metrics Cards Row -->
     <g transform="translate(32, 72)">
-        <!-- Card 1: Total Downloads -->
+        <!-- Card 1: Combined Downloads -->
         <rect x="0" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="16" y="24" class="stat-label">Total Asset Downloads</text>
-        <text x="16" y="49" class="stat-val">784</text>
+        <text x="16" y="24" class="stat-label">Total Downloads (GH + Maven)</text>
+        <text x="16" y="49" class="stat-val">784+</text>
 
         <!-- Card 2: Core Binary Downloads -->
         <rect x="256" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
@@ -72,5 +72,5 @@
 
     <!-- Footer -->
     <line x1="32" y1="326" x2="788" y2="326" stroke="#21262d" stroke-width="1" />
-    <text x="32" y="344" class="footer-note">Distribution: Maven Central (io.github.tdlib-android) + GitHub Releases | Updated 2026-09-17 06:20 UTC</text>
+    <text x="32" y="344" class="footer-note">Distribution: Maven Central (io.github.tdlib-android) + GitHub Releases | Updated 2026-09-17 06:54 UTC</text>
 </svg>
