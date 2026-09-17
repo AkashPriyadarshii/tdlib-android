@@ -1,0 +1,41 @@
+name: Update Downloads Chart
+
+on:
+  schedule:
+    # Run once every 14 days at 00:00 UTC
+    - cron: "0 0 1,15 * *"
+  workflow_dispatch:
+
+concurrency:
+  group: update-downloads-metrics
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  update-chart:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate downloads chart
+        run: python scripts/generate_downloads_chart.py
+
+      - name: Commit and push if chart changed
+        run: |
+          git config user.name "AkashPriyadarshii"
+          git config user.email "272530059+AkashPriyadarshii@users.noreply.github.com"
+          if ! git diff --quiet docs/downloads-chart.svg; then
+            git add docs/downloads-chart.svg
+            git commit -m "chore: update downloads metrics chart [skip ci]"
+            git push origin main
+          else
+            echo "No change in download metrics chart."
+          fi
