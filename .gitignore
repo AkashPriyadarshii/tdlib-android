@@ -36,6 +36,10 @@ secrets/
 .impeccable/
 .vercel/
 screenshots/
+.claude/
+.codex/
+.jev-axi/
+
 
 # OS specific
 Thumbs.db

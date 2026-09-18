@@ -9,7 +9,7 @@ echo "Local VERSION: $LOCAL_VERSION"
 # Fetch upstream CMakeLists.txt version field via GitHub API
 UPSTREAM_VERSION=$(curl -s "https://api.github.com/repos/tdlib/td/contents/CMakeLists.txt" \
     | jq -r '.content' | base64 -d \
-    | grep -oP 'set\(TDLib_VERSION \K[0-9]+\.[0-9]+\.[0-9]+' || echo "")
+    | grep -oP '(?:project\(TDLib VERSION|set\(TDLib_VERSION)\s+\K[0-9]+\.[0-9]+\.[0-9]+' || echo "")
 
 if [ -z "$UPSTREAM_VERSION" ]; then
     echo "ERROR: Could not fetch upstream TDLib version."
