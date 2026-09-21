@@ -26,21 +26,21 @@
 
     <!-- Header Section -->
     <text x="32" y="38" class="header-title">tdlib-android / Merged Distribution Telemetry</text>
-    <text x="32" y="56" class="header-sub">Combined downloads across GitHub Releases (784) and Maven Central / Scarf (401)</text>
+    <text x="32" y="56" class="header-sub">Combined downloads across GitHub Releases (869) and Maven Central / Scarf (401)</text>
 
     <!-- Metrics Cards Row -->
     <g transform="translate(32, 72)">
         <!-- Card 1: Total Merged Downloads -->
         <rect x="0" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
         <text x="16" y="24" class="stat-label">Total Downloads (Merged)</text>
-        <text x="16" y="49" class="stat-val">1,185</text>
-        <text x="110" y="49" class="stat-sub">GH: 784 + MC: 401</text>
+        <text x="16" y="49" class="stat-val">1,270</text>
+        <text x="110" y="49" class="stat-sub">GH: 869 + MC: 401</text>
 
         <!-- Card 2: GitHub Releases AARs -->
         <rect x="256" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
         <text x="272" y="24" class="stat-label">GitHub Direct AAR Downloads</text>
-        <text x="272" y="49" class="stat-val">784</text>
-        <text x="350" y="49" class="stat-sub">4 ABIs: 587</text>
+        <text x="272" y="49" class="stat-val">869</text>
+        <text x="350" y="49" class="stat-sub">4 ABIs: 669</text>
 
         <!-- Card 3: Maven Central (Scarf Verified) -->
         <rect x="512" y="0" width="244" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
@@ -58,23 +58,23 @@
             <rect x="130" y="8" width="460" height="24" rx="4" fill="#161b22" />
             <rect x="130" y="8" width="33" height="24" rx="4" fill="#238636" />
             <rect x="163" y="8" width="20" height="24" rx="0" fill="#2ea043" />
-            <text x="197" y="25" class="bar-val">81 dl</text>
-            <text x="690" y="24" class="breakdown">core: 51 | ktx: 24</text>
+            <text x="197" y="25" class="bar-val">90 dl</text>
+            <text x="690" y="24" class="breakdown">core: 57 | ktx: 24</text>
         </g>
         
         <g class="row" transform="translate(0, 231)">
             <text x="32" y="20" class="tag">v0.1.0</text>
             <text x="32" y="36" class="meta">2026-06-17</text>
             <rect x="130" y="8" width="460" height="24" rx="4" fill="#161b22" />
-            <rect x="130" y="8" width="350" height="24" rx="4" fill="#238636" />
-            <rect x="480" y="8" width="110" height="24" rx="0" fill="#2ea043" />
-            <text x="604" y="25" class="bar-val">703 dl</text>
-            <text x="690" y="24" class="breakdown">core: 536 | ktx: 133</text>
+            <rect x="130" y="8" width="361" height="24" rx="4" fill="#238636" />
+            <rect x="491" y="8" width="99" height="24" rx="0" fill="#2ea043" />
+            <text x="604" y="25" class="bar-val">779 dl</text>
+            <text x="690" y="24" class="breakdown">core: 612 | ktx: 133</text>
         </g>
         
     </g>
 
     <!-- Footer -->
     <line x1="32" y1="326" x2="788" y2="326" stroke="#21262d" stroke-width="1" />
-    <text x="32" y="344" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated 2026-09-17 07:03 UTC</text>
+    <text x="32" y="344" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated 2026-09-21 01:29 UTC</text>
 </svg>
