@@ -1,4 +1,6 @@
-<p align="center">
+<p 
+
+[![stars](https://img.shields.io/github/stars/AkashPriyadarshii/tdlib-android?style=flat-square&label=stars)](https://github.com/AkashPriyadarshii/tdlib-android/stargazers) [![release](https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&label=release)](https://github.com/AkashPriyadarshii/tdlib-android/releases)align="center">
   <img src="docs/favicon.svg" width="72" height="72" alt="tdlib-android logo" />
 </p>
 
