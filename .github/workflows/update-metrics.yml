@@ -8,7 +8,7 @@ on:
 
 concurrency:
   group: update-downloads-metrics
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -32,11 +32,28 @@ jobs:
         run: |
           git config user.name "AkashPriyadarshii"
           git config user.email "272530059+AkashPriyadarshii@users.noreply.github.com"
-          if ! git diff --quiet docs/downloads-chart.svg docs/downloads-badge.json; then
-            git add docs/downloads-chart.svg docs/downloads-badge.json
-            git commit -m "chore: update downloads metrics chart and badge [skip ci]"
-            git pull --rebase origin main
-            git push origin main
-          else
+          if git diff --quiet docs/downloads-chart.svg docs/downloads-badge.json; then
             echo "No change in download metrics chart or badge."
+            exit 0
           fi
+          git add docs/downloads-chart.svg docs/downloads-badge.json
+          git commit -m "chore: update downloads metrics chart and badge [skip ci]"
+          # Retry push: refetch + rebase; generated files are deterministic
+          # so on conflict keep our freshly generated copy.
+          for i in 1 2 3; do
+            git fetch origin main
+            if git rebase -X theirs origin/main; then
+              if git push origin HEAD:main; then
+                echo "Pushed on attempt $i."
+                exit 0
+              fi
+            else
+              git rebase --abort || true
+              git reset --soft origin/main
+              git add docs/downloads-chart.svg docs/downloads-badge.json
+              git commit -m "chore: update downloads metrics chart and badge [skip ci]" || true
+            fi
+            sleep 10
+          done
+          echo "Push failed after 3 attempts."
+          exit 1
