@@ -70,3 +70,5 @@ smoke-test-publish.yml verifies on Maven Central
 - Omit consumer-rules.pro from :core module
 - Cache Docker layers in GitHub Actions (10GB limit exceeded)
 - Push without gitleaks + foxguard scan passing
+
+- Profile: release-order touch 2026-09-22
