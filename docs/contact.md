@@ -24,4 +24,4 @@ tdlib-android is maintained by **Akash Priyadarshi**, located in **Patna, Bihar,
 - **X / Twitter:** https://x.com/Akash__ydv001
 - **Threads:** https://www.threads.com/@free_dev2026
 - **Instagram:** https://www.instagram.com/akash.priyadarshii/
-- **Reddit:** https://reddit.com/user/DragonfruitWeak2801
+- **Reddit:** https://reddit.com/user/akashpriyadarshi
