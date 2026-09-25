@@ -20,7 +20,7 @@ tdlib-android is maintained by **Akash Priyadarshi**, located in **Patna, Bihar,
 
 - **Portfolio & Direct Contact:** https://akashpriyadarshi.vercel.app/contact
 - **GitHub:** https://github.com/AkashPriyadarshii
-- **LinkedIn:** https://linkedin.com/in/akash-priyadarshi-1aa51b37a
+- **LinkedIn:** https://linkedin.com/in/akashpriyadarshii
 - **X / Twitter:** https://x.com/Akash__ydv001
 - **Threads:** https://www.threads.com/@free_dev2026
 - **Instagram:** https://www.instagram.com/akash.priyadarshii/
