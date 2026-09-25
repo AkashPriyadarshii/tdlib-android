@@ -1,14 +1,12 @@
-*Fuel the next build:* 
+**Support:** fuel the next build — 
 
-**Support:** fuel the next build — [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/AkashPriyadarshi)
-
-<p 
-
-[![stars](https://img.shields.io/github/stars/AkashPriyadarshii/tdlib-android?style=flat-square&label=stars)](https://github.com/AkashPriyadarshii/tdlib-android/stargazers) [![release](https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&label=release)](https://github.com/AkashPriyadarshii/tdlib-android/releases)align="center">
+<p [![stars](https://img.shields.io/github/stars/AkashPriyadarshii/tdlib-android?style=flat-square&label=stars)](https://github.com/AkashPriyadarshii/tdlib-android/stargazers) [![release](https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&label=release)](https://github.com/AkashPriyadarshii/tdlib-android/releases)align="center">
   <img src="docs/favicon.svg" width="72" height="72" alt="tdlib-android logo" />
 </p>
 
 <h1 align="center">tdlib-android</h1>
+
+**Support:** fuel the next build — [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/AkashPriyadarshi)
 
 <p align="center">
   <strong>Precompiled TDLib for Android across all 4 ABIs. Zero local NDK. Zero source compile.</strong>
