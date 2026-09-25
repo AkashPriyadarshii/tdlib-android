@@ -26,7 +26,7 @@ tdlib-android was conceived on a Windows 11 machine with only 4 GB of RAM — wh
 - **Profile:** Self-taught systems and Android engineer focused on Binder IPC, Android ART internals, Rust systems tooling, and autonomous AI coding agent architectures.
 - **Portfolio:** https://akashpriyadarshi.vercel.app
 - **GitHub:** https://github.com/AkashPriyadarshii
-- **LinkedIn:** https://linkedin.com/in/akash-priyadarshi-1aa51b37a
+- **LinkedIn:** https://linkedin.com/in/akashpriyadarshii
 - **Resume:** https://akashpriyadarshii.github.io/Resume/
 
 ## Licensing

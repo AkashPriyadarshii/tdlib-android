@@ -1,3 +1,5 @@
+*Fuel the next build:* [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/AkashPriyadarshi)
+
 <p 
 
 [![stars](https://img.shields.io/github/stars/AkashPriyadarshii/tdlib-android?style=flat-square&label=stars)](https://github.com/AkashPriyadarshii/tdlib-android/stargazers) [![release](https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&label=release)](https://github.com/AkashPriyadarshii/tdlib-android/releases)align="center">
