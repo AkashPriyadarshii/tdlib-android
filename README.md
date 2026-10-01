@@ -1,31 +1,42 @@
+<!--
+Title: tdlib-android - Precompiled TDLib for Android Across All 4 ABIs (arm64-v8a, armeabi-v7a, x86_64, x86)
+Description: Production-ready precompiled Telegram Database Library (TDLib) Android Archive (AAR) binaries for Android with 16KB page alignment (Android 15 ready), Maven Central distribution, and Kotlin Coroutines/Flow wrapper. Zero local NDK required.
+Keywords: tdlib android, telegram tdlib, tdlib precompiled aar, android 16kb page size, android tdlib kotlin coroutines, maven central tdlib, tdlib native binaries, telegram database library android
+-->
+
+<div align="center">
+  <img src="docs/favicon.svg" width="96" height="96" alt="tdlib-android logo" />
+  <h1>tdlib-android</h1>
+  <p><strong>Precompiled TDLib for Android across all 4 ABIs. Zero local NDK. Zero source compile.</strong></p>
+  <p>
+    <a href="https://central.sonatype.com/artifact/io.github.tdlib-android/core"><img src="https://img.shields.io/maven-central/v/io.github.tdlib-android/core?style=flat-square&color=27a644&label=Maven%20Central" alt="Maven Central" /></a>
+    <a href="https://tdlib-android.vercel.app"><img src="https://img.shields.io/badge/Website-tdlib--android.vercel.app-3ecf8e.svg?style=flat-square" alt="Website" /></a>
+    <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases"><img src="https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&color=27a644&label=release" alt="Release" /></a>
+    <a href="https://github.com/AkashPriyadarshii/tdlib-android/actions"><img src="https://img.shields.io/github/actions/workflow/status/AkashPriyadarshii/tdlib-android/build.yml?branch=main&style=flat-square&label=CI" alt="Build Status" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.0%20%2F%20Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
+    <a href="https://developer.android.com"><img src="https://img.shields.io/badge/minSdk-26%20(Android%208.0%2B)-orange.svg?style=flat-square" alt="minSdk" /></a>
+    <a href="https://github.com/AkashPriyadarshii/tdlib-android"><img src="https://img.shields.io/badge/ABIs-arm64--v8a%20%7C%20armeabi--v7a%20%7C%20x86__64%20%7C%20x86-purple.svg?style=flat-square" alt="ABIs" /></a>
+    <a href="#downloads--adoption"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json&style=flat-square" alt="Total Downloads" /></a>
+    <a href="#downloads--adoption"><img src="https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/latest/total?style=flat-square&color=2ea44f&label=latest%20release%20downloads" alt="Latest Downloads" /></a>
+    <a href="https://tdlib-android.vercel.app/setup"><img src="https://img.shields.io/badge/Android%2015-16KB%20Page%20Ready-success.svg?style=flat-square" alt="Android 15 Ready" /></a>
+  </p>
+  <p>By <strong>Akash Priyadarshi</strong> · BSL 1.0 / Apache 2.0 · Kotlin &amp; C++ · zero local NDK</p>
+  <p>
+    <a href="#why-tdlib-android">Why</a> ·
+    <a href="#key-features">Features</a> ·
+    <a href="#architecture--data-flow">Architecture</a> ·
+    <a href="#ecosystem-comparison">Comparison</a> ·
+    <a href="#installation">Install</a> ·
+    <a href="#downloads--adoption">Downloads</a> ·
+    <a href="#ecosystem">Ecosystem</a>
+  </p>
+</div>
+
 <p align="center">
   [![stars](https://img.shields.io/github/stars/AkashPriyadarshii/tdlib-android?style=flat-square&label=stars)](https://github.com/AkashPriyadarshii/tdlib-android/stargazers) [![release](https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&label=release)](https://github.com/AkashPriyadarshii/tdlib-android/releases)
 </p>
 
-<p align="center">
-  <img src="docs/favicon.svg" width="72" height="72" alt="tdlib-android logo" />
-</p>
-
-<h1 align="center">tdlib-android</h1>
-
 **Support:** fuel the next build — [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/AkashPriyadarshi)
-
-<p align="center">
-  <strong>Precompiled TDLib for Android across all 4 ABIs. Zero local NDK. Zero source compile.</strong>
-</p>
-
-<p align="center">
-  <a href="https://central.sonatype.com/artifact/io.github.tdlib-android/core"><img src="https://img.shields.io/maven-central/v/io.github.tdlib-android/core?color=27a644&label=Maven%20Central" alt="Maven Central"></a>
-  <a href="https://tdlib-android.vercel.app"><img src="https://img.shields.io/badge/Website-tdlib--android.vercel.app-3ecf8e.svg" alt="Website"></a>
-  <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases"><img src="https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?color=27a644&label=release" alt="Release"></a>
-  <a href="https://github.com/AkashPriyadarshii/tdlib-android/actions"><img src="https://img.shields.io/github/actions/workflow/status/AkashPriyadarshii/tdlib-android/build.yml?branch=main&label=CI" alt="Build Status"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.0%20%2F%20Apache%202.0-blue.svg" alt="License"></a>
-  <a href="https://developer.android.com"><img src="https://img.shields.io/badge/minSdk-26%20(Android%208.0%2B)-orange.svg" alt="minSdk"></a>
-  <a href="https://github.com/AkashPriyadarshii/tdlib-android"><img src="https://img.shields.io/badge/ABIs-arm64--v8a%20%7C%20armeabi--v7a%20%7C%20x86__64%20%7C%20x86-purple.svg" alt="ABIs"></a>
-  <a href="#downloads--adoption"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json" alt="Total Downloads"></a>
-  <a href="#downloads--adoption"><img src="https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/latest/total?color=2ea44f&label=latest%20release%20downloads" alt="Latest Downloads"></a>
-  <a href="https://tdlib-android.vercel.app/setup"><img src="https://img.shields.io/badge/Android%2015-16KB%20Page%20Ready-success.svg" alt="Android 15 Ready"></a>
-</p>
 
 <p align="center">
   <a href="https://tdlib-android.vercel.app">
@@ -40,6 +51,18 @@ No compiling C++ from source. No Android NDK wrangling. Works with any Telegram 
 > **Documentation Site:** Setup guides and architecture notes available at [tdlib-android.vercel.app](https://tdlib-android.vercel.app/).
 >
 > **For AI Coding Agents:** Point your agent to [`https://tdlib-android.vercel.app/llms.txt`](https://tdlib-android.vercel.app/llms.txt) or [`llms-full.txt`](https://tdlib-android.vercel.app/llms-full.txt) for token-efficient API and Gradle context.
+
+---
+
+<a id="why-tdlib-android"></a>
+## Why tdlib-android
+
+Building TDLib for Android from scratch is notoriously slow and resource-intensive. Compiling native Telegram C++ code requires an Android NDK environment, hours of compilation time, 16+ GB of RAM, and fragile CMake scripts across 4 different architectures.
+
+- **Zero Local NDK:** Drop prebuilt Maven Central dependencies or standalone AARs straight into your Android app without touching CMake or the NDK.
+- **Android 15 (16KB Page Size) Ready:** Built with 16KB page alignment (`-Wl,-z,max-page-size=16384`) ensuring forward compatibility across modern Android devices.
+- **Kotlin-First Architecture (`:ktx`):** Modern coroutines and reactive `Flow<Update>` update streams replace legacy JNI callback mechanics.
+- **Complete Architecture Coverage:** Precompiled `arm64-v8a`, `armeabi-v7a`, `x86_64`, and `x86` native binaries in one package.
 
 ---
 
@@ -337,6 +360,7 @@ The repository runs completely automated cloud builds using GitHub Actions:
 <a id="downloads--adoption"></a>
 ## Downloads & Adoption
 
+[![Total Downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json&style=for-the-badge&color=27a644)](#downloads--adoption)
 [![GitHub Release Downloads](https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/total?style=for-the-badge&logo=github&color=27a644)](https://github.com/AkashPriyadarshii/tdlib-android/releases)
 [![Latest Release Downloads](https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/latest/total?style=for-the-badge&logo=github&color=2ea44f)](https://github.com/AkashPriyadarshii/tdlib-android/releases/latest)
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tdlib-android/core?style=for-the-badge&logo=apachemaven&color=blue)](https://central.sonatype.com/artifact/io.github.tdlib-android/core)
@@ -353,6 +377,35 @@ The repository runs completely automated cloud builds using GitHub Actions:
 
 ---
 
-## Author & Maintainer
+<a id="ecosystem"></a>
+## Ecosystem
 
-Maintained by **[Akash Priyadarshi (@AkashPriyadarshii)](https://github.com/AkashPriyadarshii)**. Built to provide reliable, zero-friction TDLib native distribution for the Android developer community.
+- [jev-seo](https://github.com/AkashPriyadarshii/jev-seo)
+- [jev-superpowers](https://github.com/AkashPriyadarshii/jev-superpowers)
+- [jev-curate](https://github.com/AkashPriyadarshii/jev-curate)
+- [jev-git](https://github.com/AkashPriyadarshii/jev-git)
+- [tdlib-android](https://github.com/AkashPriyadarshii/tdlib-android)
+- [kharcha](https://github.com/AkashPriyadarshii/kharcha)
+
+---
+
+## Author
+
+Maintained by **[Akash Priyadarshi](https://github.com/AkashPriyadarshii)** (Patna, Bihar, India). Built to provide reliable, zero-friction TDLib native distribution for the Android developer community.
+
+- GitHub: [AkashPriyadarshii](https://github.com/AkashPriyadarshii)
+- Portfolio: [akashpriyadarshi.vercel.app](https://akashpriyadarshi.vercel.app)
+- LinkedIn: [akash-priyadarshi-1aa51b37a](https://linkedin.com/in/akash-priyadarshi-1aa51b37a)
+- Resume: [akashpriyadarshii.github.io/Resume](https://akashpriyadarshii.github.io/Resume/)
+
+Social: [X/Twitter](https://x.com/Akash__ydv001) · [Threads](https://www.threads.net/@akash.priyadarshii) · [Instagram](https://www.instagram.com/akash.priyadarshii/) · [Reddit](https://reddit.com/user/akashpriyadarshi)
+
+---
+
+## Contributors
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). PRs welcome.
+
+---
+
+*Zero local NDK. Zero source compile. Precompiled TDLib for modern Android.*

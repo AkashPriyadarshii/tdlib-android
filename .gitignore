@@ -50,3 +50,7 @@ seo_indexing_blueprint.html
 
 # artifact: verification screenshots from iris
 localhost-*.png
+
+# Python cache
+__pycache__/
+*.py[cod]

@@ -26,6 +26,8 @@ jobs:
           python-version: "3.x"
 
       - name: Generate downloads chart
+        env:
+          SCARF_API_TOKEN: ${{ secrets.SCARF_API_TOKEN }}
         run: python scripts/generate_downloads_chart.py
 
       - name: Commit and push if chart changed
