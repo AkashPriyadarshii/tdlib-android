@@ -13,6 +13,9 @@ on:
       published:
         description: "Whether the library was successfully published to Maven Central"
         value: ${{ jobs.package-and-publish.outputs.published }}
+      wrapper_version:
+        description: "Wrapper VERSION published to Maven Central"
+        value: ${{ jobs.package-and-publish.outputs.wrapper_version }}
   workflow_dispatch:
     inputs:
       new_version:
@@ -74,6 +77,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       published: ${{ steps.set-publish-status.outputs.published }}
+      wrapper_version: ${{ steps.set-publish-status.outputs.wrapper_version }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-java@v5
@@ -200,18 +204,19 @@ jobs:
         if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEW_VERSION: ${{ inputs.new_version || steps.get-ver.outputs.version }}
+          TDLIB_VERSION: ${{ inputs.new_version }}
         run: |
-          if gh release view "v${NEW_VERSION}" &>/dev/null; then
-            echo "Release v${NEW_VERSION} exists — uploading latest AAR assets"
-            gh release upload "v${NEW_VERSION}" \
+          WRAPPER=$(cat VERSION | tr -d ' \n')
+          if gh release view "v${WRAPPER}" &>/dev/null; then
+            echo "Release v${WRAPPER} exists — uploading latest AAR assets"
+            gh release upload "v${WRAPPER}" \
               core/build/outputs/aar/core-release.aar \
               ktx/build/outputs/aar/ktx-release.aar \
               checksums.txt --clobber
           else
-            gh release create "v${NEW_VERSION}" \
-              --title "TDLib ${NEW_VERSION}" \
-              --notes "Prebuilt TDLib Android AAR distribution. Boost Software License 1.0." \
+            gh release create "v${WRAPPER}" \
+              --title "TDLib ${TDLIB_VERSION} (wrapper v${WRAPPER})" \
+              --notes "Prebuilt TDLib ${TDLIB_VERSION} Android AAR distribution. Boost Software License 1.0." \
               core/build/outputs/aar/core-release.aar \
               ktx/build/outputs/aar/ktx-release.aar \
               checksums.txt
@@ -221,7 +226,7 @@ jobs:
         if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NEW_VERSION: ${{ inputs.new_version || steps.get-ver.outputs.version }}
+          TDLIB_NEW: ${{ inputs.new_version }}
           OLD_VERSION: ${{ inputs.old_version }}
         run: |
           git config user.name "tdlib-android-bot"
@@ -231,8 +236,13 @@ jobs:
           git fetch origin main
           git checkout -B main origin/main
 
-          # Update VERSION file
-          echo "$NEW_VERSION" > VERSION
+          # Update TDLIB_VERSION file (upstream), keep VERSION as wrapper
+          echo "$TDLIB_NEW" > TDLIB_VERSION
+
+          # Auto-bump wrapper patch: 0.1.1 -> 0.1.2
+          WRAPPER=$(cat VERSION | tr -d ' \n')
+          BUMPED=$(echo "$WRAPPER" | awk -F. '{print $1"."$2"."$3+1}')
+          echo "$BUMPED" > VERSION
 
           # Save schema hash
           UPSTREAM_HASH=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
@@ -243,11 +253,11 @@ jobs:
           fi
 
           # Update README
-          sed -i "s/TDLib-[0-9.]*/TDLib-${NEW_VERSION}/" README.md || true
+          sed -i "s/TDLib-[0-9.]*/TDLib-${TDLIB_NEW}/" README.md || true
           
-          git add VERSION .tdl_schema_hash README.md
+          git add TDLIB_VERSION VERSION .tdl_schema_hash README.md
           if ! git diff-index --quiet HEAD; then
-            git commit -m "chore: release TDLib ${NEW_VERSION} [skip ci]"
+            git commit -m "chore: release TDLib ${TDLIB_NEW} wrapper v${BUMPED} [skip ci]"
             git push origin main
           else
             echo "No changes to commit."
@@ -261,4 +271,5 @@ jobs:
           else
             echo "published=false" >> $GITHUB_OUTPUT
           fi
+          echo "wrapper_version=$(cat VERSION | tr -d ' \n')" >> $GITHUB_OUTPUT
 

@@ -1,7 +1,7 @@
 name: Check TDLib Upstream Version
 on:
   schedule:
-    - cron: '0 0 1 * *'     # 1st of every month at 00:00 UTC
+    - cron: '0 0 1 */3 *'     # 1st of Jan, Apr, Jul, Oct at 00:00 UTC
   workflow_dispatch:          # manual trigger for testing
 
 concurrency:
@@ -33,10 +33,10 @@ jobs:
             | jq -r '.content' | base64 -d \
             | grep -oP 'project\(TDLib VERSION \K[0-9]+\.[0-9]+\.[0-9]+')
 
-          LOCAL=$(cat VERSION)
+          LOCAL=$(cat TDLIB_VERSION 2>/dev/null || cat VERSION)
 
           echo "Upstream: $UPSTREAM"
-          echo "Local: $LOCAL"
+          echo "Local TDLib: $LOCAL"
 
           if [ "$UPSTREAM" != "$LOCAL" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
@@ -52,7 +52,6 @@ jobs:
               echo "changed=true" >> $GITHUB_OUTPUT
               echo "new_version=$UPSTREAM" >> $GITHUB_OUTPUT
               echo "old_version=$LOCAL" >> $GITHUB_OUTPUT
-              echo "$UPSTREAM_HASH" > .tdl_schema_hash
             else
               echo "changed=false" >> $GITHUB_OUTPUT
             fi
@@ -72,6 +71,6 @@ jobs:
     if: needs.check.outputs.version_changed == 'true' && needs.trigger-build.outputs.published == 'true'
     uses: ./.github/workflows/smoke-test-publish.yml
     with:
-      version: ${{ needs.check.outputs.new_version }}
+      version: ${{ needs.trigger-build.outputs.wrapper_version }}
     secrets: inherit
 

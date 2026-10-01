@@ -27,7 +27,9 @@ jobs:
 
       - name: Wait for Maven Central propagation
         run: |
+          # inputs.version is wrapper version (0.1.x), fallback to VERSION file
           VERSION="${{ inputs.version }}"
+          if [ -z "$VERSION" ]; then VERSION=$(cat VERSION | tr -d ' \n'); fi
           URL="https://repo1.maven.org/maven2/io/github/tdlib-android/core/$VERSION/core-$VERSION.pom"
           SEARCH_URL="https://search.maven.org/solrsearch/select?q=g:%22io.github.tdlib-android%22+AND+a:%22core%22+AND+v:%22$VERSION%22&rows=1&wt=json"
           echo "Polling Maven Central for $URL..."
