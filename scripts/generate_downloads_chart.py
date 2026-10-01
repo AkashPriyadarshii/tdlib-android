@@ -134,38 +134,66 @@ def render_svg(stats, scarf_stats):
     total_core = sum(s["core"] for s in stats)
     total_ktx = sum(s["ktx"] for s in stats)
     # Telemetry from Scarf (Maven Central publisher insights)
+    maven_core = scarf_stats.get("core", 1572)
+    maven_ktx = scarf_stats.get("ktx", 1139)
     maven_downloads = scarf_stats.get("downloads", 2711)
     maven_unique_sources = scarf_stats.get("unique_sources", 269)
     total_downloads = gh_downloads + maven_downloads
     now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
-    max_count = max([s["total"] for s in stats] + [1])
-    bar_area_width = 460
+    # Global max across all bars for proportional scaling
+    max_count = max([maven_core, maven_ktx] + [s["total"] for s in stats] + [1])
+    bar_area_width = 440
+    bar_x = 150
     view_width = 820
-    row_height = 56
-    start_y = 175
-    chart_height = start_y + (len(stats) * row_height) + 75
+    row_height = 52
 
-    bars_svg = []
+    # Section 1: Maven Central Packages (Scarf Telemetry)
+    sec1_y = 162
+    sec1_items = [
+        {"name": ":core (AAR)", "meta": "Maven Central", "total": maven_core, "detail": "4 ABIs embedded", "color": "#238636"},
+        {"name": ":ktx (Flow)", "meta": "Maven Central", "total": maven_ktx, "detail": "coroutines wrapper", "color": "#2ea043"}
+    ]
+    sec1_svg = []
+    for i, item in enumerate(sec1_items):
+        y = sec1_y + 24 + (i * row_height)
+        ratio = item["total"] / max_count
+        bar_w = max(int(ratio * bar_area_width), 8)
+        sec1_svg.append(f"""
+        <g class="row" transform="translate(0, {y})">
+            <text x="32" y="18" class="tag">{item['name']}</text>
+            <text x="32" y="34" class="meta">{item['meta']}</text>
+            <rect x="{bar_x}" y="8" width="{bar_area_width}" height="24" rx="4" fill="#161b22" />
+            <rect x="{bar_x}" y="8" width="{bar_w}" height="24" rx="4" fill="{item['color']}" />
+            <text x="{bar_x + bar_w + 14}" y="25" class="bar-val">{item['total']:,} dl</text>
+            <text x="690" y="24" class="breakdown">{item['detail']}</text>
+        </g>
+        """)
+
+    # Section 2: GitHub Releases (Direct AAR Downloads)
+    sec2_y = sec1_y + 24 + (len(sec1_items) * row_height) + 16
+    sec2_svg = []
     for i, item in enumerate(stats):
-        y = start_y + (i * row_height)
+        y = sec2_y + 24 + (i * row_height)
         ratio = item["total"] / max_count
         bar_w = max(int(ratio * bar_area_width), 8)
         core_ratio = item["core"] / item["total"] if item["total"] > 0 else 0
         core_w = int(bar_w * core_ratio)
         ktx_w = bar_w - core_w
 
-        bars_svg.append(f"""
+        sec2_svg.append(f"""
         <g class="row" transform="translate(0, {y})">
-            <text x="32" y="20" class="tag">{item['tag']}</text>
-            <text x="32" y="36" class="meta">{item['date']}</text>
-            <rect x="130" y="8" width="{bar_area_width}" height="24" rx="4" fill="#161b22" />
-            <rect x="130" y="8" width="{core_w}" height="24" rx="4" fill="#238636" />
-            <rect x="{130 + core_w}" y="8" width="{ktx_w}" height="24" rx="0" fill="#2ea043" />
-            <text x="{130 + bar_w + 14}" y="25" class="bar-val">{item['total']:,} dl</text>
+            <text x="32" y="18" class="tag">{item['tag']}</text>
+            <text x="32" y="34" class="meta">{item['date']}</text>
+            <rect x="{bar_x}" y="8" width="{bar_area_width}" height="24" rx="4" fill="#161b22" />
+            <rect x="{bar_x}" y="8" width="{core_w}" height="24" rx="4" fill="#238636" />
+            <rect x="{bar_x + core_w}" y="8" width="{ktx_w}" height="24" rx="0" fill="#2ea043" />
+            <text x="{bar_x + bar_w + 14}" y="25" class="bar-val">{item['total']:,} dl</text>
             <text x="690" y="24" class="breakdown">core: {item['core']} | ktx: {item['ktx']}</text>
         </g>
         """)
+
+    chart_height = sec2_y + 24 + (len(stats) * row_height) + 52
 
     svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {view_width} {chart_height}" width="100%" height="100%">
     <defs>
@@ -179,6 +207,7 @@ def render_svg(stats, scarf_stats):
         .border {{ stroke: #30363d; stroke-width: 1; fill: none; }}
         .header-title {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 16px; font-weight: 700; fill: #f0f6fc; }}
         .header-sub {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; fill: #8b949e; }}
+        .section-title {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; font-weight: 700; fill: #8b949e; letter-spacing: 0.8px; text-transform: uppercase; }}
         .stat-label {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 11px; fill: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }}
         .stat-val {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 20px; font-weight: 700; fill: #3fb950; }}
         .stat-val-sec {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 20px; font-weight: 700; fill: #58a6ff; }}
@@ -195,7 +224,7 @@ def render_svg(stats, scarf_stats):
 
     <!-- Header Section -->
     <text x="32" y="38" class="header-title">tdlib-android / Merged Distribution Telemetry</text>
-    <text x="32" y="56" class="header-sub">Combined downloads across GitHub Releases ({gh_downloads}) and Maven Central / Scarf ({maven_downloads})</text>
+    <text x="32" y="56" class="header-sub">Combined downloads across Maven Central / Scarf ({maven_downloads:,}) and GitHub Releases ({gh_downloads:,})</text>
 
     <!-- Metrics Cards Row -->
     <g transform="translate(32, 72)">
@@ -203,29 +232,38 @@ def render_svg(stats, scarf_stats):
         <rect x="0" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
         <text x="16" y="24" class="stat-label">Total Downloads (Merged)</text>
         <text x="16" y="49" class="stat-val">{total_downloads:,}</text>
-        <text x="110" y="49" class="stat-sub">GH: {gh_downloads} + MC: {maven_downloads}</text>
+        <text x="110" y="49" class="stat-sub">MC: {maven_downloads:,} + GH: {gh_downloads:,}</text>
 
-        <!-- Card 2: GitHub Releases AARs -->
-        <rect x="256" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="272" y="24" class="stat-label">GitHub Direct AAR Downloads</text>
-        <text x="272" y="49" class="stat-val">{gh_downloads:,}</text>
-        <text x="350" y="49" class="stat-sub">4 ABIs: {total_core}</text>
+        <!-- Card 2: Maven Central (Scarf Verified) -->
+        <rect x="256" y="0" width="244" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
+        <text x="272" y="24" class="stat-label">Maven Central (Scarf)</text>
+        <text x="272" y="49" class="stat-val-sec">{maven_downloads:,} dl</text>
+        <text x="382" y="49" class="stat-sub">{maven_unique_sources} sources</text>
 
-        <!-- Card 3: Maven Central (Scarf Verified) -->
-        <rect x="512" y="0" width="244" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="528" y="24" class="stat-label">Maven Central (Scarf)</text>
-        <text x="528" y="49" class="stat-val-sec">{maven_downloads:,} dl</text>
-        <text x="636" y="49" class="stat-sub">{maven_unique_sources} sources</text>
+        <!-- Card 3: GitHub Releases AARs -->
+        <rect x="520" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
+        <text x="536" y="24" class="stat-label">GitHub Direct AAR Downloads</text>
+        <text x="536" y="49" class="stat-val">{gh_downloads:,}</text>
+        <text x="614" y="49" class="stat-sub">4 ABIs: {total_core}</text>
     </g>
 
-    <!-- Release Comparison Bars -->
+    <!-- Section 1: Maven Central Packages -->
     <g>
-        {''.join(bars_svg)}
+        <text x="32" y="{sec1_y + 12}" class="section-title">Maven Central Packages (via Scarf)</text>
+        <line x1="32" y1="{sec1_y + 20}" x2="{view_width - 32}" y2="{sec1_y + 20}" stroke="#21262d" stroke-width="1" />
+        {''.join(sec1_svg)}
+    </g>
+
+    <!-- Section 2: GitHub Releases -->
+    <g>
+        <text x="32" y="{sec2_y + 12}" class="section-title">GitHub Releases (Direct Standalone AARs)</text>
+        <line x1="32" y1="{sec2_y + 20}" x2="{view_width - 32}" y2="{sec2_y + 20}" stroke="#21262d" stroke-width="1" />
+        {''.join(sec2_svg)}
     </g>
 
     <!-- Footer -->
-    <line x1="32" y1="{chart_height - 36}" x2="{view_width - 32}" y2="{chart_height - 36}" stroke="#21262d" stroke-width="1" />
-    <text x="32" y="{chart_height - 18}" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated {now_utc}</text>
+    <line x1="32" y1="{chart_height - 32}" x2="{view_width - 32}" y2="{chart_height - 32}" stroke="#21262d" stroke-width="1" />
+    <text x="32" y="{chart_height - 15}" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated {now_utc}</text>
 </svg>
 """
     return svg_content
