@@ -29,6 +29,7 @@ concurrency:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   build-abi:
@@ -38,7 +39,7 @@ jobs:
       fail-fast: true   # If one ABI fails, cancel others — never publish partial
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Get version from file
         id: get-ver
@@ -74,8 +75,8 @@ jobs:
     outputs:
       published: ${{ steps.set-publish-status.outputs.published }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           java-version: '17'
           distribution: 'temurin'

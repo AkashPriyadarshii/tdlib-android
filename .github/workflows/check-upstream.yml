@@ -10,6 +10,7 @@ concurrency:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   check:
@@ -19,7 +20,7 @@ jobs:
       new_version: ${{ steps.check.outputs.new_version }}
       old_version: ${{ steps.check.outputs.old_version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Check upstream TDLib version
         id: check
