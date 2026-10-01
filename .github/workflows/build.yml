@@ -255,7 +255,10 @@ jobs:
           # Update README
           sed -i "s/TDLib-[0-9.]*/TDLib-${TDLIB_NEW}/" README.md || true
           
-          git add TDLIB_VERSION VERSION .tdl_schema_hash README.md
+          # Regenerate dynamic banner and download metrics with new version
+          python scripts/generate_downloads_chart.py || true
+
+          git add TDLIB_VERSION VERSION .tdl_schema_hash README.md docs/banner.svg docs/downloads-chart.svg docs/downloads-badge.json
           if ! git diff-index --quiet HEAD; then
             git commit -m "chore: release TDLib ${TDLIB_NEW} wrapper v${BUMPED} [skip ci]"
             git push origin main

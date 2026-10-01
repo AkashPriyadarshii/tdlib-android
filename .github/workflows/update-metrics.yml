@@ -34,12 +34,12 @@ jobs:
         run: |
           git config user.name "AkashPriyadarshii"
           git config user.email "272530059+AkashPriyadarshii@users.noreply.github.com"
-          if git diff --quiet docs/downloads-chart.svg docs/downloads-badge.json; then
-            echo "No change in download metrics chart or badge."
+          if git diff --quiet docs/downloads-chart.svg docs/downloads-badge.json docs/banner.svg; then
+            echo "No change in download metrics chart, badge, or banner."
             exit 0
           fi
-          git add docs/downloads-chart.svg docs/downloads-badge.json
-          git commit -m "chore: update downloads metrics chart and badge [skip ci]"
+          git add docs/downloads-chart.svg docs/downloads-badge.json docs/banner.svg
+          git commit -m "chore: update downloads metrics chart, badge, and banner [skip ci]"
           # Retry push: refetch + rebase; generated files are deterministic
           # so on conflict keep our freshly generated copy.
           for i in 1 2 3; do
@@ -52,8 +52,8 @@ jobs:
             else
               git rebase --abort || true
               git reset --soft origin/main
-              git add docs/downloads-chart.svg docs/downloads-badge.json
-              git commit -m "chore: update downloads metrics chart and badge [skip ci]" || true
+              git add docs/downloads-chart.svg docs/downloads-badge.json docs/banner.svg
+              git commit -m "chore: update downloads metrics chart, badge, and banner [skip ci]" || true
             fi
             sleep 10
           done

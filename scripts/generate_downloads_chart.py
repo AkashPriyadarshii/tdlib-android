@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 REPO = "AkashPriyadarshii/tdlib-android"
 SCARF_OWNER = "Tdlib-android"
 OUTPUT_SVG = "docs/downloads-chart.svg"
+OUTPUT_BANNER_SVG = "docs/banner.svg"
 
 def fetch_release_stats():
     url = f"https://api.github.com/repos/{REPO}/releases"
@@ -229,6 +230,56 @@ def render_svg(stats, scarf_stats):
 """
     return svg_content
 
+def render_banner_svg(version):
+    """
+    Renders an SVG banner for the repository matching the official brand styling.
+    Updates the precompiled version tag and Gradle coordinates dynamically.
+    """
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 350" width="100%" height="100%">
+    <style>
+        .bg {{ fill: #0d1117; }}
+        .border {{ stroke: #30363d; stroke-width: 1; fill: none; }}
+        .pill-bg {{ fill: #0d1117; stroke: #238636; stroke-width: 1.5; }}
+        .pill-text {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; font-weight: 600; fill: #3fb950; letter-spacing: 0.5px; }}
+        .title {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 28px; font-weight: 700; fill: #f0f6fc; }}
+        .subtitle {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; fill: #8b949e; }}
+        .specs {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: #6e7681; }}
+        .code-box {{ fill: #161b22; stroke: #30363d; stroke-width: 1; }}
+        .code-comment {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: #6e7681; }}
+        .code-fn {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; fill: #58a6ff; }}
+        .code-str {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; fill: #7ee787; }}
+        .code-punct {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; fill: #e6edf3; }}
+        .meta-text {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 12px; fill: #8b949e; }}
+    </style>
+
+    <rect width="850" height="350" rx="8" class="bg" />
+    <rect width="850" height="350" rx="8" class="border" />
+
+    <!-- Top Badge Pill -->
+    <rect x="40" y="30" width="345" height="26" rx="4" class="pill-bg" />
+    <text x="52" y="47" class="pill-text">v{version} • PRECOMPILED AAR • ALL 4 ABIS • ZERO NDK</text>
+
+    <!-- Main Title -->
+    <text x="40" y="92" class="title">Precompiled TDLib for Android</text>
+    <text x="40" y="118" class="subtitle">Official Telegram Database Library prebuilt for Android devices and emulators.</text>
+    <text x="40" y="142" class="specs">arm64-v8a • armeabi-v7a • x86_64 • x86 • Android 15 16KB Page Ready</text>
+
+    <!-- Code Block -->
+    <rect x="40" y="166" width="770" height="112" rx="6" class="code-box" />
+    <text x="60" y="196" class="code-comment">// build.gradle.kts</text>
+    <text x="60" y="226">
+        <tspan class="code-fn">implementation</tspan><tspan class="code-punct">(</tspan><tspan class="code-str">"io.github.tdlib-android:core:{version}"</tspan><tspan class="code-punct">)</tspan>
+    </text>
+    <text x="60" y="254">
+        <tspan class="code-fn">implementation</tspan><tspan class="code-punct">(</tspan><tspan class="code-str">"io.github.tdlib-android:ktx:{version}"</tspan><tspan class="code-punct">)</tspan>
+    </text>
+
+    <!-- Meta Footer -->
+    <text x="40" y="318" class="meta-text">Published on Maven Central &amp; GitHub Releases</text>
+    <text x="810" y="318" text-anchor="end" class="meta-text">Maintained by Akash Priyadarshi</text>
+</svg>"""
+    return svg
+
 def main():
     stats = fetch_release_stats()
     if not stats:
@@ -256,6 +307,25 @@ def main():
     with open("docs/downloads-badge.json", "w", encoding="utf-8") as f:
         json.dump(badge_data, f, indent=2)
     print(f"Rendered docs/downloads-badge.json with {total_downloads:,}+ total downloads.")
+
+    # Determine latest version for banner
+    latest_version = "0.1.1"
+    if stats and stats[0].get("tag") and stats[0]["tag"] != "unknown":
+        latest_version = stats[0]["tag"].lstrip("v")
+    else:
+        try:
+            with open("VERSION", "r", encoding="utf-8") as f:
+                v = f.read().strip()
+                if v:
+                    latest_version = v
+        except Exception:
+            pass
+
+    # Render dynamic banner SVG
+    banner_svg = render_banner_svg(latest_version)
+    with open(OUTPUT_BANNER_SVG, "w", encoding="utf-8") as f:
+        f.write(banner_svg)
+    print(f"Rendered {OUTPUT_BANNER_SVG} for version v{latest_version}.")
 
 if __name__ == "__main__":
     main()

@@ -9,15 +9,15 @@ Keywords: tdlib android, telegram tdlib, tdlib precompiled aar, android 16kb pag
   <h1>tdlib-android</h1>
   <p><strong>Precompiled TDLib for Android across all 4 ABIs. Zero local NDK. Zero source compile.</strong></p>
   <p>
+    <a href="https://github.com/AkashPriyadarshii/tdlib-android/stargazers"><img src="https://img.shields.io/github/stars/AkashPriyadarshii/tdlib-android?style=flat-square&color=27a644&label=stars" alt="stars" /></a>
+    <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases"><img src="https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&color=27a644&label=release" alt="Release" /></a>
     <a href="https://central.sonatype.com/artifact/io.github.tdlib-android/core"><img src="https://img.shields.io/maven-central/v/io.github.tdlib-android/core?style=flat-square&color=27a644&label=Maven%20Central" alt="Maven Central" /></a>
     <a href="https://tdlib-android.vercel.app"><img src="https://img.shields.io/badge/Website-tdlib--android.vercel.app-3ecf8e.svg?style=flat-square" alt="Website" /></a>
-    <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases"><img src="https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&color=27a644&label=release" alt="Release" /></a>
     <a href="https://github.com/AkashPriyadarshii/tdlib-android/actions"><img src="https://img.shields.io/github/actions/workflow/status/AkashPriyadarshii/tdlib-android/build.yml?branch=main&style=flat-square&label=CI" alt="Build Status" /></a>
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.0%20%2F%20Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
     <a href="https://developer.android.com"><img src="https://img.shields.io/badge/minSdk-26%20(Android%208.0%2B)-orange.svg?style=flat-square" alt="minSdk" /></a>
     <a href="https://github.com/AkashPriyadarshii/tdlib-android"><img src="https://img.shields.io/badge/ABIs-arm64--v8a%20%7C%20armeabi--v7a%20%7C%20x86__64%20%7C%20x86-purple.svg?style=flat-square" alt="ABIs" /></a>
     <a href="#downloads--adoption"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json&style=flat-square" alt="Total Downloads" /></a>
-    <a href="#downloads--adoption"><img src="https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/latest/total?style=flat-square&color=2ea44f&label=latest%20release%20downloads" alt="Latest Downloads" /></a>
     <a href="https://tdlib-android.vercel.app/setup"><img src="https://img.shields.io/badge/Android%2015-16KB%20Page%20Ready-success.svg?style=flat-square" alt="Android 15 Ready" /></a>
   </p>
   <p>By <strong>Akash Priyadarshi</strong> · BSL 1.0 / Apache 2.0 · Kotlin &amp; C++ · zero local NDK</p>
@@ -30,17 +30,14 @@ Keywords: tdlib android, telegram tdlib, tdlib precompiled aar, android 16kb pag
     <a href="#downloads--adoption">Downloads</a> ·
     <a href="#ecosystem">Ecosystem</a>
   </p>
+  <p>
+    <a href="https://buymeacoffee.com/AkashPriyadarshi"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=flat-square&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me a Coffee" /></a>
+  </p>
 </div>
 
 <p align="center">
-  [![stars](https://img.shields.io/github/stars/AkashPriyadarshii/tdlib-android?style=flat-square&label=stars)](https://github.com/AkashPriyadarshii/tdlib-android/stargazers) [![release](https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&label=release)](https://github.com/AkashPriyadarshii/tdlib-android/releases)
-</p>
-
-**Support:** fuel the next build — [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/AkashPriyadarshi)
-
-<p align="center">
   <a href="https://tdlib-android.vercel.app">
-    <img src="docs/banner.png" alt="tdlib-android banner" width="100%" style="max-width:850px; border-radius:8px;" />
+    <img src="docs/banner.svg" alt="tdlib-android banner" width="100%" style="max-width:850px; border-radius:8px;" />
   </a>
 </p>
 
