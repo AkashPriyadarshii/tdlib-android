@@ -391,7 +391,7 @@ The repository runs completely automated cloud builds using GitHub Actions:
 Maintained by **[Akash Priyadarshi](https://github.com/AkashPriyadarshii)** (Patna, Bihar, India). Built to provide reliable, zero-friction TDLib native distribution for the Android developer community.
 
 - GitHub: [AkashPriyadarshii](https://github.com/AkashPriyadarshii)
-- Portfolio: [akashpriyadarshi.is-a.dev](https://akashpriyadarshi.is-a.dev)
+- Portfolio: [akashpriyadarshi.is-a.dev](https://akashpriyadarshi.is-a.dev) · Project page: [akashpriyadarshi.is-a.dev/projects/tdlib-android/](https://akashpriyadarshi.is-a.dev/projects/tdlib-android/)
 - LinkedIn: [akash-priyadarshi-1aa51b37a](https://linkedin.com/in/akash-priyadarshi-1aa51b37a)
 - Resume: [akashpriyadarshii.github.io/Resume](https://akashpriyadarshii.github.io/Resume/)
 
