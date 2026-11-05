@@ -1,7 +1,5 @@
 name: Check TDLib Upstream Version
 on:
-  schedule:
-    - cron: '0 0 1 */3 *'     # 1st of Jan, Apr, Jul, Oct at 00:00 UTC
   workflow_dispatch:          # manual trigger for testing
 
 concurrency:
