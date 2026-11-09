@@ -1,654 +1,152 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<!--
+Title: tdlib-android - Precompiled TDLib for Android Across All 4 ABIs
+Description: CI-built TDLib AARs (arm64-v8a, armeabi-v7a, x86_64, x86), 16KB page aligned, Maven Central, Kotlin Coroutines/Flow wrapper. Zero local NDK.
+-->
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#FBFBFA">
-
-<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
-<script>(function(){document.documentElement.classList.add("js")})()</script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>tdlib-android — Precompiled TDLib AARs for Android, all 4 ABIs</title>
+<meta name="description" content="CI-built TDLib AARs for all 4 Android ABIs, 16KB page aligned, on Maven Central. Kotlin Coroutines/Flow wrapper. Zero local NDK.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<title>TDLib Android - Prebuilt AAR (4 ABIs, Zero NDK)</title>
-<meta name="description" content="Drop-in precompiled TDLib for Android. All 4 ABIs (arm64-v8a, v7a, x86_64, x86) shipped as AARs with Kotlin Coroutines wrapper. Zero NDK. Get started.">
-<meta name="author" content="Akash Priyadarshi">
-<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-<link rel="canonical" href="https://tdlib-android.vercel.app/">
-<link rel="alternate" type="text/markdown" href="/index.md">
-<meta name="application-name" content="tdlib-android">
-<meta name="apple-mobile-web-app-title" content="tdlib-android">
-<meta name="keywords" content="tdlib-android, tdlib android, tdlib aar, telegram database library android, prebuilt tdlib, kotlin tdlib, android telegram sdk">
-
-<!-- Favicon -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
-
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="TDLib Android - Prebuilt AAR (4 ABIs, Zero NDK)">
-<meta property="og:description" content="Drop-in precompiled TDLib for Android. All 4 ABIs shipped as AARs with Kotlin Coroutines wrapper. Zero NDK.">
-<meta property="og:url" content="https://tdlib-android.vercel.app/">
-<meta property="og:site_name" content="tdlib-android">
-<meta property="og:image" content="https://tdlib-android.vercel.app/og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="tdlib-android precompiled AAR for Android">
-
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@Akash__ydv001">
-<meta name="twitter:creator" content="@Akash__ydv001">
-<meta name="twitter:title" content="TDLib Android - Prebuilt AAR (4 ABIs, Zero NDK)">
-<meta name="twitter:description" content="Drop-in precompiled TDLib for Android. All 4 ABIs shipped as AARs with Kotlin Coroutines wrapper. Zero NDK.">
-<meta name="twitter:image" content="https://tdlib-android.vercel.app/og.png">
-
-<!-- JSON-LD Structured Data -->
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@graph": [
- {
- "@type": "WebSite",
- "@id": "https://tdlib-android.vercel.app/#website",
- "url": "https://tdlib-android.vercel.app/",
- "name": "tdlib-android",
- "alternateName": ["TDLib Android", "tdlib android", "TDLib AAR", "Telegram Database Library Android"],
- "description": "Prebuilt TDLib AARs for Android across all 4 ABIs with zero NDK setup",
- "publisher": {
- "@type": "Person",
- "name": "Akash Priyadarshi",
- "url": "https://github.com/AkashPriyadarshii",
- "address": {
- "@type": "PostalAddress",
- "addressLocality": "Patna",
- "addressRegion": "Bihar",
- "addressCountry": "IN"
- },
- "sameAs": [
- "https://akashpriyadarshi.vercel.app",
- "https://x.com/Akash__ydv001",
- "https://linkedin.com/in/akashpriyadarshii",
- "https://www.threads.net/@akash.priyadarshii",
- "https://www.instagram.com/akash.priyadarshii/",
- "https://reddit.com/user/akashpriyadarshi"
- ]
- }
- },
- {
- "@type": ["SoftwareApplication", "SoftwareSourceCode"],
- "@id": "https://tdlib-android.vercel.app/#software",
- "name": "tdlib-android",
- "alternateName": ["TDLib Android", "tdlib android", "TDLib AAR", "Telegram Database Library Android"],
- "applicationCategory": "DeveloperApplication",
- "applicationSubCategory": "Software Development Kit (SDK)",
- "operatingSystem": "Android",
- "softwareRequirements": "Android API level 26+ (minSdk 26), Gradle 8+, Kotlin Coroutines",
- "description": "Precompiled TDLib for Android distributed as AARs via GitHub Releases and Maven Central. Supports arm64-v8a, armeabi-v7a, x86_64 and x86.",
- "author": {
- "@type": "Person",
- "name": "Akash Priyadarshi",
- "url": "https://github.com/AkashPriyadarshii",
- "address": {
- "@type": "PostalAddress",
- "addressLocality": "Patna",
- "addressRegion": "Bihar",
- "addressCountry": "IN"
- },
- "sameAs": [
- "https://akashpriyadarshi.vercel.app",
- "https://x.com/Akash__ydv001",
- "https://linkedin.com/in/akashpriyadarshii",
- "https://www.threads.net/@akash.priyadarshii",
- "https://www.instagram.com/akash.priyadarshii/",
- "https://reddit.com/user/akashpriyadarshi"
- ]
- },
- "url": "https://tdlib-android.vercel.app/",
- "downloadUrl": "https://github.com/AkashPriyadarshii/tdlib-android/releases/latest",
- "image": "https://tdlib-android.vercel.app/og.png",
- "license": "https://www.boost.org/LICENSE_1_0.txt",
- "softwareVersion": "0.1.1",
- "offers": {
- "@type": "Offer",
- "price": "0.00",
- "priceCurrency": "USD",
- "availability": "https://schema.org/InStock"
- },
- "codeRepository": "https://github.com/AkashPriyadarshii/tdlib-android",
- "sameAs": [
- "https://central.sonatype.com/artifact/io.github.tdlib-android/core"
- ]
- }
- ]
-}
-</script>
-
-<style>
-/* ============ Terminal Vellum & Android Matrix Emerald ============ */
-:root {
-  --bg: #FBFBFA;
-  --surface: #FFFFFF;
-  --surface-alt: #F4F3EE;
-  --surface-warm: #141715;
-  --surface-hover: #F2F0E8;
-  --border: #DDD8C8;
-  --border-hover: #C8C4B8;
-  --text: #161917;
-  --text-secondary: #2E342E;
-  --text-tertiary: #3F463F;
-  --text-faint: #4C554D;
-  --accent: #047857;
-  --accent-hover: #065f46;
-  --accent-deep: #064e3b;
-  --on-accent: #FFFFFF;
-  --bg-rgb: 251, 251, 250;
-  --accent-rgb: 4, 120, 87;
-  --success: #047857;
-  --error: #DC2626;
-  --warning: #D97706;
-  --nav-bg: rgba(var(--bg-rgb), 0.82);
-  --footer-bg: #F4F3EE;
-  --code-bg: #141715;
-  --code-border: #242B26;
-  --term-text: #C9C0AD;
-  --term-muted: #9AA39F;
-  --term-accent: #6EE7B7;
-  --card-shadow: 0 1px 3px rgba(22, 25, 23, 0.04), 0 8px 24px rgba(22, 25, 23, 0.04);
-  --card-shadow-hover: 0 4px 12px rgba(22, 25, 23, 0.08), 0 16px 32px rgba(22, 25, 23, 0.08);
-  --px-sans: 'IBM Plex Sans', system-ui, -apple-system, Segoe UI, sans-serif;
-  --px-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-}
-
-/* System Dark Mode (when data-theme is system and OS prefers dark) */
-/* Explicit Dark Mode */
-.skip-link{position:absolute;top:-999px;left:8px;z-index:999;background:var(--accent);color:var(--on-accent);padding:8px 16px;border-radius:0 0 8px 8px;font-size:14px;font-weight:600;text-decoration:none}
-.skip-link:focus{top:0}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text-secondary);font-family:var(--px-sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;text-size-adjust:100%;font-feature-settings:"cv02","cv03","cv04","cv11";transition:background-color 200ms ease,color 200ms ease}
-[id]{scroll-margin-top:80px}
-a{color:var(--accent);text-decoration:underline;text-underline-offset:2px;transition:color 150ms ease}
-a:hover{color:var(--accent-hover)}
-a:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
-.container{max-width:min(1200px,92vw);margin:0 auto;padding:0 24px}
-h1,h2,h3{color:var(--text);text-wrap:balance;font-weight:600;letter-spacing:-0.02em}
-p{text-wrap:pretty}
-::selection{background:var(--accent);color:var(--on-accent)}
-
-/* nav */
-.nav{position:sticky;top:0;z-index:50;background:var(--nav-bg);backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid var(--border);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 8px 32px rgba(0,0,0,.08);transition:background-color 200ms ease,border-color 200ms ease}
-.nav-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
-.nav-brand{font-family:var(--px-mono);font-weight:500;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
-@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.42;transform:scale(.9)}}
-.nav-dot{width:10px;height:10px;border-radius:2px;background:var(--accent);animation:pulse-dot 3.2s cubic-bezier(.4,0,.6,1) infinite}
-.nav-links{display:flex;gap:24px;align-items:center}
-.nav-links a{color:var(--text-secondary);text-decoration:none;font-size:15px;transition:color 150ms ease}
-.nav-links a:hover{color:var(--text)}
-.nav-cta{background:var(--accent);color:var(--on-accent);border-radius:8px;padding:8px 14px;font-weight:600;text-decoration:none;font-size:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.24);transition:background-color .2s,transform .12s ease-out}
-.nav-cta:hover{background:var(--accent-hover);color:var(--on-accent);transform:translateY(-1px)}
-.nav-cta:active{transform:scale(.97)}
-@media(max-width:860px){
- .nav-inner{height:auto;padding:10px 0;flex-wrap:wrap;gap:10px}
- .nav-links{gap:8px;overflow-x:auto;width:100%;padding:2px 2px 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}
- .nav-links::-webkit-scrollbar{display:none}
- .nav-links a{white-space:nowrap;font-size:13.5px;min-height:38px;display:inline-flex;align-items:center;padding:6px 12px;flex-shrink:0;background:var(--surface-alt);border:1px solid var(--border);border-radius:8px;text-decoration:none}
- .nav-links a:hover{border-color:var(--border-hover);color:var(--text)}
- .nav-cta{background:var(--accent);color:var(--on-accent);border-color:var(--accent);padding:6px 14px;font-size:13.5px;flex-shrink:0;min-height:38px;display:inline-flex;align-items:center;border-radius:8px}
-}
-
-/* hero */
-.hero{padding:clamp(3rem,8vh,5.5rem) 0 clamp(3rem,8vh,5rem);border-bottom:1px solid var(--border)}
-.hero-grid{display:grid;grid-template-columns:8fr 4fr;gap:48px;align-items:center}
-.hero-eyebrow{font-family:var(--px-mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
-.hero h1{font-size:clamp(2.5rem,6vw,4rem);line-height:1.02;letter-spacing:-0.03em;font-optical-sizing:auto;margin-bottom:20px}
-.hero h1 .accent{color:var(--accent)}
-.hero-sub{font-size:1.125rem;max-width:56ch;color:var(--text-secondary);margin-bottom:32px}
-.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:28px}
-.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;border-radius:10px;font-size:15px;font-weight:600;text-decoration:none;transition:transform 160ms cubic-bezier(.16,1,.3,1),border-color 160ms ease,background 160ms ease;cursor:pointer;border:1px solid transparent}
-.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:inset 0 1px 0 rgba(255,255,255,.24)}
-.btn-primary:hover{background:var(--accent-hover);color:var(--on-accent);transform:translateY(-1px)}
-.btn-primary:active{transform:scale(.97);transition:transform 120ms ease-out}
-.btn-ghost{border:1px solid var(--border-hover);color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
-.btn-ghost:hover{border-color:var(--accent);color:var(--text);transform:translateY(-1px)}
-.btn-ghost:active{transform:scale(.97);transition:transform 120ms ease-out}
-.hero-meta{font-family:var(--px-mono);font-size:13px;color:var(--text-tertiary)}
-.hero-meta strong{color:var(--accent);font-variant-numeric:tabular-nums}
-.hero-badges{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-.badge-link{display:inline-flex;align-items:center;font-family:var(--px-mono);font-size:12px;border:1px solid var(--border);border-radius:6px;overflow:hidden;text-decoration:none;transition:border-color .15s ease,transform .15s ease}
-.badge-link:hover{border-color:var(--accent);text-decoration:none;transform:translateY(-1px)}
-.badge-label{background:var(--surface-alt);color:var(--text-tertiary);padding:3px 8px;font-weight:500}
-.badge-val{background:var(--surface);color:var(--text);padding:3px 8px;font-weight:600}
-
-/* terminal frame */
-.terminal{background:var(--surface-warm);border:1px solid var(--code-border);border-radius:12px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06)}
-.terminal-head{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--code-border)}
-.term-dot{width:11px;height:11px;border-radius:50%}
-.term-dot:first-child{background:#ff5f57}.term-dot:nth-child(2){background:#febc2e}.term-dot:nth-child(3){background:#28c840}
-.term-title{margin-left:8px;font-family:var(--px-mono);font-size:12px;color:var(--term-muted)}
-.terminal-body{padding:18px 20px;font-family:var(--px-mono);font-size:13px;line-height:1.8;color:var(--term-text)}
-.terminal .c{color:var(--term-accent)}.terminal .d{color:#6b7280}.terminal .s{color:#c9a86a}
-.terminal .ok{color:var(--term-accent)}
-.term-badge{margin-left:auto;background:rgba(110,231,183,.15);color:var(--term-accent);font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid rgba(110,231,183,.3)}
-.terminal-head .copy-btn{margin-left:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--term-text);border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background 150ms ease,color 150ms ease,border-color 150ms ease}
-.terminal-head .copy-btn:hover{color:#ffffff;border-color:var(--term-accent);background:rgba(255,255,255,.14)}
-.terminal-head .copy-btn.copied{background:#065f46;color:#ffffff;border-color:var(--term-accent)}
-
-/* proof strip */
-.proof{border-bottom:1px solid var(--border);padding:18px 0}
-.proof-inner{font-family:var(--px-mono);font-size:13px;color:var(--text-tertiary);display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:center}
-.proof-inner b{color:var(--text);font-variant-numeric:tabular-nums}
-.proof-inner .ok{color:var(--success)}
-
-/* sections */
-.section{padding:clamp(4rem,10vh,7rem) 0;border-bottom:1px solid var(--border)}
-.section-eyebrow{font-family:var(--px-mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin-bottom:12px}
-.section-head{font-size:2rem;line-height:1.15;margin-bottom:16px}
-.section-sub{max-width:60ch;color:var(--text-secondary);margin-bottom:48px}
-
-/* ABI table */
-.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:10px}
-.abi-table{width:100%;min-width:480px;border-collapse:collapse;font-family:var(--px-mono);font-size:14px;font-variant-numeric:tabular-nums}
-.abi-table th{text-align:left;color:var(--text-faint);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:14px 16px;border-bottom:1px solid var(--border-hover)}
-.abi-table td{padding:16px;border-bottom:1px solid var(--border);vertical-align:top}
-.abi-table td:first-child{color:var(--text);font-weight:500}
-.abi-table tr:last-child td{border-bottom:none}
-.abi-table tbody tr{transition:background-color 150ms ease}
-.abi-table tbody tr:hover{background:var(--surface-alt)}
-.abi-table .ok{color:var(--success)}
-.abi-code{background:var(--code-bg);border:1px solid var(--code-border);border-radius:8px;padding:3px 8px;font-size:13px}
-
-/* editorial why */
-.why-grid{display:grid;grid-template-columns:3fr 2fr;gap:48px;align-items:start}
-.why-list{list-style:none;margin-top:24px}
-.why-list li{padding:14px 0;border-bottom:1px solid var(--border);display:flex;gap:14px;align-items:flex-start}
-.why-list .x{color:var(--error);font-family:var(--px-mono)}
-.why-list .y{color:var(--success);font-family:var(--px-mono)}
-.why-list strong{color:var(--text)}
-.why-note{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;font-size:15px}
-
-/* pipeline */
-.pipe{display:flex;flex-direction:column;gap:0;max-width:640px}
-.pipe-step{display:flex;gap:16px;align-items:flex-start;padding:14px 0}
-.pipe-idx{font-family:var(--px-mono);color:var(--text-faint);width:64px;flex-shrink:0;padding-top:2px}
-.pipe-step .line{font-family:var(--px-mono);font-size:14px;color:var(--text-secondary)}
-.pipe-step .line .arrow{color:var(--accent)}
-.pipe-step .desc{font-size:14px;color:var(--text-tertiary);margin-top:4px}
-.pipe-step.active .line{color:var(--accent)}
-.pipe-step.active{border:1px solid rgba(var(--accent-rgb),.5);background:rgba(var(--accent-rgb),.06);border-radius:12px;padding:14px 16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
-
-/* bento receipts */
-.bento-grid{display:grid;grid-template-columns:7fr 5fr;gap:20px}
-.bento-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px;box-shadow:var(--card-shadow);transition:transform 180ms cubic-bezier(.16,1,.3,1),border-color 180ms ease,box-shadow 180ms ease,background-color 200ms ease}
-.bento-card:hover{transform:translateY(-2px);border-color:var(--border-hover);box-shadow:var(--card-shadow-hover)}
-.bento-card--wide{grid-column:1 / -1;display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center}
-.bento-num{font-family:var(--px-mono);font-size:2.25rem;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1;margin-bottom:12px}
-.bento-card h3{font-size:1.25rem;margin-bottom:10px}
-.bento-card p{font-size:15px;color:var(--text-secondary);line-height:1.6}
-.bento-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.bento-chip{font-family:var(--px-mono);font-size:12px;background:var(--surface-alt);border:1px solid var(--border);border-radius:6px;padding:3px 8px;color:var(--text)}
-.addon{margin-top:16px;font-family:var(--px-mono);font-size:12.5px;color:var(--text-faint);border-top:1px solid var(--border);padding-top:12px}
-
-/* cta band */
-.cta-band{text-align:left}
-.cta-band .section-head{margin-bottom:12px}
-
-/* footer */
-.footer{border-top:1px solid var(--border);padding:50px 0 40px;background:var(--footer-bg);transition:background-color 200ms ease,border-color 200ms ease}
-.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px;font-size:14px;color:var(--text-tertiary)}
-.footer-col-title{font-family:var(--px-mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--text);margin-bottom:12px;font-weight:600}
-.footer-links{display:flex;flex-direction:column;gap:8px}
-.footer-links a{color:var(--text-tertiary);font-size:14px}
-.footer-links a:hover{color:var(--text)}
-.footer-bottom{margin-top:36px;padding-top:20px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--text-tertiary)}
-.footer-bottom a{color:var(--text-secondary)}
-.footer-bottom a:hover{color:var(--text)}
-
-.copy-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:var(--term-text);border-radius:6px;padding:3px 8px;font-family:var(--px-mono);font-size:11px;cursor:pointer;transition:background .15s,color .15s,border-color .15s}
-.copy-btn:hover{background:rgba(255,255,255,.16);color:#fff;border-color:var(--term-accent)}
-.copy-btn.copied{background:#065f46;border-color:var(--term-accent);color:#ffffff}
-/* theme switcher */
-
-/* reveal + reduced motion */
-html.js .reveal{opacity:0;transform:translateY(8px);transition:opacity 320ms cubic-bezier(.16,1,.3,1),transform 320ms cubic-bezier(.16,1,.3,1)}
-html.js .reveal.in-view{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){
- *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
- html.js .reveal, .reveal{opacity:1!important;transform:none!important}
-}
-@media(prefers-reduced-transparency:reduce){
- .nav{background:var(--bg)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-}
-@media(prefers-contrast:more){
- :root{--border:#444852;--border-hover:#6a7180;--text-secondary:#ffffff}
-}
-
-/* responsive */
-@media(max-width:900px){
- .hero-grid,.why-grid{grid-template-columns:1fr}
- .bento-grid{grid-template-columns:1fr}
- .bento-card--wide{grid-template-columns:1fr;gap:16px}
- .terminal{margin-top:24px}
-}
-@media(max-width:640px){
- .container{max-width:100%;padding:0 16px}
- .hero{padding:clamp(2.5rem,6vh,3.5rem) 0}
- .hero h1{font-size:clamp(1.85rem,6.5vw,2.4rem);line-height:1.1}
- .hero-sub{font-size:1rem;margin-bottom:24px}
- .hero-ctas{display:flex;flex-direction:column;width:100%;gap:10px;margin-bottom:20px}
- .hero-ctas .btn{width:100%;justify-content:center}
- .hero-badges{gap:8px}
- .proof{padding:14px 0}
- .proof-inner{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;font-size:12.5px}
- .proof-inner span{display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 12px;gap:6px}
- .section{padding:clamp(3rem,8vh,4.5rem) 0}
- .section-head{font-size:1.6rem}
- .section-sub{margin-bottom:32px;font-size:15px}
- .terminal-head{padding:10px 14px}
- .terminal-body{padding:14px;font-size:12px;line-height:1.7;overflow-x:auto;-webkit-overflow-scrolling:touch}
- .abi-table th, .abi-table td{padding:12px 14px;font-size:13px}
- .why-list li{gap:12px;padding:12px 0;font-size:14px;line-height:1.5}
- .why-note{padding:20px 16px;margin-top:20px;border-radius:10px}
- .bento-card{padding:20px 16px}
- .bento-chips{gap:6px}
- .pipe-step{gap:12px;padding:12px 0}
- .pipe-idx{width:52px;font-size:11.5px}
- .pipe-step .line{font-size:13.5px}
- .pipe-step .desc{font-size:13px;line-height:1.5}
- .footer-grid{grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:24px}
- .footer-bottom{flex-direction:column;align-items:flex-start;gap:12px}
-}
-@media(max-width:400px){
- .container{padding:0 12px}
- .proof-inner{grid-template-columns:1fr;gap:8px}
- .pipe-step{gap:10px}
- .pipe-idx{width:46px;font-size:11px}
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
-<a href="#main-content" class="skip-link">Skip to content</a>
 
-<!-- NAV -->
-<nav class="nav reveal in-view"><div class="container nav-inner">
- <a class="nav-brand" href="#top"><span class="nav-dot" aria-hidden="true"></span>tdlib-android</a>
- <div class="nav-links">
- <a href="#abis">ABIs</a>
- <a href="#pipeline">Pipeline</a>
- <a href="/setup">Setup</a>
- <a href="/about">About</a>
- <a href="/contact">Contact</a>
- <a href="/privacy">Privacy</a>
- <a class="nav-cta" href="https://github.com/AkashPriyadarshii/tdlib-android/releases/latest">Get the AAR</a>
- </div>
-</div></nav>
-
-<main id="main-content">
-<!-- HERO -->
-<header class="hero" id="top"><div class="container hero-grid">
- <div class="reveal">
- <div class="hero-eyebrow">TDLib for Android · Prebuilt</div>
- <h1>Precompiled <span class="accent">TDLib</span> for Android.<br>Zero NDK. Zero source compile.</h1>
- <p class="hero-sub">The only community-maintained, auto-updated TDLib distribution for Android. All 4 ABIs built by CI - arm64-v8a, armeabi-v7a, x86_64, x86 - shipped as AARs. Drop one Gradle line into any Telegram client, bot UI, or MTProto app.</p>
- <div class="hero-ctas">
- <a class="btn btn-primary" href="https://github.com/AkashPriyadarshii/tdlib-android/releases/latest">Get the AAR</a>
- <a class="btn btn-ghost" href="/setup">Setup Guide</a>
- </div>
- <p class="hero-meta">install · <strong>io.github.tdlib-android:core:0.1.1</strong></p>
- <div class="hero-badges">
-  <a class="badge-link" href="https://github.com/AkashPriyadarshii/tdlib-android/releases" target="_blank" rel="noopener" aria-label="Latest release version">
-   <span class="badge-label">Release</span>
-   <span class="badge-val" id="badge-ver">v0.1.1</span>
-  </a>
-  <a class="badge-link" href="https://github.com/AkashPriyadarshii/tdlib-android" target="_blank" rel="noopener" aria-label="GitHub repository stars">
-   <span class="badge-label">Stars</span>
-   <span class="badge-val" id="badge-stars">★</span>
-  </a>
-  <a class="badge-link" href="https://central.sonatype.com/artifact/io.github.tdlib-android/core" target="_blank" rel="noopener" aria-label="Maven Central Artifact">
-   <span class="badge-label">Maven</span>
-   <span class="badge-val">Central</span>
-  </a>
- </div>
- </div>
-
- <div class="terminal reveal">
- <div class="terminal-head">
- <span class="term-dot" aria-hidden="true"></span><span class="term-dot" aria-hidden="true"></span><span class="term-dot" aria-hidden="true"></span>
- <span class="term-title">build.gradle.kts</span>
- <span class="term-badge">v0.1.1</span>
- <button type="button" class="copy-btn" data-copy aria-label="Copy Gradle snippet">Copy</button>
- </div>
- <div class="terminal-body">
- <span class="d">// settings.gradle.kts</span><br>
- <span class="d">repositories</span> { mavenCentral() }<br><br>
- <span class="d">// app/build.gradle.kts</span><br>
- <span class="s">implementation</span>(<span class="c">"io.github.tdlib-android:core:0.1.1"</span>)<br>
- <span class="s">implementation</span>(<span class="c">"io.github.tdlib-android:ktx:0.1.1"</span>)<br><br>
- <span class="d">$</span> ./gradlew :app:assembleDebug<br>
- <span class="ok"><svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> BUILD SUCCESSFUL</span>
- </div>
- </div>
-</div></header>
-
-<!-- PROOF -->
-<div class="proof reveal"><div class="container proof-inner">
- <span>TDLib Core <b>v1.8.x</b></span>
- <span>Release <b>v0.1.1</b></span>
- <span>ABIs <b>4 / 4</b> <span class="ok"><svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></span></span>
- <span>Tested <b>Realme GT 7 · Android 16</b></span>
- <span>License <b>BSL-1.0 / Apache-2.0</b></span>
- <span>Builds <b>100% CI</b></span>
-</div></div>
-
-<!-- ABIs -->
-<section class="section" id="abis"><div class="container">
- <div class="section-eyebrow reveal">Coverage</div>
- <h2 class="section-head reveal">Every device. Every emulator. One AAR.</h2>
- <p class="section-sub reveal">Four ABIs built in parallel on GitHub runners with pinned NDK <code class="abi-code">27.2.12479018</code>. Fail-fast - a drop in any ABI blocks the release, never a partial set.</p>
- <div class="reveal table-wrap">
- <table class="abi-table">
- <thead><tr><th>ABI</th><th>Devices</th><th>Status</th></tr></thead>
- <tbody>
- <tr><td>arm64-v8a</td><td>All modern Android (2016+)</td><td class="ok"><svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> built</td></tr>
- <tr><td>armeabi-v7a</td><td>32-bit ARM devices</td><td class="ok"><svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> built</td></tr>
- <tr><td>x86_64</td><td>Android emulators (recommended for CI)</td><td class="ok"><svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> built</td></tr>
- <tr><td>x86</td><td>Legacy emulators</td><td class="ok"><svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg> built</td></tr>
- </tbody>
- </table>
- </div>
-</div></section>
-
-<!-- WHY -->
-<section class="section" id="why"><div class="container why-grid">
- <div class="reveal">
- <div class="section-eyebrow">Why this exists</div>
- <h2 class="section-head">Every other option is dead, frozen, or a nightmare to build</h2>
- <ul class="why-list">
- <li><span class="x"><svg class="status-icon status-fail" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span><strong>up9cloud/android-libtdjson</strong> - frozen at 1.8.52, needs a GitHub token, raw .so only</span></li>
- <li><span class="x"><svg class="status-icon status-fail" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span><strong>TGX-Android/tdlib</strong> - explicitly not for external use</span></li>
- <li><span class="x"><svg class="status-icon status-fail" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span><strong>tdlibx/td-ktx</strong> - archived 2024, dead</span></li>
- <li><span class="x"><svg class="status-icon status-fail" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span><span><strong>Build it yourself</strong> - on low-RAM hardware the NDK C++ compile OOMs, crashes, and takes hours</span></li>
- <li><span class="y"><svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></span><span><strong>tdlib-android</strong> - the heavy lifting moved to the cloud. CI compiles all 4 ABIs, wraps them in AARs, releases them automatically.</span></li>
- </ul>
- </div>
- <aside class="why-note reveal">
- <h3 style="font-size:1.1rem;margin-bottom:10px">Built on a 4 GB machine</h3>
- <p style="font-size:15px">This project was made on a Windows 11 laptop with 4 GB of RAM - where local TDLib compilation is impossible. The answer: let GitHub Actions do the work. That's the whole philosophy. <a href="/about" style="display:inline-block;margin-top:6px;font-weight:600">Read architecture &amp; origin story &rarr;</a></p>
- </aside>
-</div></section>
-
-<!-- PIPELINE -->
-<section class="section" id="pipeline"><div class="container">
- <div class="section-eyebrow reveal">Automation</div>
- <h2 class="section-head reveal">Self-updating. Zero-touch. One review.</h2>
- <p class="section-sub reveal">The upstream watchdog polls TDLib every 6 hours. A version change triggers the whole pipeline. You review one PR, merge, and it publishes.</p>
- <div class="pipe">
- <div class="pipe-step reveal"><span class="pipe-idx">01 / cron</span><div><div class="line">poll tdlib/td VERSION <span class="arrow">→</span></div><div class="desc">GitHub API every 6h; also hashes the TL schema for silent API changes</div></div></div>
- <div class="pipe-step reveal"><span class="pipe-idx">02 / build</span><div><div class="line">Docker matrix · 4 ABIs <span class="arrow">→</span></div><div class="desc">Official TDLib Dockerfile, pinned NDK r27c, 10 GB swap, 3× retry</div></div></div>
- <div class="pipe-step reveal"><span class="pipe-idx">03 / gate</span><div><div class="line">verify-abi-count · readelf <span class="arrow">→</span></div><div class="desc">All 4 ABIs present, validated by ELF header - never file size</div></div></div>
- <div class="pipe-step reveal"><span class="pipe-idx">04 / review</span><div><div class="line">human PR with diff + checksums <span class="arrow">→</span></div><div class="desc">You check the TdApi.java diff for breaking changes. One merge.</div></div></div>
- <div class="pipe-step active reveal"><span class="pipe-idx">05 / publish</span><div><div class="line">Maven Central + GitHub Release <span class="arrow">→</span> <svg class="status-icon status-ok" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg></div><div class="desc">Signed AARs + checksums; post-publish smoke test verifies the live artifact</div></div></div>
- </div>
-</div></section>
-
-<!-- BENTO / receipts -->
-<section class="section" id="receipts"><div class="container">
- <div class="section-eyebrow reveal">The receipts</div>
- <h2 class="section-head reveal">Concrete. Not a pitch.</h2>
- <div class="bento-grid">
- <div class="bento-card reveal">
-  <span class="bento-num">4</span>
-  <h3>ABIs, one dependency</h3>
-  <p>arm64-v8a, armeabi-v7a, x86_64, and x86 packaged into a single core AAR. Zero NDK toolchain, zero .so file relocation.</p>
-  <div class="bento-chips">
-   <span class="bento-chip">arm64-v8a</span>
-   <span class="bento-chip">armeabi-v7a</span>
-   <span class="bento-chip">x86_64</span>
-   <span class="bento-chip">x86</span>
+<nav>
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="favicon.svg" alt="">
+      tdlib-android <span class="v">v0.1.1 · TDLib 1.8.x</span>
+    </a>
+    <div class="links">
+      <a href="/setup">Setup</a>
+      <a href="/about">About</a>
+      <a href="/agent-instructions">Agents</a>
+      <a href="/contact">Contact</a>
+    </div>
+    <a class="gh" href="https://github.com/AkashPriyadarshii/tdlib-android">GitHub ↗</a>
   </div>
-  <div class="addon">all 4 ABIs verified by ELF header · build.gradle.kts only</div>
- </div>
- <div class="bento-card reveal">
-  <span class="bento-num">6h</span>
-  <h3>Upstream watchdog</h3>
-  <p>Cron poller inspects tdlib/td master every 6 hours. Version change triggers auto-build matrix, PR with checksums, and publish.</p>
-  <div class="addon">self-updating · deterministic GitHub runner builds</div>
- </div>
- <div class="bento-card bento-card--wide reveal">
-  <div>
-   <span class="bento-num">150</span>
-  </div>
-  <div>
-   <h3>Lines in the Kotlin wrapper</h3>
-   <p>A thin Coroutines and Flow bridge providing <code class="abi-code">suspend fun send()</code> and <code class="abi-code">Flow&lt;Update&gt;</code>. Zero application logic, zero opinionated auth, zero bloat.</p>
-   <div class="addon">ktx module · Apache-2.0 · minSdk 26</div>
-  </div>
- </div>
- </div>
-</div></section>
+</nav>
 
-<!-- CTA -->
-<section class="section cta-band"><div class="container">
- <div class="section-eyebrow reveal">Ship it</div>
- <h2 class="section-head reveal">One dependency. Four ABIs. Zero NDK.</h2>
- <div class="hero-ctas reveal">
- <a class="btn btn-primary" href="https://github.com/AkashPriyadarshii/tdlib-android/releases/latest">Get the AAR</a>
- <a class="btn btn-ghost" href="/setup">Setup Guide</a>
- <a class="btn btn-ghost" href="/contact">Support &amp; Community</a>
- </div>
-</div></section>
-</main>
+<header class="hero">
+  <div class="wrap grid">
+    <div>
+      <div class="tag">Io.github.tdlib-android : core</div>
+      <h1>TDLib, precompiled.<br><em>All 4 ABIs.</em> Zero NDK.</h1>
+      <p class="lead">Telegram Database Library as signed AARs, built and verified entirely in CI. Drop a Gradle dependency in and ship — no local compilation, no 16KB-page surprises.</p>
+      <div class="cta">
+        <a class="btn btn-p" href="/setup">Get started</a>
+        <a class="btn btn-s" href="https://central.sonatype.com/artifact/io.github.tdlib-android/core">Maven Central</a>
+      </div>
+    </div>
+    <div class="term">
+      <div class="bar"><i></i><i></i><i></i><span>app/build.gradle.kts</span></div>
+      <pre><span class="c">// two lines and you have Telegram's core</span>
+<span class="k">dependencies</span> {
+  <span class="f">implementation</span>(<span class="s">"io.github.tdlib-android:core:0.1.1"</span>)
+  <span class="f">implementation</span>(<span class="s">"io.github.tdlib-android:ktx:0.1.1"</span>)
+}</pre>
+      <div class="bar"><span>usage</span></div>
+      <pre><span class="k">val</span> client = <span class="f">TdClient</span>(filesDir = context.filesDir
+  .absolutePath + <span class="s">"/tdlib"</span>)
+client.<span class="f">init</span>()
 
-<!-- FOOTER -->
-<footer class="footer"><div class="container">
- <div class="footer-grid">
- <div>
- <div class="footer-col-title">Ecosystem</div>
- <div class="footer-links">
- <a href="https://github.com/AkashPriyadarshii/design-genius" target="_blank" rel="noopener">design-genius</a>
- <a href="https://github.com/AkashPriyadarshii/akash-design-engineering" target="_blank" rel="noopener">akash-design-engineering</a>
- <a href="https://github.com/AkashPriyadarshii/tdlib-android" target="_blank" rel="noopener">tdlib-android</a>
- <a href="https://github.com/AkashPriyadarshii/kharcha" target="_blank" rel="noopener">kharcha</a>
- </div>
- </div>
- <div>
- <div class="footer-col-title">Author</div>
- <div class="footer-links">
- <a href="https://akashpriyadarshii.github.io/Resume/" target="_blank" rel="noopener">Resume</a>
- <a href="https://akashpriyadarshi.vercel.app" target="_blank" rel="noopener">Portfolio</a>
- <a href="https://github.com/AkashPriyadarshii" target="_blank" rel="noopener">GitHub</a>
- <a href="https://linkedin.com/in/akashpriyadarshii" target="_blank" rel="noopener">LinkedIn</a>
- </div>
- </div>
- <div>
- <div class="footer-col-title">Social</div>
- <div class="footer-links">
- <a href="https://x.com/Akash__ydv001" target="_blank" rel="noopener">X / Twitter</a>
- <a href="https://www.threads.net/@akash.priyadarshii" target="_blank" rel="noopener">Threads</a>
- <a href="https://www.instagram.com/akash.priyadarshii/" target="_blank" rel="noopener">Instagram</a>
- <a href="https://reddit.com/user/akashpriyadarshi" target="_blank" rel="noopener">Reddit</a>
- <a href="https://buymeacoffee.com/AkashPriyadarshi" target="_blank" rel="noopener">Support</a>
- </div>
- </div>
- </div>
- <div class="footer-bottom">
- <div>&copy; 2026 Akash Priyadarshi &middot; Patna, Bihar, India</div>
-  <div><a href="/">Home</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/404.html">404</a> &middot; <a href="/agent-instructions.md">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
- </div>
-</div></footer>
+CoroutineScope(Dispatchers.IO).<span class="f">launch</span> {
+  client.updates.<span class="f">collect</span> { <span class="c">/* handle UpdateNewMessage */</span> }
+}</pre>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="stats rv">
+      <div><b>4</b><span>ABIs, always — arm64·arm32·x86_64·x86</span></div>
+      <div><b>16KB</b><span>page aligned, Android 15 ready</span></div>
+      <div><b>API 26</b><span>minSdk · target 35</span></div>
+      <div><b>6h</b><span>upstream poll cadence in CI</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="strip">
+  <div class="in">
+    <span>readelf -h verify</span><b>✳</b><span>ELF header gate</span><b>✳</b><span>fail-fast matrix</span><b>✳</b><span>checksums in PR body</span><b>✳</b><span>human-reviewed merge</span><b>✳</b><span>signed AARs</span><b>✳</b>
+    <span>readelf -h verify</span><b>✳</b><span>ELF header gate</span><b>✳</b><span>fail-fast matrix</span><b>✳</b><span>checksums in PR body</span><b>✳</b><span>human-reviewed merge</span><b>✳</b><span>signed AARs</span><b>✳</b>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2 class="sec-h rv">The pipeline is the product.</h2>
+    <p class="sec-sub rv">Nothing ships from a laptop. Every release passes through the same four gates, automatically, before a human ever clicks merge.</p>
+    <div class="neck" style="margin-top:44px">
+      <div class="k">cron · 6h</div><div class="v"><b>Upstream poll</b><p>A scheduled workflow watches TDLib master every 6 hours and triggers on change.</p></div>
+      <div class="k">docker · 4x</div><div class="v"><b>Matrix build</b><p>All 4 native architectures compile in parallel with a pinned NDK r27c.</p></div>
+      <div class="k">gate</div><div class="v"><b>Binary verification</b><p>ELF headers are validated with <code>readelf -h</code>, never by file size. Partial ABI sets are rejected.</p></div>
+      <div class="k">PR → merge</div><div class="v"><b>Human review, then publish</b><p>An automated PR carries the full diff plus SHA-256 checksums. Merging publishes signed AARs straight to Maven Central.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="sec-h rv">What's in the box</h2>
+    <div class="cards" style="margin-top:44px">
+      <div class="card c3 hl rv"><span class="n">:core</span><h3>tdjson + TdApi, packaged</h3><p>Four ABIs of <code>libtdjson.so</code> with <code>TdApi.java</code>, <code>Client.java</code> and R8 consumer rules shipped inside the AAR itself.</p></div>
+      <div class="card c3w rv"><span class="n">:ktx</span><h3>Coroutines wrapper</h3><p>Updates as <code>Flow&lt;TdApi.Update&gt;</code>. Thin bridge, ~150 lines, no app logic.</p></div>
+      <div class="card c2x rv"><span class="n">ci</span><h3>Upstream auto-update</h3><p>Version bumps land as review-ready PRs with diff and checksums. You never chase TDLib releases.</p></div>
+      <div class="card c2x rv"><span class="n">compat</span><h3>Android 15 ready</h3><p>16KB page alignment verified per-build, forward compatible with target SDK 35.</p></div>
+      <div class="card c2x rv"><span class="n">:sample</span><h3>Minimal working example</h3><p>Clone, open, run. The shortest path from zero to a connected TDLib client.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="sec-h rv">Why not build it yourself?</h2>
+    <p class="sec-sub rv">Compiling TDLib once takes an hour of NDK setup and 4 toolchains. This repo exists so you never do.</p>
+    <div class="twrap" style="margin-top:40px">
+      <table>
+        <thead><tr><th></th><th>tdlib-android</th><th>DIY compile</th><th>Self-hosted CI</th></tr></thead>
+        <tbody>
+          <tr><td>All 4 ABIs</td><td class="y">✓ every release</td><td class="td-n">manual per-arch</td><td class="y">✓</td></tr>
+          <tr><td>Local NDK needed</td><td class="y">never</td><td class="td-n">yes, 4 toolchains</td><td class="td-n">docker only</td></tr>
+          <tr><td>16KB page alignment</td><td class="y">verified in CI</td><td class="td-n">your job</td><td class="td-n">your job</td></tr>
+          <tr><td>Upstream tracking</td><td class="y">automatic, 6h</td><td class="td-n">manual</td><td class="td-n">manual</td></tr>
+          <tr><td>Binary verification</td><td class="y">readelf gate</td><td class="td-n">—</td><td class="td-n">—</td></tr>
+          <tr><td>Distribution</td><td class="y">Maven Central</td><td class="td-n">manual</td><td class="td-n">manual</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2 class="sec-h rv">Stop compiling Telegram. Start using it.</h2>
+    <p class="sec-sub rv">Current release <span class="mono">0.1.1</span> (TDLib 1.8.x), signed and checksummed.</p>
+    <div class="cta rv">
+      <a class="btn btn-p" href="/setup">Read the setup guide</a>
+      <a class="btn btn-s" href="https://github.com/AkashPriyadarshii/tdlib-android/releases">Download AARs</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© tdlib-android · BSL-1.0 core, Apache-2.0 ktx · by Akash Priyadarshi</span>
+    <div class="r">
+      <a href="/privacy">Privacy</a><a href="/CONTACT">Contact</a><a href="agent-instructions.md">llms.txt</a>
+    </div>
+  </div>
+</footer>
 
 <script>
-// L2 scroll reveal
-(function(){
-  var els = document.querySelectorAll('.reveal');
-  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduced || !('IntersectionObserver' in window)){
-    els.forEach(function(e){ e.classList.add('in-view'); });
-    return;
-  }
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if(en.isIntersecting){
-        en.target.classList.add('in-view');
-        io.unobserve(en.target);
-      }
-    });
-  }, {threshold: 0.01, rootMargin: '60px 0px'});
-  els.forEach(function(e){
-    var rect = e.getBoundingClientRect();
-    if(rect.top < window.innerHeight && rect.bottom > 0){
-      e.classList.add('in-view');
-    } else {
-      io.observe(e);
-    }
-  });
-})();
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('on')),{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
 </script>
-<script>
-// copy button
-document.querySelectorAll('[data-copy]').forEach(function(btn){
-  btn.addEventListener('click',function(){
-    var container = btn.closest('.terminal, .code-card') || btn.parentElement;
-    var body = container ? (container.querySelector('.terminal-body, code') || container) : null;
-    var text = body ? (body.innerText || body.textContent || '').replace(/\u00a0/g,' ') : '';
-    if(!text) return;
-    navigator.clipboard.writeText(text).then(function(){
-      btn.textContent='Copied!';btn.classList.add('copied');
-      setTimeout(function(){btn.textContent='Copy';btn.classList.remove('copied');},1600);
-    });
-  });
-});
-// GitHub live data
-fetch('https://api.github.com/repos/AkashPriyadarshii/tdlib-android/releases/latest')
-  .then(function(r){return r.json();})
-  .then(function(d){
-    var ver=(d.tag_name||'').replace(/^v/,'');
-    if(ver){
-      var bv=document.getElementById('badge-ver');
-      if(bv)bv.textContent=ver;
-    }
-  }).catch(function(){});
-fetch('https://api.github.com/repos/AkashPriyadarshii/tdlib-android')
-  .then(function(r){return r.json();})
-  .then(function(d){
-    var bs=document.getElementById('badge-stars');
-    if(bs&&d.stargazers_count!=null)bs.textContent=d.stargazers_count;
-  }).catch(function(){});
-// Local static preview routing
-(function(){
-  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
-    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
-      var href = a.getAttribute('href');
-      if (href === '/') {
-        a.setAttribute('href', '/index.html');
-      } else if (!href.includes('.') && !href.includes('#')) {
-        a.setAttribute('href', href + '.html');
-      }
-    });
-  }
-})();
-</script>
-<a class="bmc-float" href="https://buymeacoffee.com/AkashPriyadarshi" target="_blank" rel="noopener noreferrer" aria-label="Support my work on Buy Me a Coffee" title="Fuel the next build"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1" /><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" /><line x1="6" x2="6" y1="2" y2="4" /><line x1="10" x2="10" y1="2" y2="4" /><line x1="14" x2="14" y1="2" y2="4" /></svg></a><style>.bmc-float{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:9999px;background:#FFDD00;color:#000;box-shadow:0 8px 24px rgba(0,0,0,.35);transition:transform .2s ease}.bmc-float:hover{transform:scale(1.05)}.bmc-float svg{width:20px;height:20px}@media (prefers-reduced-motion:reduce){.bmc-float{transition:none}}@media print{.bmc-float{display:none}}</style></body>
+</body>
 </html>
