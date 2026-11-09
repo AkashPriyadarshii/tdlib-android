@@ -7,8 +7,69 @@ Description: CI-built TDLib AARs (arm64-v8a, armeabi-v7a, x86_64, x86), 16KB pag
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>tdlib-android — Precompiled TDLib AARs for Android, all 4 ABIs</title>
-<meta name="description" content="CI-built TDLib AARs for all 4 Android ABIs, 16KB page aligned, on Maven Central. Kotlin Coroutines/Flow wrapper. Zero local NDK.">
+<title>TDLib Android - Prebuilt AAR (4 ABIs, Zero NDK)</title>
+<meta name="description" content="Precompiled TDLib for Android. Zero NDK. Zero source compile. Community-maintained, auto-updated TDLib distribution for Android. All 4 ABIs built by CI - arm64-v8a, armeabi-v7a, x86_64, x86 - shipped as signed AARs on Maven Central.">
+<meta name="author" content="Akash Priyadarshi">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<meta name="application-name" content="tdlib-android">
+<link rel="canonical" href="https://tdlib-android.vercel.app/">
+<link rel="alternate" type="text/markdown" href="/index.md">
+<meta name="keywords" content="tdlib android, tdlib aar, prebuilt tdlib, telegram database library android, tdlib maven central, tdlib no ndk, tdlib 16kb page, libtdjson android">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="tdlib-android">
+<meta property="og:title" content="TDLib Android - Prebuilt AAR (4 ABIs, Zero NDK)">
+<meta property="og:description" content="Precompiled TDLib for Android. Zero NDK, Zero source compile. All 4 ABIs built by CI, shipped as signed AARs on Maven Central.">
+<meta property="og:url" content="https://tdlib-android.vercel.app/">
+<meta property="og:image" content="https://tdlib-android.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TDLib Android - Prebuilt AAR (4 ABIs, Zero NDK)">
+<meta name="twitter:description" content="Precompiled TDLib for Android. Zero NDK. All 4 ABIs, 16KB aligned, Maven Central.">
+<meta name="twitter:image" content="https://tdlib-android.vercel.app/og.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "tdlib-android",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Android 8.0+",
+      "description": "Precompiled TDLib (Telegram Database Library) for Android. All 4 ABIs (arm64-v8a, armeabi-v7a, x86_64, x86), CI-built, signed AARs on Maven Central, zero local NDK compilation.",
+      "softwareVersion": "0.1.1",
+      "author": {"@type": "Person", "name": "Akash Priyadarshi"},
+      "license": "https://www.boost.org/LICENSE_1_0.txt",
+      "codeRepository": "https://github.com/AkashPriyadarshii/tdlib-android",
+      "downloadUrl": "https://central.sonatype.com/artifact/io.github.tdlib-android/core/0.1.1",
+      "publisher": {"@type": "Organization", "name": "tdlib-android"}
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type": "Question", "name": "Do I need the Android NDK to use TDLib?", "acceptedAnswer": {"@type": "Answer", "text": "No. tdlib-android ships TDLib as prebuilt signed AARs on Maven Central - one Gradle dependency, zero NDK, zero source compilation."}},
+        {"@type": "Question", "name": "Which ABIs does tdlib-android support?", "acceptedAnswer": {"@type": "Answer", "text": "All four: arm64-v8a, armeabi-v7a, x86_64 and x86. Every build is verified with readelf -h before publish."}},
+        {"@type": "Question", "name": "Is tdlib-android 16KB page aligned?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. AARs are 16KB page aligned, forward compatible with Android 15 and target SDK 35."}},
+        {"@type": "Question", "name": "Does tdlib-android track upstream TDLib releases?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. A scheduled workflow polls TDLib master every 6 hours and opens a review-ready PR with diff and checksums on change."}}
+      ]
+    },
+    {
+      "@type": "Organization",
+      "name": "tdlib-android",
+      "url": "https://tdlib-android.vercel.app/",
+      "logo": "https://tdlib-android.vercel.app/favicon.svg",
+      "founder": {"@type": "Person", "name": "Akash Priyadarshi"},
+      "sameAs": ["https://github.com/AkashPriyadarshii/tdlib-android"]
+    }
+  ]
+}
+</script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
