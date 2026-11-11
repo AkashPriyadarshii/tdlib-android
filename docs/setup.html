@@ -307,6 +307,9 @@ document.querySelectorAll('[data-copy]').forEach(function(btn){
         btn.textContent = 'Copy';
         btn.classList.remove('copied');
       }, 1600);
+    }).catch(function(){
+      btn.textContent = 'Failed';
+      setTimeout(function(){ btn.textContent = 'Copy'; }, 1600);
     });
   });
 });

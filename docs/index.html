@@ -6,7 +6,7 @@ Description: CI-built TDLib AARs (arm64-v8a, armeabi-v7a, x86_64, x86), 16KB pag
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>TDLib Android - Prebuilt AAR (4 ABIs, Zero NDK)</title>
 <meta name="description" content="Precompiled TDLib for Android. Zero NDK. Zero source compile. Community-maintained, auto-updated TDLib distribution for Android. All 4 ABIs built by CI - arm64-v8a, armeabi-v7a, x86_64, x86 - shipped as signed AARs on Maven Central.">
 <meta name="author" content="Akash Priyadarshi">
@@ -207,7 +207,7 @@ CoroutineScope(Dispatchers.IO).<span class="f">launch</span> {
 
 <footer>
   <div class="wrap">
-    <span>© tdlib-android · BSL-1.0 core, Apache-2.0 ktx · by Akash Priyadarshi</span>
+    <span>© tdlib-android · BSL-1.0 core, Apache-2.0 ktx · by <a href="https://akashpriyadarshi.is-a.dev" target="_blank" rel="noopener">Akash Priyadarshi</a></span>
     <div class="r">
       <a href="/privacy">Privacy</a><a href="/contact">Contact</a><a href="/agent-instructions.md">Agents</a><a href="/llms.txt">llms.txt</a>
     </div>
@@ -237,6 +237,20 @@ document.querySelectorAll('[data-copy]').forEach(function(btn){
     });
   });
 });
+
+// Local static preview routing
+(function(){
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:') {
+    document.querySelectorAll('a[href^="/"]').forEach(function(a) {
+      var href = a.getAttribute('href');
+      if (href === '/') {
+        a.setAttribute('href', '/index.html');
+      } else if (!href.includes('.') && !href.includes('#')) {
+        a.setAttribute('href', href + '.html');
+      }
+    });
+  }
+})();
 </script>
 </body>
 </html>
