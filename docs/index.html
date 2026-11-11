@@ -71,17 +71,20 @@ Description: CI-built TDLib AARs (arm64-v8a, armeabi-v7a, x86_64, x86), 16KB pag
 }
 </script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to content</a>
 
 <nav>
   <div class="wrap">
     <a class="brand" href="/">
-      <img src="favicon.svg" alt="">
+      <img src="favicon.svg" alt="" width="26" height="26">
       tdlib-android <span class="v">v0.1.1 · TDLib 1.8.x</span>
     </a>
     <div class="links">
@@ -94,6 +97,7 @@ Description: CI-built TDLib AARs (arm64-v8a, armeabi-v7a, x86_64, x86), 16KB pag
   </div>
 </nav>
 
+<main id="main-content">
 <header class="hero">
   <div class="wrap grid">
     <div>
@@ -106,13 +110,17 @@ Description: CI-built TDLib AARs (arm64-v8a, armeabi-v7a, x86_64, x86), 16KB pag
       </div>
     </div>
     <div class="term">
-      <div class="bar"><i></i><i></i><i></i><span>app/build.gradle.kts</span></div>
-      <pre><span class="c">// two lines and you have Telegram's core</span>
+      <div class="bar">
+        <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+        <span>app/build.gradle.kts</span>
+        <button type="button" class="copy-btn" data-copy aria-label="Copy Gradle dependencies snippet">Copy</button>
+      </div>
+      <pre id="gradle-snippet"><span class="c">// two lines and you have Telegram's core</span>
 <span class="k">dependencies</span> {
   <span class="f">implementation</span>(<span class="s">"io.github.tdlib-android:core:0.1.1"</span>)
   <span class="f">implementation</span>(<span class="s">"io.github.tdlib-android:ktx:0.1.1"</span>)
 }</pre>
-      <div class="bar"><span>usage</span></div>
+      <div class="bar"><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><span>usage</span></div>
       <pre><span class="k">val</span> client = <span class="f">TdClient</span>(filesDir = context.filesDir
   .absolutePath + <span class="s">"/tdlib"</span>)
 client.<span class="f">init</span>()
@@ -134,8 +142,8 @@ CoroutineScope(Dispatchers.IO).<span class="f">launch</span> {
 
 <div class="strip">
   <div class="in">
-    <span>readelf -h verify</span><b>✳</b><span>ELF header gate</span><b>✳</b><span>fail-fast matrix</span><b>✳</b><span>checksums in PR body</span><b>✳</b><span>human-reviewed merge</span><b>✳</b><span>signed AARs</span><b>✳</b>
-    <span>readelf -h verify</span><b>✳</b><span>ELF header gate</span><b>✳</b><span>fail-fast matrix</span><b>✳</b><span>checksums in PR body</span><b>✳</b><span>human-reviewed merge</span><b>✳</b><span>signed AARs</span><b>✳</b>
+    <span>readelf -h verify</span><b aria-hidden="true">✳</b><span>ELF header gate</span><b aria-hidden="true">✳</b><span>fail-fast matrix</span><b aria-hidden="true">✳</b><span>checksums in PR body</span><b aria-hidden="true">✳</b><span>human-reviewed merge</span><b aria-hidden="true">✳</b><span>signed AARs</span><b aria-hidden="true">✳</b>
+    <span>readelf -h verify</span><b aria-hidden="true">✳</b><span>ELF header gate</span><b aria-hidden="true">✳</b><span>fail-fast matrix</span><b aria-hidden="true">✳</b><span>checksums in PR body</span><b aria-hidden="true">✳</b><span>human-reviewed merge</span><b aria-hidden="true">✳</b><span>signed AARs</span><b aria-hidden="true">✳</b>
   </div>
 </div>
 
@@ -195,21 +203,40 @@ CoroutineScope(Dispatchers.IO).<span class="f">launch</span> {
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap">
     <span>© tdlib-android · BSL-1.0 core, Apache-2.0 ktx · by Akash Priyadarshi</span>
     <div class="r">
-      <a href="/privacy">Privacy</a><a href="/CONTACT">Contact</a><a href="agent-instructions.md">llms.txt</a>
+      <a href="/privacy">Privacy</a><a href="/contact">Contact</a><a href="/agent-instructions.md">Agents</a><a href="/llms.txt">llms.txt</a>
     </div>
   </div>
 </footer>
 
 <a class="bmc-float" href="https://buymeacoffee.com/AkashPriyadarshi" target="_blank" rel="noopener noreferrer" aria-label="Support my work on Buy Me a Coffee" title="Fuel the next build"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8h1a4 4 0 1 1 0 8h-1" /><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" /><line x1="6" x2="6" y1="2" y2="4" /><line x1="10" x2="10" y1="2" y2="4" /><line x1="14" x2="14" y1="2" y2="4" /></svg></a>
-<style>.bmc-float{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:9999px;background:#FFDD00;color:#000;box-shadow:0 8px 24px rgba(0,0,0,.35);transition:transform .2s ease}.bmc-float:hover{transform:scale(1.05)}.bmc-float svg{width:20px;height:20px}@media (prefers-reduced-motion:reduce){.bmc-float{transition:none}}@media print{.bmc-float{display:none}}</style>
 <script>
 const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('on')),{threshold:.15});
 document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+document.querySelectorAll('[data-copy]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var snippet = document.getElementById('gradle-snippet');
+    var text = snippet ? (snippet.innerText || snippet.textContent || '').replace(/\u00a0/g,' ') : '';
+    if(!text) return;
+    navigator.clipboard.writeText(text).then(function(){
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function(){
+        btn.textContent = 'Copy';
+        btn.classList.remove('copied');
+      }, 1600);
+    }).catch(function(){
+      btn.textContent = 'Failed';
+      setTimeout(function(){ btn.textContent = 'Copy'; }, 1600);
+    });
+  });
+});
 </script>
 </body>
 </html>

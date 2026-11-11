@@ -18,10 +18,10 @@ If you discover a security vulnerability in the prebuilt binary packaging, CI wo
 
 tdlib-android is maintained by **Akash Priyadarshi**, located in **Patna, Bihar, India**.
 
-- **Portfolio & Direct Contact:** https://akashpriyadarshi.vercel.app/contact
+- **Portfolio & Direct Contact:** https://akashpriyadarshi.is-a.dev/contact
 - **GitHub:** https://github.com/AkashPriyadarshii
 - **LinkedIn:** https://linkedin.com/in/akashpriyadarshii
 - **X / Twitter:** https://x.com/Akash__ydv001
-- **Threads:** https://www.threads.com/@free_dev2026
+- **Threads:** https://threads.net/@akash.priyadarshii
 - **Instagram:** https://www.instagram.com/akash.priyadarshii/
 - **Reddit:** https://reddit.com/user/akashpriyadarshi

@@ -4,87 +4,74 @@
 
 ## 1. Visual Theme & Atmosphere
 
-**Style**: Light vellum + warm dark terminal. Single theme, no switcher.
-**Keywords**: precise, dense, hardware, CLI, light-vellum, single-signal, tabular, code-first.
+**Style**: Dark terminal-precision theme. Single theme, high contrast.
+**Keywords**: precise, dense, hardware, CLI, dark-carbon, tabular, code-first.
 **Tone**: Technical and unhurried — NOT startup-boilerplate hype.
-**Feel**: A clean light workbench with a warm dark terminal at center. Everything earns its pixels.
+**Feel**: An engineered terminal console. Dense information hierarchy where code and verified metrics earn every pixel.
 
-**Interaction Tier**: L2 — sticky blur nav, scroll-reveal (index only), hover/focus states, reduced-motion fallback. Single light theme, no theme switcher.
+**Interaction Tier**: L2 — sticky blur nav, responsive scrollable links on mobile, scroll-reveal (index only), visible focus rings, reduced-motion fallback. Single dark theme.
 **Dependencies**: CSS-only (no framework). Vanilla JS `IntersectionObserver` for reveal.
 
 ## 2. Color Palette & Roles
 
-Fused from **Linear** (skeleton) + **Supabase** (accent) + **Warp** (warm card tint).
+Engineered for precision tooling with Telegram emerald + cyan accents on deep carbon.
 
 ```css
 :root {
-  /* Backgrounds — light vellum */
-  --bg: #FBFBFA;                 /* page */
-  --surface: #FFFFFF;            /* cards/containers */
-  --surface-alt: #F4F3EE;        /* alternating section */
-  --surface-warm: #141715;       /* terminal frame (warm dark) */
-  --surface-hover: #F2F0E8;
+  /* Backgrounds */
+  --bg: #070a09;                 /* page canvas */
+  --bg2: #0c110f;                /* alternating sections / stat tiles */
+  --panel: #101614;              /* cards, interactive containers */
 
-  /* Borders — warm hairline */
-  --border: #DDD8C8;
-  --border-hover: #C8C4B8;
+  /* Borders */
+  --line: #1c2622;               /* subtle borders */
+  --line2: #263430;              /* interactive / hovered borders */
 
-  /* Text — ink ramp */
-  --text: #161917;
-  --text-secondary: #2E342E;
-  --text-tertiary: #3F463F;
-  --text-faint: #4C554D;
+  /* Text — ink ramp (all >= 4.5:1 on their backgrounds) */
+  --ink: #e6f0ea;                /* primary text (17.05:1 on --bg) */
+  --dim: #9db3a8;                /* secondary text / leads (8.94:1 on --bg) */
+  --mut: #769687;                /* muted labels, table headers (6.14:1 on --bg) */
 
-  /* Accent — deep emerald */
-  --accent: #047857;
-  --accent-hover: #065f46;
-  --accent-deep: #064e3b;
-  --on-accent: #FFFFFF;
+  /* Accent — Telegram green + cyan */
+  --ac: #2eea8b;                 /* primary accent green */
+  --ac2: #35c9e8;                /* secondary cyan for links/highlights */
+  --ac-soft: rgba(46,234,139,.11);/* pill backgrounds */
 
-  /* RGB variants */
-  --bg-rgb: 251, 251, 250;
-  --accent-rgb: 4, 120, 87;
-
-  /* Semantic */
-  --success: #047857;
-  --error: #DC2626;
-  --warning: #D97706;
-  --code-bg: #141715;
-  --code-border: #242B26;
-
-  /* Terminal (warm-dark) — independent of light ink; must stay ≥ 4.5:1 on #141715 */
-  --term-text: #C9C0AD;            /* terminal body + copy button */
-  --term-muted: #9AA39F;           /* terminal title / header labels */
-  --term-accent: #6EE7B7;          /* syntax highlight + live badge on dark */
+  /* Terminal frame */
+  --code-bg: #0a100e;
+  --code-border: #1c2622;
+  --term-text: #c6d6cd;
+  --term-muted: #769687;
+  --term-accent: #2eea8b;
+  --term-comment: #6c8c7d;       /* code comments (5.20:1 on #0a100e) */
 }
 ```
 
 **Color Rules:**
 - Every color via CSS vars. No hardcoded hex in markup.
-- Emerald = the ONLY chromatic event. Appears on: primary CTA, version badge, ABI "✓" states, active nav. Never decorative washes.
-- One accent per section. Green links in body = always underline, never just color.
-- Body text `#2E342E` on `#FBFBFA` = contrast ≥ 12:1. Secondary `#3F463F` ≥ 9:1. Terminal `#C9C0AD`/`#6EE7B7` on `#141715` = ≥ 7:1. All ≥ 4.5:1 (AA).
+- Telegram emerald (`--ac`) = primary chromatic event: CTAs, version badges, ABI "✓" states, active nav indicators.
+- Contrast verification: all normal text pairings exceed WCAG 2.1 AA (≥ 4.5:1).
+- Interactive focus states: explicit `:focus-visible` outline in `--ac` with 3px offset.
 
 ## 3. Typography
 
 **Faces:**
-- **IBM Plex Sans** (sans) — display + body. Distinctive (not Inter/Roboto slop), humanist, technical grain.
-- **JetBrains Mono** (mono) — all code blocks, terminal mockups, version strings, table ABI labels. Tabular, hardware-precise.
-- Fallbacks: `'IBM Plex Sans', system-ui, -apple-system, sans-serif` / `'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace`.
+- **Sora** (sans) — display + body. Technical geometry, humanist legibility.
+- **IBM Plex Mono** (mono) — all code blocks, terminal mockups, version strings, table ABI labels. Tabular, hardware-precise.
+- Fallbacks: `'Sora', system-ui, sans-serif` / `'IBM Plex Mono', ui-monospace, monospace`.
 
-Weight logic: display 600, body 400, labels 500 mono. No serif anywhere — this is tooling, not editorial.
+Weight logic: display 700/800, body 400/600, labels 500 mono.
 
-Scale (from Linear, tightened):
+Scale:
 ```
---text-hero:    clamp(2.5rem, 6vw, 4rem)    / 1.05  weight 600  ls -0.03em
---text-h2:      2rem                        / 1.15  weight 600  ls -0.02em
---text-h3:      1.25rem                     / 1.25  weight 600  ls -0.01em
---text-body:    1.0625rem (17px)            / 1.6   weight 400
---text-sm:      0.9375rem (15px)            / 1.5
---text-mono:    0.875rem (14px)             / 1.6   mono
---text-label:   0.78125rem (12.5px)         / 1.2   mono cap  uppercase ls 0.08em
+--text-hero:    clamp(40px, 5.6vw, 64px)    / 1.04  weight 800  ls -0.03em
+--text-h2:      clamp(28px, 3.4vw, 40px)    / 1.15  weight 700  ls -0.02em
+--text-lead:    1.09375rem (17.5px)         / 1.6   weight 400
+--text-body:    1rem (16px)                 / 1.65  weight 400
+--text-mono:    0.8125rem (13px)            / 1.75  mono
+--text-label:   0.71875rem (11.5px)         / 1.2   mono cap  uppercase ls 0.08em
 ```
-All headings `text-wrap: balance`; body `text-wrap: pretty`.
+All headings `text-wrap: balance`; body and lead paragraphs `text-wrap: pretty`. Tabular numbers enforced across all data cells.
 
 ## 4. Spacing & Layout
 
