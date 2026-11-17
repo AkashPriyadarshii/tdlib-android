@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#070a09">
+<meta name="theme-color" content="#F7F4EC">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <title>About tdlib-android - Mission, Architecture & Maintainer</title>
 <meta name="description" content="Learn about tdlib-android, why it exists, how it solves local NDK compilation bottlenecks, and who builds it. Maintained by Akash Priyadarshi.">
 <meta name="author" content="Akash Priyadarshi">
@@ -119,20 +119,19 @@
  <h2>Architectural Pillars</h2>
  <ul>
  <li><strong>All 4 Android ABIs Shipped:</strong> Every release packages <code style="font-family:var(--px-mono);font-size:0.9em">arm64-v8a</code> (modern 64-bit devices), <code style="font-family:var(--px-mono);font-size:0.9em">armeabi-v7a</code> (legacy 32-bit devices), <code style="font-family:var(--px-mono);font-size:0.9em">x86_64</code> (64-bit emulators), and <code style="font-family:var(--px-mono);font-size:0.9em">x86</code> (32-bit emulators). We never drop architectures.</li>
- <li><strong>Android 15+ 16 KB Page Alignment:</strong> All binaries are built with pinned NDK r27c with <code style="font-family:var(--px-mono);font-size:0.9em">-Wl,-z,max-page-size=16384</code> flags, ensuring full compliance with Google Play's 16 KB page size requirement for Android 15 devices.</li>
+ <li><strong>Android 15+ 16 KB Page Alignment:</strong> All binaries are built with pinned NDK r27c with <code style="font-family:var(--px-mono);font-size:0.9em">-Wl,-z,max-page-size=16384</code> flags, ensuring full compliance with Google Play’s 16 KB page size requirement for Android 15 devices.</li>
  <li><strong>Strict Verification Gates:</strong> Before an AAR can be packaged, CI runs <code style="font-family:var(--px-mono);font-size:0.9em">verify-abi-count.sh</code>, using <code style="font-family:var(--px-mono);font-size:0.9em">readelf -h</code> to validate the machine architecture of each binary. We never rely on superficial file sizes.</li>
  <li><strong>Zero-Overhead Kotlin Coroutines Wrapper:</strong> The <code style="font-family:var(--px-mono);font-size:0.9em">ktx</code> module provides a clean 150-line reactive bridge converting TDLib's asynchronous native requests to Kotlin <code style="font-family:var(--px-mono);font-size:0.9em">suspend fun send()</code> and streaming incoming events via <code style="font-family:var(--px-mono);font-size:0.9em">Flow&lt;TdApi.Update&gt;</code>.</li>
  </ul>
 
  <h2>Maintainer & Identity</h2>
  <div class="bio-card">
- <div class="bio-title">Maintainer Profile</div>
  <h3 style="font-size:1.25rem;margin-bottom:8px;color:var(--text)">Akash Priyadarshi</h3>
  <p style="color:var(--text-secondary);margin:0 0 12px">Akash Priyadarshi, self-taught developer &amp; open-source builder from Patna, Bihar, India. Rust systems tooling, AI agents, Android internals.</p>
  <p style="margin:0;font-size:14px">
- <a href="https://github.com/AkashPriyadarshii" target="_blank" rel="noopener">GitHub</a> ·
- <a href="https://akashpriyadarshi.is-a.dev" target="_blank" rel="noopener">Portfolio</a> ·
- <a href="https://linkedin.com/in/akashpriyadarshii" target="_blank" rel="noopener">LinkedIn</a> ·
+ <a href="https://github.com/AkashPriyadarshii" target="_blank" rel="noopener">GitHub</a>
+ <a href="https://akashpriyadarshi.is-a.dev" target="_blank" rel="noopener">Portfolio</a>
+ <a href="https://linkedin.com/in/akashpriyadarshii" target="_blank" rel="noopener">LinkedIn</a>
  <a href="https://x.com/Akash__ydv001" target="_blank" rel="noopener">X / Twitter</a>
  </p>
  </div>
@@ -174,7 +173,7 @@
  </div>
   <div class="footer-bottom">
   <div>&copy; 2026 Akash Priyadarshi &middot; Patna, Bihar, India</div>
-  <div><a href="/">Home</a> &middot; <a href="/setup">Setup</a> &middot; <a href="/about">About</a> &middot; <a href="/contact">Contact</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/agent-instructions.md">Agent Instructions</a> &middot; <a href="/llms.txt">llms.txt</a></div>
+  <div class="foot-row"><a href="/">Home</a><a href="/setup">Setup</a><a href="/about">About</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/agent-instructions.md">Agent Instructions</a><a href="/llms.txt">llms.txt</a></div>
   </div>
 </div></footer>
 
