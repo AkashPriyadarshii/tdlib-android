@@ -7,7 +7,7 @@
 Compiling the Telegram Database Library (TDLib) from C++ source is notoriously difficult. It requires the complete Android NDK toolchain, CMake, OpenSSL, zlib, and at least 16 GB of RAM. On constrained developer machines, compiling TDLib takes hours, triggers out-of-memory crashes, and risks version drift.
 
 tdlib-android was conceived on a Windows 11 machine with only 4 GB of RAM — where local TDLib compilation is impossible. The project solves this through automated cloud engineering:
-- Automated version watchdog checks TDLib master every 6 hours.
+- Automated version watchdog checks TDLib master daily at 06:00 UTC.
 - Parallel Docker matrix builds compile and package all 4 native architectures.
 - Rigorous CI verification gates inspect ELF headers using `readelf -h` to guarantee 100% ABI completeness.
 - Verified artifacts are signed and published directly to Maven Central and GitHub Releases.

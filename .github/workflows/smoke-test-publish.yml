@@ -15,6 +15,10 @@ concurrency:
   group: smoke-test-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   smoke-test:
     runs-on: ubuntu-latest
@@ -26,9 +30,11 @@ jobs:
           distribution: 'temurin'
 
       - name: Wait for Maven Central propagation
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           # inputs.version is wrapper version (0.1.x), fallback to VERSION file
-          VERSION="${{ inputs.version }}"
+          VERSION="${INPUT_VERSION:-}"
           if [ -z "$VERSION" ]; then VERSION=$(cat VERSION | tr -d ' \n'); fi
           URL="https://repo1.maven.org/maven2/io/github/tdlib-android/core/$VERSION/core-$VERSION.pom"
           SEARCH_URL="https://search.maven.org/solrsearch/select?q=g:%22io.github.tdlib-android%22+AND+a:%22core%22+AND+v:%22$VERSION%22&rows=1&wt=json"
@@ -53,8 +59,11 @@ jobs:
           exit 1
 
       - name: Pull artifact from Maven Central and test
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
-          VERSION="${{ inputs.version }}"
+          VERSION="${INPUT_VERSION:-}"
+          if [ -z "$VERSION" ]; then VERSION=$(cat VERSION | tr -d ' \n'); fi
           echo "=== Setting up robust Maven Central smoke test for version $VERSION ==="
           mkdir -p /tmp/smoke_test/app/src/main/java/io/github/tdlibandroid/smoke
 
@@ -137,8 +146,10 @@ jobs:
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
           gh issue create -R AkashPriyadarshii/tdlib-android \
-            --title "PUBLISH BROKEN: v${{ inputs.version }} fails Maven Central smoke test" \
-            --body "The published artifact on Maven Central fails to compile. Immediate attention needed. Consider deprecating this release." \
+            --label "bug" \
+            --title "PUBLISH BROKEN: v${INPUT_VERSION} fails Maven Central smoke test" \
+            --body "The published artifact on Maven Central (v${INPUT_VERSION}) fails to compile. Immediate attention needed. Consider deprecating this release." \
             || echo "Issue creation skipped (missing issues:write or duplicate)."

@@ -15,17 +15,28 @@ OUTPUT_SVG = "docs/downloads-chart.svg"
 OUTPUT_BANNER_SVG = "docs/banner.svg"
 
 def fetch_release_stats():
-    url = f"https://api.github.com/repos/{REPO}/releases"
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": "tdlib-android-metrics-generator"}
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=15) as res:
-            releases = json.loads(res.read().decode("utf-8"))
-    except Exception as e:
-        print(f"Warning: Failed to fetch releases from GitHub: {e}")
-        return []
+    releases = []
+    page = 1
+    while True:
+        url = f"https://api.github.com/repos/{REPO}/releases?per_page=100&page={page}"
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "tdlib-android-metrics-generator"}
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=15) as res:
+                page_releases = json.loads(res.read().decode("utf-8"))
+        except Exception as e:
+            print(f"Warning: Failed to fetch releases from GitHub (page {page}): {e}")
+            if page == 1:
+                return []
+            break
+        if not page_releases:
+            break
+        releases.extend(page_releases)
+        if len(page_releases) < 100:
+            break
+        page += 1
 
     stats = []
     for r in releases:
@@ -58,17 +69,17 @@ def fetch_release_stats():
 def fetch_scarf_stats():
     """
     Fetches aggregate telemetry from Scarf v3 insights API.
-    Falls back to verified baseline (2,711 downloads, 269 unique sources) if token is missing or API fails.
+    Returns zeroed stats if token is missing or API fails.
     """
     token = os.environ.get("SCARF_API_TOKEN")
     default_stats = {
-        "downloads": 2711,
-        "unique_sources": 269,
-        "core": 1572,
-        "ktx": 1139,
+        "downloads": 0,
+        "unique_sources": 0,
+        "core": 0,
+        "ktx": 0,
     }
     if not token:
-        print("Note: SCARF_API_TOKEN not set, using baseline Scarf stats.")
+        print("Note: SCARF_API_TOKEN not set, using zeroed Scarf stats.")
         return default_stats
 
     url = f"https://api.scarf.sh/v3/insights/{SCARF_OWNER}/aggregations/export?breakdown=by-total&rollup=daily"
@@ -97,7 +108,7 @@ def fetch_scarf_stats():
                 elif "ktx" in art:
                     ktx_dl += tot
 
-            unique_sources = 269
+            unique_sources = 0
             try:
                 origin_url = f"https://api.scarf.sh/v3/insights/{SCARF_OWNER}/aggregations/export?breakdown=by-origin&rollup=yearly"
                 origin_req = urllib.request.Request(
@@ -115,15 +126,15 @@ def fetch_scarf_stats():
                         if l and json.loads(l).get("origin_id")
                     }
                     if origins:
-                        unique_sources = max(269, len(origins))
+                        unique_sources = len(origins)
             except Exception as e:
                 print(f"Note: Could not fetch distinct origin count: {e}")
 
             return {
-                "downloads": max(total_dl, 2711),
+                "downloads": total_dl,
                 "unique_sources": unique_sources,
-                "core": max(core_dl, 1572),
-                "ktx": max(ktx_dl, 1139),
+                "core": core_dl,
+                "ktx": ktx_dl,
             }
     except Exception as e:
         print(f"Warning: Failed to fetch stats from Scarf: {e}")
@@ -134,10 +145,10 @@ def render_svg(stats, scarf_stats):
     total_core = sum(s["core"] for s in stats)
     total_ktx = sum(s["ktx"] for s in stats)
     # Telemetry from Scarf (Maven Central publisher insights)
-    maven_core = scarf_stats.get("core", 1572)
-    maven_ktx = scarf_stats.get("ktx", 1139)
-    maven_downloads = scarf_stats.get("downloads", 2711)
-    maven_unique_sources = scarf_stats.get("unique_sources", 269)
+    maven_core = scarf_stats.get("core", 0)
+    maven_ktx = scarf_stats.get("ktx", 0)
+    maven_downloads = scarf_stats.get("downloads", 0)
+    maven_unique_sources = scarf_stats.get("unique_sources", 0)
     total_downloads = gh_downloads + maven_downloads
     now_utc = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
@@ -332,19 +343,17 @@ def main():
         f.write(svg)
     print(f"Rendered {OUTPUT_SVG} with {len(stats)} releases.")
 
-    # Write dynamic badge JSON endpoint for Shields.io
+    # Write dynamic badge JSON endpoint for Shields.io (GitHub Releases only)
     gh_downloads = sum(s["total"] for s in stats)
-    maven_downloads = scarf_stats.get("downloads", 2711)
-    total_downloads = gh_downloads + maven_downloads
     badge_data = {
         "schemaVersion": 1,
         "label": "downloads",
-        "message": f"{total_downloads:,}+",
+        "message": f"{gh_downloads:,}+",
         "color": "27a644"
     }
     with open("docs/downloads-badge.json", "w", encoding="utf-8") as f:
         json.dump(badge_data, f, indent=2)
-    print(f"Rendered docs/downloads-badge.json with {total_downloads:,}+ total downloads.")
+    print(f"Rendered docs/downloads-badge.json with {gh_downloads:,}+ GitHub downloads.")
 
     # Determine latest version for banner
     latest_version = "0.1.1"

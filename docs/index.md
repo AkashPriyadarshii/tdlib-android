@@ -14,7 +14,7 @@
 ## Why this exists
 
 Compiling TDLib locally requires 16+ GB RAM, a full NDK toolchain, and hours of build time that easily causes OOM crashes on standard developer machines. tdlib-android offloads compilation to automated GitHub Actions CI pipelines:
-- Watchdog cron polls TDLib upstream master every 6 hours.
+- Watchdog cron polls TDLib upstream master daily at 06:00 UTC.
 - Docker matrix compiles all 4 native architectures with pinned NDK r27c.
 - Binary verification gates validate ELF headers using `readelf -h`.
 - Automated PR with full diff and checksums opens for human review.
@@ -46,10 +46,14 @@ dependencies {
 
 ```kotlin
 // 1. Load native JNI library
-System.loadLibrary("tdjson")
+System.loadLibrary("tdjni")
 
 // 2. Initialize TdClient with dedicated app storage directory
-val client = TdClient(filesDir = context.filesDir.absolutePath + "/tdlib")
+val client = TdClient(
+    filesDir = context.filesDir.absolutePath + "/tdlib",
+    apiId = BuildConfig.TELEGRAM_API_ID,
+    apiHash = BuildConfig.TELEGRAM_API_HASH
+)
 client.init()
 
 // 3. React to updates via Kotlin Coroutines Flow

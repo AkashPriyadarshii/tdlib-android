@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # The script checks that all needed tools are installed and sets OS_NAME, HOST_ARCH, and WGET variables
 

@@ -64,11 +64,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 // 1. Load native JNI binaries
-System.loadLibrary("tdjson")
+System.loadLibrary("tdjni")
 
-// 2. Initialize TdClient with isolated app storage
+// 2. Initialize TdClient with isolated app storage (ktx handles SetTdlibParameters automatically)
 val client = TdClient(
     filesDir = File(context.filesDir, "tdlib").absolutePath,
+    apiId = BuildConfig.TELEGRAM_API_ID,
+    apiHash = BuildConfig.TELEGRAM_API_HASH,
     verbosityLevel = 1
 )
 client.init()
@@ -78,26 +80,7 @@ CoroutineScope(Dispatchers.IO).launch {
     client.updates.collect { update ->
         when (update) {
             is TdApi.UpdateAuthorizationState -> {
-                // Send api credentials on AuthorizationStateWaitTdlibParameters:
                 when (update.authorizationState) {
-                    is TdApi.AuthorizationStateWaitTdlibParameters -> {
-                        val params = TdApi.SetTdlibParameters().apply {
-                            useTestDc = false
-                            databaseDirectory = File(context.filesDir, "tdlib").absolutePath
-                            filesDirectory = File(context.filesDir, "tdlib/files").absolutePath
-                            useFileDatabase = true
-                            useChatInfoDatabase = true
-                            useMessageDatabase = true
-                            useSecretChats = false
-                            apiId = BuildConfig.TELEGRAM_API_ID
-                            apiHash = BuildConfig.TELEGRAM_API_HASH
-                            systemLanguageCode = "en"
-                            deviceModel = android.os.Build.MODEL
-                            systemVersion = android.os.Build.VERSION.RELEASE
-                            applicationVersion = "1.0.0"
-                        }
-                        client.send(params)
-                    }
                     is TdApi.AuthorizationStateWaitPhoneNumber -> {
                         // Prompt user for phone number
                     }
@@ -114,7 +97,7 @@ CoroutineScope(Dispatchers.IO).launch {
 }
 ```
 
-If you use the low-level `:core` module directly instead of the `ktx` wrapper, load the native binary via `System.loadLibrary("tdjson")` and send your `TdApi.SetTdlibParameters` when the client reports `AuthorizationStateWaitTdlibParameters` — the parameters are the same as above.
+If you use the low-level `:core` module directly instead of the `ktx` wrapper, load the native binary via `System.loadLibrary("tdjni")` and send `TdApi.SetTdlibParameters` when the client reports `AuthorizationStateWaitTdlibParameters`.
 
 ---
 

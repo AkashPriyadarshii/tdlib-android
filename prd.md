@@ -37,7 +37,7 @@ Telegram Database Library ([TDLib](https://github.com/tdlib/td)) is the official
 ### 3.1 In-Scope (v0.1.1)
 
 1. **`:core` Module (AAR Distribution):**
-   - Embedded `libtdjson.so` for all 4 production ABIs: `arm64-v8a`, `armeabi-v7a`, `x86_64`, `x86`.
+   - Embedded `libtdjni.so` for all 4 production ABIs: `arm64-v8a`, `armeabi-v7a`, `x86_64`, `x86`.
    - Android 15 forward-compatibility: compiled with NDK r27c (`27.2.12479018`) with `-Wl,-z,max-page-size=16384`.
    - Auto-generated Java JNI bindings: `TdApi.java` and `Client.java`.
    - Shipped `consumer-rules.pro` preventing R8/ProGuard from stripping native JNI symbols.
@@ -91,7 +91,7 @@ Telegram Database Library ([TDLib](https://github.com/tdlib/td)) is the official
 +-------------------------------------------------------------+
 |               io.github.tdlib-android:core                  |
 |   - Java JNI Glue (Client.java, TdApi.java)                 |
-|   - Prebuilt libtdjson.so (4 ABIs: arm64, armv7, x86, x64)  |
+|   - Prebuilt libtdjni.so (4 ABIs: arm64, armv7, x86, x64)   |
 |   - consumer-rules.pro (-keep class org.drinkless.tdlib.**) |
 +-------------------------------------------------------------+
                                |
@@ -152,7 +152,7 @@ Telegram Database Library ([TDLib](https://github.com/tdlib/td)) is the official
 │                  │                                           │
 │                  ▼                                           │
 │         Docker Build with Swap Space (10GB)                  │
-│         Compile libtdjson.so + generate TdApi.java           │
+│         Compile libtdjni.so + generate TdApi.java            │
 │                  │                                           │
 │                  ▼                                           │
 │         Merge & Verification:                                │

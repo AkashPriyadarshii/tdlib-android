@@ -11,7 +11,7 @@ PR opened with diff + checksums → Akash reviews → merge → publish.yml publ
 smoke-test-publish.yml verifies on Maven Central
 ```
 
-1.  **Upstream Watchdog (`check-upstream.yml`)**: Chronologically polls tdlib/td repo version parameters and scheme changes via GitHub API every 6 hours.
+1.  **Upstream Watchdog (`check-upstream.yml`)**: Chronologically polls tdlib/td repo version parameters and scheme changes via GitHub API daily at 06:00 UTC.
 2.  **Multitarget Compiler (`build.yml`)**: Spawns a parallel build matrix for all 4 required ABIs inside official Docker environments on Ubuntu Actions runners. Pinned NDK `27.2.12479018` is enforced.
 3.  **Binary Head checks (`verify-abi-count.sh`)**: Direct ELF verification via `readelf -h` to secure binary headers instead of fragile file size comparisons.
 4.  **Verification Compile (`smoke-test.sh`)**: Creates temporary Android apps compiling directly against core and ktx modules locally before publishing.

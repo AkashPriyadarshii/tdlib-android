@@ -11,14 +11,16 @@ ARG ANDROID_NDK_VERSION=27.2.12479018
 COPY ./check-environment.sh ./fetch-sdk.sh ./
 RUN ./fetch-sdk.sh SDK "$ANDROID_NDK_VERSION"
 
-ARG OPENSSL_VERSION=OpenSSL_1_1_1w
+ARG OPENSSL_VERSION=openssl-3.5.9
+ARG OPENSSL_SHA256=796831ec533bf41998eaaee9d632d921b8a69f57394fa4086ff01a941113d26d
 ARG BUILD_SHARED_OPENSSL_LIBS=
 COPY ./build-openssl.sh ./
-RUN ./build-openssl.sh SDK "$ANDROID_NDK_VERSION" openssl "$OPENSSL_VERSION" "$BUILD_SHARED_OPENSSL_LIBS"
+RUN ./build-openssl.sh SDK "$ANDROID_NDK_VERSION" openssl "$OPENSSL_VERSION" "$BUILD_SHARED_OPENSSL_LIBS" "$OPENSSL_SHA256"
 
 ARG CACHEBUST=1
-ARG COMMIT_HASH=master
-RUN git clone https://github.com/tdlib/td.git && cd td && (git checkout "$COMMIT_HASH" || git checkout master)
+ARG TDLIB_VERSION=master
+RUN git clone https://github.com/tdlib/td.git && cd td && \
+    (git checkout "$TDLIB_VERSION" 2>/dev/null || git checkout "v${TDLIB_VERSION#v}" 2>/dev/null || git checkout master)
 
 # Copy our custom, parallelized and ABI-filtered build script to override the default one from cloned td
 COPY ./build-tdlib.sh td/example/android/build-tdlib.sh

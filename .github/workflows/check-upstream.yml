@@ -27,11 +27,17 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           # Fetch upstream CMakeLists.txt via GitHub API (no clone needed)
-          UPSTREAM=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+          UPSTREAM=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" \
             "https://api.github.com/repos/tdlib/td/contents/CMakeLists.txt" \
             | jq -r '.content' | base64 -d \
             | grep -oP 'project\(TDLib VERSION \K[0-9]+\.[0-9]+\.[0-9]+')
+
+          if [ -z "$UPSTREAM" ] || [ "$UPSTREAM" = "null" ]; then
+            echo "ERROR: Failed to fetch upstream TDLib version (got: '$UPSTREAM')"
+            exit 1
+          fi
 
           LOCAL=$(cat TDLIB_VERSION 2>/dev/null || cat VERSION)
 
@@ -39,21 +45,25 @@ jobs:
           echo "Local TDLib: $LOCAL"
 
           if [ "$UPSTREAM" != "$LOCAL" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "new_version=$UPSTREAM" >> $GITHUB_OUTPUT
-            echo "old_version=$LOCAL" >> $GITHUB_OUTPUT
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "new_version=$UPSTREAM" >> "$GITHUB_OUTPUT"
+            echo "old_version=$LOCAL" >> "$GITHUB_OUTPUT"
           else
             # Also check if TL schema changed (catches non-version API changes)
-            UPSTREAM_HASH=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+            UPSTREAM_HASH=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" \
               "https://api.github.com/repos/tdlib/td/commits?path=td/generate/scheme/td_api.tl&per_page=1" \
               | jq -r '.[0].sha')
+            if [ -z "$UPSTREAM_HASH" ] || [ "$UPSTREAM_HASH" = "null" ]; then
+              echo "ERROR: Failed to fetch upstream TDLib schema hash (got: '$UPSTREAM_HASH')"
+              exit 1
+            fi
             LOCAL_HASH=$(cat .tdl_schema_hash 2>/dev/null || echo "none")
             if [ "$UPSTREAM_HASH" != "$LOCAL_HASH" ]; then
-              echo "changed=true" >> $GITHUB_OUTPUT
-              echo "new_version=$UPSTREAM" >> $GITHUB_OUTPUT
-              echo "old_version=$LOCAL" >> $GITHUB_OUTPUT
+              echo "changed=true" >> "$GITHUB_OUTPUT"
+              echo "new_version=$UPSTREAM" >> "$GITHUB_OUTPUT"
+              echo "old_version=$LOCAL" >> "$GITHUB_OUTPUT"
             else
-              echo "changed=false" >> $GITHUB_OUTPUT
+              echo "changed=false" >> "$GITHUB_OUTPUT"
             fi
           fi
 

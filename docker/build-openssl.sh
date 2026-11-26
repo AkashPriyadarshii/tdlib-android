@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
+DEFAULT_OPENSSL_VERSION="openssl-3.5.9"
+DEFAULT_OPENSSL_SHA256="796831ec533bf41998eaaee9d632d921b8a69f57394fa4086ff01a941113d26d"
 
 ANDROID_SDK_ROOT=${1:-SDK}
 ANDROID_NDK_VERSION=${2:-23.2.8568313}
 OPENSSL_INSTALL_DIR=${3:-third-party/openssl}
-OPENSSL_VERSION=${4:-OpenSSL_1_1_1w} # openssl-3.3.0
-BUILD_SHARED_LIBS=$5
+OPENSSL_VERSION=${4:-$DEFAULT_OPENSSL_VERSION}
+BUILD_SHARED_LIBS=${5:-}
+OPENSSL_SHA256=${6:-$([ "$OPENSSL_VERSION" = "$DEFAULT_OPENSSL_VERSION" ] && echo "$DEFAULT_OPENSSL_SHA256" || echo "")}
 
 if [ ! -d "$ANDROID_SDK_ROOT" ] ; then
   echo "Error: directory \"$ANDROID_SDK_ROOT\" doesn't exist. Run ./fetch-sdk.sh first, or provide a valid path to Android SDK."
@@ -33,6 +38,11 @@ cd $(dirname $0)
 echo "Downloading OpenSSL sources..."
 rm -f $OPENSSL_VERSION.tar.gz || exit 1
 $WGET https://github.com/openssl/openssl/archive/refs/tags/$OPENSSL_VERSION.tar.gz || exit 1
+if [ -z "$OPENSSL_SHA256" ] ; then
+  echo "Error: OPENSSL_SHA256 must be provided for custom OPENSSL_VERSION=$OPENSSL_VERSION" >&2
+  exit 1
+fi
+echo "$OPENSSL_SHA256  $OPENSSL_VERSION.tar.gz" | sha256sum -c - || exit 1
 rm -rf ./openssl-$OPENSSL_VERSION || exit 1
 tar xzf $OPENSSL_VERSION.tar.gz || exit 1
 rm $OPENSSL_VERSION.tar.gz || exit 1

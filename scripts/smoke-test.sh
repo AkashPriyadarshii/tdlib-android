@@ -11,7 +11,20 @@ trap 'rm -rf "$TEMP_DIR"' EXIT
 # Create dummy files for TdApi if testing configurations only
 
 REPO_DIR="$(pwd)"
-mkdir -p "$TEMP_DIR/app"
+AAR_PATH="${REPO_DIR}/core/build/outputs/aar/core-release.aar"
+if [ ! -f "$AAR_PATH" ]; then
+    echo "ERROR: $AAR_PATH not found." >&2
+    exit 1
+fi
+
+unzip -p "$AAR_PATH" classes.jar > "$TEMP_DIR/classes.jar"
+if ! jar tf "$TEMP_DIR/classes.jar" | grep -q '^org/drinkless/tdlib/TdApi\.class$'; then
+    echo "ERROR: classes.jar in $AAR_PATH does not contain org/drinkless/tdlib/TdApi.class" >&2
+    exit 1
+fi
+echo "Verified classes.jar contains org/drinkless/tdlib/TdApi.class."
+
+mkdir -p "$TEMP_DIR/app/src/main/java/io/github/tdlibandroid/smoke"
 
 # Scaffold build.gradle.kts for smoke test
 cat > "$TEMP_DIR/build.gradle.kts" << EOF
@@ -55,22 +68,33 @@ android {
 }
 dependencies {
     // Add local core release dependency using absolute repository path
-    implementation(files("${REPO_DIR}/core/build/outputs/aar/core-release.aar"))
+    implementation(files("${AAR_PATH}"))
+}
+EOF
+
+cat > "$TEMP_DIR/app/src/main/java/io/github/tdlibandroid/smoke/SmokeTest.kt" << 'EOF'
+package io.github.tdlibandroid.smoke
+
+import org.drinkless.tdlib.Client
+import org.drinkless.tdlib.TdApi
+
+object SmokeTest {
+    fun check(): TdApi.Object = TdApi.GetAuthorizationState()
+    fun clientClass(): Class<*> = Client::class.java
 }
 EOF
 
 echo "Scaffolded smoke test app successfully in $TEMP_DIR."
-# Dry run verification of syntax:
-echo "Verifying smoke test build execution..."
+echo "Compiling smoke test against TdApi..."
 cd "$TEMP_DIR"
 if [ -f "$REPO_DIR/gradlew" ]; then
   cp "$REPO_DIR/gradlew" .
   cp -r "$REPO_DIR/gradle" . 2>/dev/null || true
   chmod +x ./gradlew
-  ./gradlew :app:dependencies --configuration releaseRuntimeClasspath --no-daemon
+  ./gradlew :app:compileReleaseKotlin --no-daemon
 else
-  gradle :app:dependencies --configuration releaseRuntimeClasspath --no-daemon
+  gradle :app:compileReleaseKotlin --no-daemon
 fi
-echo "SMOKE TEST: Configuration loads successfully."
+echo "SMOKE TEST: TdApi reference compiled successfully."
 
 echo "=== Smoke test setup verification complete ==="

@@ -130,7 +130,7 @@
 
  <div class="step">
  <h2>Point Gradle at the prebuilt AAR</h2>
- <p><code class="inline">core</code> bundles <code class="inline">libtdjson.so</code> for all 4 ABIs; <code class="inline">ktx</code> adds Flow bridges.</p>
+ <p><code class="inline">core</code> bundles <code class="inline">libtdjni.so</code> for all 4 ABIs; <code class="inline">ktx</code> adds Flow bridges.</p>
 
  <h3>1. Enable Maven Central in repository management:</h3>
 <div class="code-wrap">
@@ -215,7 +215,7 @@ CoroutineScope(Dispatchers.IO).launch {
  }
 }</code></pre>
 </div>
- <p>Low-level <code class="inline">core</code> path: load <code class="inline">System.loadLibrary("tdjson")</code>, then send <code class="inline">SetTdlibParameters</code> on <code class="inline">AuthorizationStateWaitTdlibParameters</code>:</p>
+ <p>Low-level <code class="inline">core</code> path: load <code class="inline">System.loadLibrary("tdjni")</code>, then send <code class="inline">SetTdlibParameters</code> on <code class="inline">AuthorizationStateWaitTdlibParameters</code>:</p>
 <div class="code-wrap">
 <button type="button" class="copy-btn" data-copy aria-label="Copy SetTdlibParameters snippet">Copy</button>
 <pre><code class="language-kotlin"><span class="d">// Send parameters on AuthorizationStateWaitTdlibParameters</span>

@@ -37,4 +37,18 @@ class TdExceptionTest {
         assertTrue(ex.isFloodWait)
         assertEquals(0L, ex.floodWaitSeconds)
     }
+
+    @Test
+    fun testFloodWaitTrailingSpace() {
+        val ex = TdException(code = 429, message = "FLOOD_WAIT_42 ")
+        assertTrue(ex.isFloodWait)
+        assertEquals(42L, ex.floodWaitSeconds)
+    }
+
+    @Test
+    fun testFloodWaitEmptySuffix() {
+        val ex = TdException(code = 429, message = "FLOOD_WAIT_")
+        assertTrue(ex.isFloodWait)
+        assertEquals(0L, ex.floodWaitSeconds)
+    }
 }

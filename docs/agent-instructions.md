@@ -10,7 +10,7 @@
 - **Artifacts:**
   - Core AAR: `io.github.tdlib-android:core:0.1.1` (BSL-1.0)
   - Kotlin Flow Wrapper: `io.github.tdlib-android:ktx:0.1.1` (Apache-2.0)
-- **Primary Function:** Provides precompiled native Telegram Database Library (`libtdjson.so`) binaries bundled across all 4 Android architectures with zero local C++/NDK compilation requirements, 16 KB page size support (Android 15+), and a reactive Kotlin Coroutines/Flow bridge.
+- **Primary Function:** Provides precompiled native Telegram Database Library (`libtdjni.so`) binaries bundled across all 4 Android architectures with zero local C++/NDK compilation requirements, 16 KB page size support (Android 15+), and a reactive Kotlin Coroutines/Flow bridge.
 
 ---
 
@@ -88,12 +88,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 // Step 1: Load native JNI library
-System.loadLibrary("tdjson")
+System.loadLibrary("tdjni")
 
-// Step 2: Initialize TdClient with isolated app storage
+// Step 2: Initialize TdClient with isolated app storage (ktx handles SetTdlibParameters automatically)
 val tdlibDir = File(context.filesDir, "tdlib").apply { mkdirs() }
 val client = TdClient(
     filesDir = tdlibDir.absolutePath,
+    apiId = YOUR_API_ID,
+    apiHash = YOUR_API_HASH,
     verbosityLevel = 1
 )
 client.init()
@@ -105,19 +107,6 @@ scope.launch {
         when (update) {
             is TdApi.UpdateAuthorizationState -> {
                 when (update.authorizationState) {
-                    is TdApi.AuthorizationStateWaitTdlibParameters -> {
-                        val parameters = TdApi.SetTdlibParameters().apply {
-                            databaseDirectory = tdlibDir.absolutePath
-                            useMessageDatabase = true
-                            useSecretChats = true
-                            apiId = YOUR_API_ID
-                            apiHash = YOUR_API_HASH
-                            systemLanguageCode = "en"
-                            deviceModel = "Android"
-                            applicationVersion = "1.0.0"
-                        }
-                        client.send(parameters)
-                    }
                     is TdApi.AuthorizationStateWaitPhoneNumber -> {
                         // Prompt user for phone number
                     }

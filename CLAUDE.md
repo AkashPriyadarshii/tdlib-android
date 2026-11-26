@@ -8,12 +8,13 @@ GitHub org: tdlib-android. Maven Central: io.github.tdlib-android.
 Author: Akash Priyadarshi (@AkashPriyadarshii).
 
 ## Modules
-- `:core` — prebuilt .aar with libtdjson.so (4 ABIs) + TdApi.java + Client.java + consumer-rules.pro
+- `:core` — prebuilt .aar with libtdjni.so (4 ABIs) + TdApi.java + Client.java + consumer-rules.pro
 - `:ktx` — Kotlin Coroutines/Flow wrapper (~150 lines)
 - `:sample` — minimal usage example
 
 ## Key Files
-- `VERSION` — current shipped TDLib version, read by all build.gradle.kts files
+- `VERSION` — current library release version, read by all build.gradle.kts files
+- `TDLIB_VERSION` — current shipped upstream TDLib version
 - `.github/workflows/check-upstream.yml` — cron poller, triggers build
 - `.github/workflows/build.yml` — 4-ABI Docker matrix build
 - `.github/workflows/publish.yml` — Maven Central publish on PR merge
@@ -59,7 +60,7 @@ smoke-test-publish.yml verifies on Maven Central
 - .so validation: readelf -h + architecture check, never file size.
 
 ## Antipatterns — NEVER DO
-- Commit libtdjson.so or TdApi.java to git
+- Commit libtdjni.so or TdApi.java to git
 - Reduce ABI count below 4
 - Publish without all 4 ABIs verified by verify-abi-count.sh
 - Add application-layer logic to ktx module

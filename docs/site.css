@@ -15,7 +15,7 @@
   /* misc */
   --on-ac:#fbfaf5; --on-ink:#f7f4ec;
   --bmc:#ffdd00;
- ; --copybg:rgba(255,255,255,.05); --copybgh:rgba(255,255,255,.11);
+  --shadow-soft:rgba(25,28,21,.16); --copybg:rgba(255,255,255,.05); --copybgh:rgba(255,255,255,.11);
   --mono:'IBM Plex Mono',ui-monospace,monospace;
   --sans:'IBM Plex Sans',system-ui,sans-serif;
   --r:8px; --r-lg:14px;

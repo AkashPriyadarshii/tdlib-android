@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import io.github.tdlibandroid.ktx.TdClient
 import io.github.tdlibandroid.ktx.awaitReady
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.drinkless.tdlib.TdApi
 
@@ -20,8 +19,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        // Initialize client specifying database path
-        client = TdClient(filesDir = filesDir.absolutePath + "/tdlib")
+        // Initialize client specifying database path.
+        // Obtain apiId and apiHash from https://my.telegram.org (App configuration)
+        // and pass them here before running against Telegram's servers.
+        client = TdClient(
+            filesDir = filesDir.absolutePath + "/tdlib",
+            apiId = 0, // TODO: Replace with your Telegram api_id
+            apiHash = "" // TODO: Replace with your Telegram api_hash
+        )
         client.init()
 
         // 1. Collect all update streams in background scope
@@ -52,7 +57,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * Handle authorization states requested by JNI wrapper.
      */
-    private suspend fun handleAuthStates(update: TdApi.Update) {
+    private fun handleAuthStates(update: TdApi.Update) {
         if (update is TdApi.UpdateAuthorizationState) {
             when (val state = update.authorizationState) {
                 is TdApi.AuthorizationStateWaitPhoneNumber -> {
@@ -81,7 +86,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        // Release resources
-        client.close()
+        if (!isChangingConfigurations) {
+            // Release resources only when finishing, not during configuration changes (e.g. rotation)
+            client.close()
+        }
     }
 }

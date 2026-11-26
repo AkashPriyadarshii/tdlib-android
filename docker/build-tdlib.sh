@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 ANDROID_SDK_ROOT=${1:-SDK}
 ANDROID_NDK_VERSION=${2:-23.2.8568313}
@@ -80,7 +81,8 @@ for ABI in $ABIS_TO_BUILD ; do
   cmake -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK_ROOT/build/cmake/android.toolchain.cmake" -DOPENSSL_ROOT_DIR="$OPENSSL_INSTALL_DIR/$ABI" -DCMAKE_BUILD_TYPE=RelWithDebInfo -GNinja -DANDROID_ABI=$ABI -DANDROID_STL=$ANDROID_STL -DANDROID_PLATFORM=android-21 -DCMAKE_SHARED_LINKER_FLAGS="-Wl,-z,max-page-size=16384" $TDLIB_INTERFACE_OPTION .. || exit 1
   if [ "$ANDROID_INTERFACE" == "Java" ] || [ "$ANDROID_INTERFACE" == "JSONJava" ] ; then
     cmake --build . --target tdjni --parallel $(nproc) || exit 1
-    cp -p libtd*.so* ../tdlib/libs/$ABI/ || exit 1
+    cp -p libtdjni.so ../tdlib/libs/$ABI/libtdjni.so.debug || exit 1
+    "$ANDROID_NDK_ROOT/toolchains/llvm/prebuilt/$HOST_ARCH/bin/llvm-strip" --strip-debug --strip-unneeded ../tdlib/libs/$ABI/libtdjni.so.debug -o ../tdlib/libs/$ABI/libtdjni.so || exit 1
   fi
   if [ "$ANDROID_INTERFACE" == "JSON" ] ; then
     cmake --build . --target tdjson --parallel $(nproc) || exit 1
@@ -112,7 +114,7 @@ done
 echo "Compressing..."
 rm -f tdlib.zip tdlib-debug.zip || exit 1
 jar -cMf tdlib-debug.zip tdlib || exit 1
-rm tdlib/libs/*/*.debug || exit 1
+rm -f tdlib/libs/*/*.debug || exit 1
 jar -cMf tdlib.zip tdlib || exit 1
 mv tdlib.zip tdlib-debug.zip tdlib || exit 1
 

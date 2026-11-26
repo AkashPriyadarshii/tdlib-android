@@ -7,7 +7,7 @@
 The project consists of two modules:
 
 1. `:core`
-   - Shipped as a precompiled `.aar` containing `libtdjson.so` for all 4 ABIs.
+   - Shipped as a precompiled `.aar` containing `libtdjni.so` for all 4 ABIs.
    - Includes full generated `org.drinkless.tdlib.TdApi` and `Client.java` bindings.
    - Ships with embedded `consumer-rules.pro` R8/ProGuard configuration.
    - Zero third-party runtime dependencies.
@@ -94,40 +94,31 @@ class TelegramManager(private val context: Context) {
 
     fun start(apiId: Int, apiHash: String) {
         // Step 1: Load native JNI library
-        System.loadLibrary("tdjson")
+        System.loadLibrary("tdjni")
 
         // Step 2: Establish dedicated storage directory
         val tdlibDir = File(context.filesDir, "tdlib").apply { mkdirs() }
 
-        // Step 3: Initialize client
-        client = TdClient(filesDir = tdlibDir.absolutePath)
+        // Step 3: Initialize client (ktx handles SetTdlibParameters automatically)
+        client = TdClient(
+            filesDir = tdlibDir.absolutePath,
+            apiId = apiId,
+            apiHash = apiHash
+        )
         client.init()
 
         // Step 4: Listen to updates
         scope.launch {
             client.updates.collect { update ->
-                handleUpdate(update, apiId, apiHash)
+                handleUpdate(update)
             }
         }
     }
 
-    private suspend fun handleUpdate(update: TdApi.Update, apiId: Int, apiHash: String) {
+    private suspend fun handleUpdate(update: TdApi.Update) {
         when (update) {
             is TdApi.UpdateAuthorizationState -> {
                 when (update.authorizationState) {
-                    is TdApi.AuthorizationStateWaitTdlibParameters -> {
-                        val params = TdApi.SetTdlibParameters().apply {
-                            databaseDirectory = File(context.filesDir, "tdlib_db").absolutePath
-                            useMessageDatabase = true
-                            useSecretChats = true
-                            apiId = apiId
-                            apiHash = apiHash
-                            systemLanguageCode = "en"
-                            deviceModel = "Android"
-                            applicationVersion = "1.0.0"
-                        }
-                        client.send(params)
-                    }
                     is TdApi.AuthorizationStateWaitPhoneNumber -> {
                         // Request phone number from user
                     }
@@ -147,7 +138,7 @@ class TelegramManager(private val context: Context) {
 
 ## Troubleshooting & FAQ
 
-1. `java.lang.UnsatisfiedLinkError: dlopen failed: library "libtdjson.so" not found`
+1. `java.lang.UnsatisfiedLinkError: dlopen failed: library "libtdjni.so" not found`
    - Cause: ABI mismatch or packaging exclusion.
    - Solution: Ensure target device architecture is included in `ndk.abiFilters`. `tdlib-android` supports all 4 standard ABIs: `arm64-v8a`, `armeabi-v7a`, `x86_64`, and `x86`.
 

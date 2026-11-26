@@ -12,10 +12,10 @@ on:
     outputs:
       published:
         description: "Whether the library was successfully published to Maven Central"
-        value: ${{ jobs.package-and-publish.outputs.published }}
+        value: ${{ jobs.publish-and-release.outputs.published }}
       wrapper_version:
         description: "Wrapper VERSION published to Maven Central"
-        value: ${{ jobs.package-and-publish.outputs.wrapper_version }}
+        value: ${{ jobs.publish-and-release.outputs.wrapper_version }}
   workflow_dispatch:
     inputs:
       new_version:
@@ -31,8 +31,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: write
-  issues: write
+  contents: read
 
 jobs:
   build-abi:
@@ -42,16 +41,16 @@ jobs:
       fail-fast: true   # If one ABI fails, cancel others — never publish partial
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
 
       - name: Get version from file
         id: get-ver
         run: |
           VERSION=$(cat VERSION)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Add Swap Space (10GB)
-        uses: pierotofy/set-swap-space@master
+        uses: pierotofy/set-swap-space@fc79b3f67fa8a838184ce84a674ca12238d2c761 # master
         with:
           swap-size-gb: 10
 
@@ -65,22 +64,18 @@ jobs:
           ./scripts/build-tdlib.sh "$ABI" "$TDLIB_VERSION"
 
       - name: Upload ABI artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: tdlib-${{ matrix.abi }}
           path: artifacts/
           retention-days: 7
 
-
   package-and-publish:
     needs: [build-abi]
     runs-on: ubuntu-latest
-    outputs:
-      published: ${{ steps.set-publish-status.outputs.published }}
-      wrapper_version: ${{ steps.set-publish-status.outputs.wrapper_version }}
     steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-java@v5
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -89,10 +84,10 @@ jobs:
         id: get-ver
         run: |
           VERSION=$(cat VERSION)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Download all ABI artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           pattern: tdlib-*
           merge-multiple: true
@@ -121,14 +116,10 @@ jobs:
             exit 1
           fi
 
-      - name: Restore Pristine Gradle Wrapper JAR
-        run: |
-          gradle wrapper --gradle-version 8.7
-
       - name: Build AAR
         run: |
           chmod +x gradlew
-          ./gradlew :core:assembleRelease :ktx:assembleRelease || gradle :core:assembleRelease :ktx:assembleRelease
+          ./gradlew :core:assembleRelease :ktx:assembleRelease
 
       - name: Smoke test — load AAR
         run: |
@@ -143,7 +134,7 @@ jobs:
           done
 
       - name: Upload final AAR artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: tdlib-android-aar-${{ inputs.new_version || steps.get-ver.outputs.version }}
           path: |
@@ -153,27 +144,87 @@ jobs:
           retention-days: 30
 
       - name: Generate TdApi.java diff
+        env:
+          OLD_VER: ${{ inputs.old_version || 'unknown' }}
+          NEW_VER: ${{ inputs.new_version || steps.get-ver.outputs.version }}
         run: |
-          OLD_VER="${{ inputs.old_version || 'unknown' }}"
-          NEW_VER="${{ inputs.new_version || steps.get-ver.outputs.version }}"
           echo "TDLib ${OLD_VER} → ${NEW_VER} generated" > tdapi_diff.txt
+
+  publish-and-release:
+    needs: [package-and-publish]
+    if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    outputs:
+      published: ${{ steps.set-publish-status.outputs.published }}
+      wrapper_version: ${{ steps.set-publish-status.outputs.wrapper_version }}
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Get version from file
+        id: get-ver
+        run: |
+          VERSION=$(cat VERSION | tr -d ' \n')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
       - name: Check if publishing secrets are configured
         id: check-secrets
-        run: |
-          if [ -n "$SONATYPE_USERNAME" ] && [ -n "$GPG_KEY_ID" ]; then
-            echo "available=true" >> $GITHUB_OUTPUT
-            echo "All publishing secrets are configured."
-          else
-            echo "available=false" >> $GITHUB_OUTPUT
-            echo "::warning::Publishing secrets not configured. Skipping publish, release, and version bump steps."
-          fi
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+        run: |
+          if [ -n "$SONATYPE_USERNAME" ] && [ -n "$GPG_KEY_ID" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "All publishing secrets are configured."
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Publishing secrets not configured. Skipping publish, release, and version bump steps."
+          fi
+
+      - name: Download all ABI artifacts
+        if: steps.check-secrets.outputs.available == 'true'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: tdlib-*
+          merge-multiple: true
+          path: downloaded_artifacts/
+
+      - name: Download final AAR artifact
+        if: steps.check-secrets.outputs.available == 'true'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: tdlib-android-aar-${{ inputs.new_version || steps.get-ver.outputs.version }}
+          path: release_assets/
+
+      - name: Stage .so files and TdApi.java
+        if: steps.check-secrets.outputs.available == 'true'
+        run: |
+          for ABI in arm64-v8a armeabi-v7a x86_64 x86; do
+            mkdir -p "core/src/main/jniLibs/$ABI"
+            cp "downloaded_artifacts/$ABI/libtdjni.so" "core/src/main/jniLibs/$ABI/"
+          done
+          mkdir -p core/src/main/java/org/drinkless/tdlib
+          cp downloaded_artifacts/java/org/drinkless/tdlib/TdApi.java core/src/main/java/org/drinkless/tdlib/
+          cp downloaded_artifacts/java/org/drinkless/tdlib/Client.java core/src/main/java/org/drinkless/tdlib/ || echo "Client.java not present - using template"
+
+      - name: Compute and apply bumped version
+        id: bump-version
+        if: steps.check-secrets.outputs.available == 'true'
+        run: |
+          WRAPPER=$(cat VERSION | tr -d ' \n')
+          BUMPED=$(echo "$WRAPPER" | awk -F. '{print $1"."$2"."$3+1}')
+          echo "$BUMPED" > VERSION
+          echo "bumped_version=$BUMPED" >> "$GITHUB_OUTPUT"
+          echo "Bumped wrapper version: $WRAPPER -> $BUMPED"
 
       - name: Publish to Maven Central
-        if: (github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch') && steps.check-secrets.outputs.available == 'true'
+        if: steps.check-secrets.outputs.available == 'true'
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
@@ -182,6 +233,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_KEY_PASSWORD }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          chmod +x gradlew
           BACKOFF=10
           for attempt in 1 2 3 4 5; do
             echo "Publish attempt $attempt"
@@ -189,72 +241,69 @@ jobs:
               echo "Published successfully"
               break
             fi
-            if [ $attempt -eq 5 ]; then
+            if [ "$attempt" -eq 5 ]; then
               echo "PUBLISH_FAILED after 5 attempts"
               gh issue create -R AkashPriyadarshii/tdlib-android \
+                --label "bug" \
                 --title "PUBLISH FAILED: TDLib $(cat VERSION)" \
                 --body "Failed to publish after 5 attempts. Check GPG and Sonatype secrets."
               exit 1
             fi
-            sleep $BACKOFF
+            sleep "$BACKOFF"
             BACKOFF=$((BACKOFF * 2))
           done
 
       - name: Create or Update GitHub Release
-        if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
+        if: steps.check-secrets.outputs.available == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TDLIB_VERSION: ${{ inputs.new_version }}
+          TDLIB_VERSION: ${{ inputs.new_version || steps.get-ver.outputs.version }}
+          WRAPPER: ${{ steps.bump-version.outputs.bumped_version }}
         run: |
-          WRAPPER=$(cat VERSION | tr -d ' \n')
           if gh release view "v${WRAPPER}" &>/dev/null; then
             echo "Release v${WRAPPER} exists — uploading latest AAR assets"
             gh release upload "v${WRAPPER}" \
-              core/build/outputs/aar/core-release.aar \
-              ktx/build/outputs/aar/ktx-release.aar \
-              checksums.txt --clobber
+              release_assets/core-release.aar \
+              release_assets/ktx-release.aar \
+              release_assets/checksums.txt --clobber
           else
             gh release create "v${WRAPPER}" \
               --title "TDLib ${TDLIB_VERSION} (wrapper v${WRAPPER})" \
               --notes "Prebuilt TDLib ${TDLIB_VERSION} Android AAR distribution. Boost Software License 1.0." \
-              core/build/outputs/aar/core-release.aar \
-              ktx/build/outputs/aar/ktx-release.aar \
-              checksums.txt
+              release_assets/core-release.aar \
+              release_assets/ktx-release.aar \
+              release_assets/checksums.txt
           fi
 
       - name: Commit version bump directly to main
-        if: github.event_name == 'workflow_call' || github.event_name == 'workflow_dispatch'
+        if: steps.check-secrets.outputs.available == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TDLIB_NEW: ${{ inputs.new_version }}
-          OLD_VERSION: ${{ inputs.old_version }}
+          TDLIB_NEW: ${{ inputs.new_version || steps.get-ver.outputs.version }}
+          BUMPED: ${{ steps.bump-version.outputs.bumped_version }}
         run: |
           git config user.name "tdlib-android-bot"
           git config user.email "bot@tdlib-android.github.io"
-          
+
           # Pull latest remote changes first to prevent non-fast-forward push rejection
           git fetch origin main
           git checkout -B main origin/main
 
-          # Update TDLIB_VERSION file (upstream), keep VERSION as wrapper
+          # Update TDLIB_VERSION file (upstream) and apply precomputed bumped wrapper VERSION
           echo "$TDLIB_NEW" > TDLIB_VERSION
-
-          # Auto-bump wrapper patch: 0.1.1 -> 0.1.2
-          WRAPPER=$(cat VERSION | tr -d ' \n')
-          BUMPED=$(echo "$WRAPPER" | awk -F. '{print $1"."$2"."$3+1}')
           echo "$BUMPED" > VERSION
 
           # Save schema hash
-          UPSTREAM_HASH=$(curl -s -H "Authorization: Bearer $GH_TOKEN" \
+          UPSTREAM_HASH=$(curl -sf -H "Authorization: Bearer $GH_TOKEN" \
             "https://api.github.com/repos/tdlib/td/commits?path=td/generate/scheme/td_api.tl&per_page=1" \
             | jq -r '.[0].sha' || echo "")
-          if [ -n "$UPSTREAM_HASH" ]; then
+          if [ -n "$UPSTREAM_HASH" ] && [ "$UPSTREAM_HASH" != "null" ]; then
             echo "$UPSTREAM_HASH" > .tdl_schema_hash
           fi
 
           # Update README
           sed -i "s/TDLib-[0-9.]*/TDLib-${TDLIB_NEW}/" README.md || true
-          
+
           # Regenerate dynamic banner and download metrics with new version
           python scripts/generate_downloads_chart.py || true
 
@@ -268,11 +317,12 @@ jobs:
 
       - name: Set final publish status output
         id: set-publish-status
+        env:
+          SECRETS_AVAILABLE: ${{ steps.check-secrets.outputs.available }}
         run: |
-          if [ "${{ steps.check-secrets.outputs.available }}" = "true" ]; then
-            echo "published=true" >> $GITHUB_OUTPUT
+          if [ "$SECRETS_AVAILABLE" = "true" ]; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
           else
-            echo "published=false" >> $GITHUB_OUTPUT
+            echo "published=false" >> "$GITHUB_OUTPUT"
           fi
-          echo "wrapper_version=$(cat VERSION | tr -d ' \n')" >> $GITHUB_OUTPUT
-
+          echo "wrapper_version=$(cat VERSION | tr -d ' \n')" >> "$GITHUB_OUTPUT"
