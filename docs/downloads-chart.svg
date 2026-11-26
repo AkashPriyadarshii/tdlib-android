@@ -27,21 +27,21 @@
 
     <!-- Header Section -->
     <text x="32" y="38" class="header-title">tdlib-android / Merged Distribution Telemetry</text>
-    <text x="32" y="56" class="header-sub">Combined downloads across Maven Central / Scarf (9,271) and GitHub Releases (1,199)</text>
+    <text x="32" y="56" class="header-sub">Combined downloads across Maven Central / Scarf (~26K) and GitHub Releases (1,199)</text>
 
     <!-- Metrics Cards Row -->
     <g transform="translate(32, 72)">
         <!-- Card 1: Total Merged Downloads -->
         <rect x="0" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
         <text x="16" y="24" class="stat-label">Total Downloads (Merged)</text>
-        <text x="16" y="49" class="stat-val">10,470</text>
-        <text x="110" y="49" class="stat-sub">MC: 9,271 + GH: 1,199</text>
+        <text x="16" y="49" class="stat-val">27.2K</text>
+        <text x="110" y="49" class="stat-sub">MC: ~26K + GH: 1,199</text>
 
         <!-- Card 2: Maven Central (Scarf Verified) -->
         <rect x="256" y="0" width="244" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
         <text x="272" y="24" class="stat-label">Maven Central (Scarf)</text>
-        <text x="272" y="49" class="stat-val-sec">9,271 dl</text>
-        <text x="382" y="49" class="stat-sub">1031 sources</text>
+        <text x="272" y="49" class="stat-val-sec">~26K dl</text>
+        <text x="382" y="49" class="stat-sub">2.4K sources</text>
 
         <!-- Card 3: GitHub Releases AARs -->
         <rect x="520" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
@@ -60,7 +60,7 @@
             <text x="32" y="34" class="meta">Maven Central</text>
             <rect x="150" y="8" width="440" height="24" rx="4" fill="#161b22" />
             <rect x="150" y="8" width="440" height="24" rx="4" fill="#238636" />
-            <text x="604" y="25" class="bar-val">7,645 dl</text>
+            <text x="604" y="25" class="bar-val">~19K dl</text>
             <text x="690" y="24" class="breakdown">4 ABIs embedded</text>
         </g>
         
@@ -68,8 +68,8 @@
             <text x="32" y="18" class="tag">:ktx (Flow)</text>
             <text x="32" y="34" class="meta">Maven Central</text>
             <rect x="150" y="8" width="440" height="24" rx="4" fill="#161b22" />
-            <rect x="150" y="8" width="93" height="24" rx="4" fill="#2ea043" />
-            <text x="257" y="25" class="bar-val">1,626 dl</text>
+            <rect x="150" y="8" width="153" height="24" rx="4" fill="#2ea043" />
+            <text x="317" y="25" class="bar-val">~6.6K dl</text>
             <text x="690" y="24" class="breakdown">coroutines wrapper</text>
         </g>
         
@@ -104,5 +104,5 @@
 
     <!-- Footer -->
     <line x1="32" y1="454" x2="788" y2="454" stroke="#21262d" stroke-width="1" />
-    <text x="32" y="471" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated 2026-11-20 04:09 UTC</text>
+    <text x="32" y="471" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated 2026-11-26</text>
 </svg>
