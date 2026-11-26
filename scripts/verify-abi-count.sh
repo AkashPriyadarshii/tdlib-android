@@ -36,6 +36,27 @@ for ABI in "${!EXPECTED_ARCHS[@]}"; do
         else
             echo "OK: $ABI verified matches ELF machine: $EXPECTED"
         fi
+
+        # Verify 16KB (0x4000) LOAD segment alignment for 64-bit ABIs
+        if [[ "$ABI" == "arm64-v8a" || "$ABI" == "x86_64" ]]; then
+            LOAD_ALIGNS=$(readelf -lW "$SO_PATH" | awk '$1 == "LOAD" { print $NF }' || echo "")
+            if [[ -z "$LOAD_ALIGNS" ]]; then
+                echo "ERROR: Could not read LOAD segments for $SO_PATH"
+                FAILED=1
+            else
+                ALIGN_OK=1
+                for ALIGN in $LOAD_ALIGNS; do
+                    if (( ALIGN < 0x4000 || ALIGN % 0x4000 != 0 )); then
+                        echo "ERROR: $ABI LOAD segment alignment $ALIGN is not 16KB (0x4000) aligned!"
+                        ALIGN_OK=0
+                        FAILED=1
+                    fi
+                done
+                if [ $ALIGN_OK -eq 1 ]; then
+                    echo "OK: $ABI verified 16KB (0x4000) LOAD segment alignment"
+                fi
+            fi
+        fi
     fi
 done
 

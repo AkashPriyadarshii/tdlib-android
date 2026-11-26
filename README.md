@@ -17,7 +17,7 @@ Keywords: tdlib android, telegram tdlib, tdlib precompiled aar, android 16kb pag
     <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.0%20%2F%20Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
     <a href="https://developer.android.com"><img src="https://img.shields.io/badge/minSdk-26%20(Android%208.0%2B)-orange.svg?style=flat-square" alt="minSdk" /></a>
     <a href="https://github.com/AkashPriyadarshii/tdlib-android"><img src="https://img.shields.io/badge/ABIs-arm64--v8a%20%7C%20armeabi--v7a%20%7C%20x86__64%20%7C%20x86-purple.svg?style=flat-square" alt="ABIs" /></a>
-    <a href="#downloads--adoption"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json&style=flat-square" alt="Total Downloads" /></a>
+    <a href="#downloads--adoption"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json&style=flat-square" alt="GitHub Release Downloads" /></a>
     <a href="https://tdlib-android.vercel.app/setup"><img src="https://img.shields.io/badge/Android%2015-16KB%20Page%20Ready-success.svg?style=flat-square" alt="Android 15 Ready" /></a>
   </p>
   <p>By <strong>Akash Priyadarshi</strong> · BSL 1.0 / Apache 2.0 · Kotlin &amp; C++ · zero local NDK</p>
@@ -110,13 +110,15 @@ Building TDLib for Android from scratch is notoriously slow and resource-intensi
 
 Why this repository exists compared to historical and abandoned alternatives:
 
-| Solution | Active | ABIs | Kotlin Flow | Auth/NDK Required |
+| Solution | Status | ABIs | Kotlin Flow | Auth/NDK Required |
 | :--- | :--- | :--- | :--- | :--- |
-| **tdlib-android (This Project)** | **Yes (2026)** | **4 ABIs (arm64, armv7, x86_64, x86)** | **Yes (`:ktx`)** | **Zero (Precompiled AAR)** |
-| `up9cloud/android-libtdjson` | Frozen (v1.8.52) | Partial | No (Java only) | GitHub Token + Raw `.so` |
-| `TGX-Android/tdlib` | Internal only | Varies | No | Forked private API |
-| `tdlibx/td-ktx` | Dead (Archived 2024) | Incomplete | Partial | Broken dependencies |
-| `g000sha256/tdl-coroutines` | Inactive | 3 ABIs | Yes | Broken build path |
+| **tdlib-android (This Project)** | **Active** | **4 ABIs (arm64, armv7, x86_64, x86)** | **Yes (`:ktx`)** | **Zero (Precompiled AAR)** |
+| `io.github.xephosbot:tdlib-kmp` | Active (KMP alpha) | KMP targets | Yes (KMP) | Zero (Maven Central) |
+| `fazilus/tdlib-android` | Archived | Legacy prebuilt | No | Archived / Unmaintained |
+| `up9cloud/android-libtdjson` | Unmaintained | Partial | No (Java only) | GitHub Token + Raw `.so` |
+| `TGX-Android/tdlib` | Internal only | Varies | No | Forked internal API |
+| `tdlibx/td-ktx` | Archived | Partial | Partial | Legacy setup |
+| `g000sha256/tdl-coroutines` | Inactive | Partial | Yes | Legacy setup |
 | Local NDK Build | Manual | Manual | No | High RAM + Long compile times |
 
 ---
@@ -357,10 +359,12 @@ The repository runs completely automated cloud builds using GitHub Actions:
 <a id="downloads--adoption"></a>
 ## Downloads & Adoption
 
-[![Total Downloads](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json&style=for-the-badge&color=27a644)](#downloads--adoption)
+[![GitHub Release Downloads Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json&style=for-the-badge&color=27a644)](#downloads--adoption)
 [![GitHub Release Downloads](https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/total?style=for-the-badge&logo=github&color=27a644)](https://github.com/AkashPriyadarshii/tdlib-android/releases)
 [![Latest Release Downloads](https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/latest/total?style=for-the-badge&logo=github&color=2ea44f)](https://github.com/AkashPriyadarshii/tdlib-android/releases/latest)
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tdlib-android/core?style=for-the-badge&logo=apachemaven&color=blue)](https://central.sonatype.com/artifact/io.github.tdlib-android/core)
+
+> **Note on Download Metrics:** The downloads badge (`docs/downloads-badge.json`) and GitHub release badges track **GitHub Releases** AAR/asset downloads only. **Maven Central** artifact downloads (via Gradle/Scarf) are tracked separately.
 
 <p align="center">
   <img src="docs/downloads-chart.svg" alt="Release Downloads & Artifact Telemetry" width="100%" style="max-width:850px; border-radius:8px;" />
