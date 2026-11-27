@@ -33,9 +33,14 @@ EOF
 # Scaffold build.gradle.kts for smoke test
 cat > "$TEMP_DIR/build.gradle.kts" << EOF
 plugins {
-    id("com.android.application") version "8.4.0" apply false
-    id("org.jetbrains.kotlin.android") version "2.0.0" apply false
+    id("com.android.application") version "8.4.2" apply false
+    id("org.jetbrains.kotlin.android") version "2.0.21" apply false
 }
+EOF
+
+cat > "$TEMP_DIR/gradle.properties" << EOF
+android.useAndroidX=true
+android.suppressUnsupportedCompileSdk=36
 EOF
 
 cat > "$TEMP_DIR/settings.gradle.kts" << EOF
@@ -68,6 +73,13 @@ android {
         applicationId = "io.github.tdlibandroid.smoke"
         minSdk = 26
         targetSdk = 36
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 dependencies {
