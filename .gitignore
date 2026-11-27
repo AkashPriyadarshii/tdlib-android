@@ -26,7 +26,10 @@ core/src/main/java/org/drinkless/tdlib/TdApi.java
 *.jar
 docs/api-snapshots/
 
-# Secrets & local files
+# Secrets & local env files — never commit
+.env
+.env.*
+!.env.example
 *.jks
 *.keystore
 secrets/
