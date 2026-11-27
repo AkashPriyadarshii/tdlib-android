@@ -358,7 +358,9 @@ The repository runs completely automated cloud builds using GitHub Actions:
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tdlib-android/core?style=for-the-badge&logo=apachemaven&color=blue)](https://central.sonatype.com/artifact/io.github.tdlib-android/core)
 
 > [!NOTE]
-> **Download Metrics:** The downloads badge shows **total merged downloads** (GitHub Releases + Maven Central/Scarf). The badge is auto-updated daily via the `update-metrics.yml` workflow.
+> **Download Metrics:** The downloads badge shows **total merged downloads** (GitHub Releases + Maven Central/Scarf). The badge and telemetry chart are auto-updated daily via `update-metrics.yml`.
+>
+> **Maven Central Publisher Insights (Sonatype + Scarf, Sep–Nov 2026):** **27.5K** downloads across **2.6K** unique sources and **252** detected companies (monthly: **4.0K** Sep → **13.3K** Oct → **10.1K** Nov through Nov 27; detected companies: **71** → **124** → **144**). Includes CI re-fetching, evaluation, and automated scanning.
 
 <p align="center">
   <img src="docs/downloads-chart.svg" alt="Release Downloads & Artifact Telemetry" width="100%" style="max-width:850px; border-radius:8px;" />
