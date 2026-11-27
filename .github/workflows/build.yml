@@ -226,6 +226,10 @@ jobs:
           echo "bumped_version=$BUMPED" >> "$GITHUB_OUTPUT"
           echo "Bumped wrapper version: $WRAPPER -> $BUMPED"
 
+      - name: Restore Gradle Wrapper
+        if: steps.check-secrets.outputs.available == 'true'
+        run: gradle wrapper --gradle-version 8.7
+
       - name: Publish to Maven Central
         if: steps.check-secrets.outputs.available == 'true'
         env:
@@ -282,6 +286,7 @@ jobs:
         if: steps.check-secrets.outputs.available == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCARF_API_TOKEN: ${{ secrets.SCARF_API_TOKEN }}
           TDLIB_NEW: ${{ inputs.new_version || steps.get-ver.outputs.version }}
           BUMPED: ${{ steps.bump-version.outputs.bumped_version }}
         run: |

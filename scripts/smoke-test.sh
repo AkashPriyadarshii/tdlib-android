@@ -26,6 +26,10 @@ echo "Verified classes.jar contains org/drinkless/tdlib/TdApi.class."
 
 mkdir -p "$TEMP_DIR/app/src/main/java/io/github/tdlibandroid/smoke"
 
+cat > "$TEMP_DIR/app/src/main/AndroidManifest.xml" << 'EOF'
+<manifest />
+EOF
+
 # Scaffold build.gradle.kts for smoke test
 cat > "$TEMP_DIR/build.gradle.kts" << EOF
 plugins {
