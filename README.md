@@ -134,10 +134,10 @@ dependencyResolutionManagement {
 // app/build.gradle.kts
 dependencies {
     // Core prebuilt TDLib with 4 ABIs + Java JNI classes
-    implementation("io.github.tdlib-android:core:0.1.1")
+    implementation("io.github.tdlib-android:core:0.1.3")
 
     // Kotlin Coroutines & Flow wrapper
-    implementation("io.github.tdlib-android:ktx:0.1.1")
+    implementation("io.github.tdlib-android:ktx:0.1.3")
 }
 ```
 

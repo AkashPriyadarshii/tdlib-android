@@ -136,14 +136,18 @@ jobs:
             sha256sum "core/src/main/jniLibs/$ABI/libtdjni.so" >> checksums.txt
           done
 
+      - name: Stage flat release artifacts
+        run: |
+          mkdir -p dist
+          cp core/build/outputs/aar/core-release.aar dist/
+          cp ktx/build/outputs/aar/ktx-release.aar dist/
+          cp checksums.txt dist/
+
       - name: Upload final AAR artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: tdlib-android-aar-${{ inputs.new_version || steps.get-ver.outputs.version }}
-          path: |
-            core/build/outputs/aar/core-release.aar
-            ktx/build/outputs/aar/ktx-release.aar
-            checksums.txt
+          path: dist/
           retention-days: 30
 
       - name: Generate TdApi.java diff

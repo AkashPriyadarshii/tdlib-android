@@ -23,8 +23,8 @@ dependencyResolutionManagement {
 Add the prebuilt AAR and Kotlin wrapper to `app/build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("io.github.tdlib-android:core:0.1.1")
-    implementation("io.github.tdlib-android:ktx:0.1.1")
+    implementation("io.github.tdlib-android:core:0.1.3")
+    implementation("io.github.tdlib-android:ktx:0.1.3")
 }
 ```
 

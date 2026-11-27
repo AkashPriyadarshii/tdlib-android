@@ -35,7 +35,7 @@ dependencies {
 }
 
 mavenPublishing {
-    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL, automaticPublishing = true)
     signAllPublications()
     coordinates(
         groupId = "io.github.tdlib-android",
