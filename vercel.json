@@ -97,6 +97,15 @@
       ]
     },
     {
+      "source": "/(site\\.css|article\\.css|favicon\\..*|og\\.png|.*\\.svg)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
       "source": "/(.*)\\.md",
       "headers": [
         {

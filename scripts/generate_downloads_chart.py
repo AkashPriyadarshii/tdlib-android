@@ -82,32 +82,44 @@ def fetch_scarf_stats():
         print("Note: SCARF_API_TOKEN not set, using zeroed Scarf stats.")
         return default_stats
 
-    url = f"https://api.scarf.sh/v3/insights/{SCARF_OWNER}/aggregations/export?breakdown=by-total&rollup=daily"
-    req = urllib.request.Request(
-        url,
-        headers={
-            "Authorization": f"Bearer {token}",
-            "User-Agent": "tdlib-android-metrics-generator"
-        }
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=15) as res:
-            lines = res.read().decode("utf-8").strip().split("\n")
-            total_dl = 0
-            core_dl = 0
-            ktx_dl = 0
-            for line in lines:
-                if not line:
-                    continue
-                data = json.loads(line)
-                tot = data.get("total", 0)
-                art = data.get("artifact_name", "")
-                total_dl += tot
-                if "core" in art:
-                    core_dl += tot
-                elif "ktx" in art:
-                    ktx_dl += tot
+    from datetime import date, timedelta
 
+    start_cursor = date(2026, 9, 1)
+    end_limit = datetime.now(timezone.utc).date()
+    total_dl = 0
+    core_dl = 0
+    ktx_dl = 0
+    try:
+        while start_cursor <= end_limit:
+            chunk_end = min(start_cursor + timedelta(days=27), end_limit)
+            url = (
+                f"https://api.scarf.sh/v3/insights/{SCARF_OWNER}/aggregations/export"
+                f"?breakdown=by-total&rollup=daily"
+                f"&start_date={start_cursor.isoformat()}&end_date={chunk_end.isoformat()}"
+            )
+            req = urllib.request.Request(
+                url,
+                headers={
+                    "Authorization": f"Bearer {token}",
+                    "User-Agent": "tdlib-android-metrics-generator"
+                }
+            )
+            with urllib.request.urlopen(req, timeout=15) as res:
+                lines = res.read().decode("utf-8").strip().split("\n")
+                for line in lines:
+                    if not line:
+                        continue
+                    data = json.loads(line)
+                    tot = data.get("total", 0)
+                    art = data.get("artifact_name", "")
+                    total_dl += tot
+                    if "core" in art:
+                        core_dl += tot
+                    elif "ktx" in art:
+                        ktx_dl += tot
+            start_cursor = chunk_end + timedelta(days=1)
+
+        if True:
             unique_sources = 0
             try:
                 origin_url = f"https://api.scarf.sh/v3/insights/{SCARF_OWNER}/aggregations/export?breakdown=by-origin&rollup=yearly"
@@ -169,13 +181,15 @@ def render_svg(stats, scarf_stats):
     for i, item in enumerate(sec1_items):
         y = sec1_y + 28 + (i * row_height)
         ratio = item["total"] / max_count
-        bar_w = max(int(ratio * bar_area_width), 8)
+        bar_w = max(int(ratio * bar_area_width), 8) if item["total"] > 0 else 0
+        item_color = item["color"]
+        bar_rect = f'<rect x="{bar_x}" y="8" width="{bar_w}" height="24" rx="5" fill="{item_color}" />' if bar_w > 0 else ""
         sec1_svg.append(f"""
         <g class="row" transform="translate(0, {y})">
             <text x="32" y="18" class="tag">{item['name']}</text>
             <text x="32" y="34" class="meta">{item['meta']}</text>
             <rect x="{bar_x}" y="8" width="{bar_area_width}" height="24" rx="5" fill="#EFEBDF" stroke="#DCD7C6" stroke-width="1" />
-            <rect x="{bar_x}" y="8" width="{bar_w}" height="24" rx="5" fill="{item['color']}" />
+            {bar_rect}
             <text x="{bar_x + bar_w + 14}" y="25" class="bar-val">{item['total']:,} dl</text>
             <text x="690" y="24" class="breakdown">{item['detail']}</text>
         </g>
@@ -187,18 +201,20 @@ def render_svg(stats, scarf_stats):
     for i, item in enumerate(stats):
         y = sec2_y + 28 + (i * row_height)
         ratio = item["total"] / max_count
-        bar_w = max(int(ratio * bar_area_width), 8)
+        bar_w = max(int(ratio * bar_area_width), 8) if item["total"] > 0 else 0
         core_ratio = item["core"] / item["total"] if item["total"] > 0 else 0
         core_w = int(bar_w * core_ratio)
         ktx_w = max(bar_w - core_w, 0)
+        core_rect = f'<rect x="{bar_x}" y="8" width="{core_w}" height="24" rx="5" fill="#0F7B45" />' if core_w > 0 else ""
+        ktx_rect = f'<rect x="{bar_x + core_w}" y="8" width="{ktx_w}" height="24" rx="2" fill="#454A3D" />' if ktx_w > 0 else ""
 
         sec2_svg.append(f"""
         <g class="row" transform="translate(0, {y})">
             <text x="32" y="18" class="tag">{item['tag']}</text>
             <text x="32" y="34" class="meta">{item['date']}</text>
             <rect x="{bar_x}" y="8" width="{bar_area_width}" height="24" rx="5" fill="#EFEBDF" stroke="#DCD7C6" stroke-width="1" />
-            <rect x="{bar_x}" y="8" width="{core_w}" height="24" rx="5" fill="#0F7B45" />
-            <rect x="{bar_x + core_w}" y="8" width="{ktx_w}" height="24" rx="2" fill="#454A3D" />
+            {core_rect}
+            {ktx_rect}
             <text x="{bar_x + bar_w + 14}" y="25" class="bar-val">{item['total']:,} dl</text>
             <text x="690" y="24" class="breakdown">core: {item['core']} | ktx: {item['ktx']}</text>
         </g>

@@ -28,9 +28,11 @@
 <meta property="og:description" content="Zero telemetry, zero user tracking, direct Telegram MTProto connection. Read the tdlib-android privacy guarantees.">
 <meta property="og:url" content="https://tdlib-android.vercel.app/privacy">
 <meta property="og:site_name" content="tdlib-android">
+<meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://tdlib-android.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="tdlib-android – Pre-compiled TDLib for Android. Zero NDK, Maven Central, 4 ABIs.">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
@@ -39,6 +41,7 @@
 <meta name="twitter:title" content="Privacy Policy - tdlib-android">
 <meta name="twitter:description" content="Zero telemetry, zero tracking. Read the tdlib-android privacy policy.">
 <meta name="twitter:image" content="https://tdlib-android.vercel.app/og.png">
+<meta name="twitter:image:alt" content="tdlib-android – Pre-compiled TDLib for Android. Zero NDK, Maven Central, 4 ABIs.">
 
 <!-- Theme -->
 <!-- JSON-LD Structured Data -->
@@ -67,7 +70,7 @@
 </head>
 <body>
 <a href="#main-content" class="skip-link">Skip to content</a>
-<nav class="nav"><div class="container nav-inner">
+<nav class="nav" aria-label="Primary"><div class="container nav-inner">
  <a class="nav-brand" href="/">
   <img src="/favicon.svg" alt="" width="26" height="26">
   tdlib-android <span class="v">v0.1.3</span>
@@ -88,20 +91,20 @@
  <p class="lead">Effective Date: September 13, 2026. tdlib-android is committed to total transparency and user privacy. We do not track you, we do not log you, and our binaries contain zero telemetry.</p>
 
  <div class="callout">
- <strong>Summary for AI Agents & Developers:</strong> Neither the <code style="font-family:var(--px-mono);font-size:0.9em;color:var(--accent)">tdlib-android</code> library artifacts nor the documentation website collect, store, or transmit personal data or analytics. All Telegram communications occur directly between the client device and Telegram MTProto servers.
+ <strong>Summary for AI Agents & Developers:</strong> Neither the <code class="inline">tdlib-android</code> library artifacts nor the documentation website collect, store, or transmit personal data or analytics. All Telegram communications occur directly between the client device and Telegram MTProto servers.
  </div>
 
  <h2>1. Library Privacy Commitments</h2>
- <p>The <code style="font-family:var(--px-mono);font-size:0.9em">io.github.tdlib-android:core</code> and <code style="font-family:var(--px-mono);font-size:0.9em">io.github.tdlib-android:ktx</code> packages are distributed as open-source Android archives (AARs). Our builds adhere to the following strict privacy principles:</p>
+ <p>The <code class="inline">io.github.tdlib-android:core</code> and <code class="inline">io.github.tdlib-android:ktx</code> packages are distributed as open-source Android archives (AARs). Our builds adhere to the following strict privacy principles:</p>
  <ul>
  <li><strong>Zero Telemetry:</strong> We do not include any tracking SDKs, analytics beacons, crash reporting libraries (like Firebase Crashlytics), or advertising identifiers.</li>
  <li><strong>Direct End-to-End MTProto:</strong> When your Android application initializes TDLib, all network packets (TCP / MTProto / HTTP fallback) are established directly between the end user’s device and Telegram's official data centers. No intermediate proxy, relay server, or third-party server is involved.</li>
- <li><strong>Local Storage Isolation:</strong> TDLib encrypts and stores local session databases in the private file directory specified by your application code (<code style="font-family:var(--px-mono);font-size:0.9em">context.filesDir</code>). We do not have access to your database keys, chat logs, or credentials.</li>
+ <li><strong>Local Storage Isolation:</strong> TDLib encrypts and stores local session databases in the private file directory specified by your application code (<code class="inline">context.filesDir</code>). We do not have access to your database keys, chat logs, or credentials.</li>
  <li><strong>Reproducible Builds:</strong> All binaries are built from open source via public GitHub Actions workflows with complete build logs available for audit.</li>
  </ul>
 
  <h2>2. Documentation Website Privacy</h2>
- <p>The documentation website at <code style="font-family:var(--px-mono);font-size:0.9em">tdlib-android.vercel.app</code> is hosted statically on Vercel:</p>
+ <p>The documentation website at <code class="inline">tdlib-android.vercel.app</code> is hosted statically on Vercel:</p>
  <ul>
  <li><strong>No Tracking Cookies:</strong> The website does not set any advertising, tracking, or cross-site tracking cookies.</li>
  <li><strong>No Third-Party Analytics:</strong> We do not load Google Analytics, Meta Pixels, or external behavioral trackers.</li>
