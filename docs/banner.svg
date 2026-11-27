@@ -20,7 +20,7 @@
 
     <!-- Top Badge Pill -->
     <rect x="40" y="30" width="345" height="26" rx="4" class="pill-bg" />
-    <text x="52" y="47" class="pill-text">v0.1.1 • PRECOMPILED AAR • ALL 4 ABIS • ZERO NDK</text>
+    <text x="52" y="47" class="pill-text">v0.1.3 • PRECOMPILED AAR • ALL 4 ABIS • ZERO NDK</text>
 
     <!-- Main Title -->
     <text x="40" y="92" class="title">Precompiled TDLib for Android</text>
@@ -31,10 +31,10 @@
     <rect x="40" y="166" width="770" height="112" rx="6" class="code-box" />
     <text x="60" y="196" class="code-comment">// build.gradle.kts</text>
     <text x="60" y="226">
-        <tspan class="code-fn">implementation</tspan><tspan class="code-punct">(</tspan><tspan class="code-str">"io.github.tdlib-android:core:0.1.1"</tspan><tspan class="code-punct">)</tspan>
+        <tspan class="code-fn">implementation</tspan><tspan class="code-punct">(</tspan><tspan class="code-str">"io.github.tdlib-android:core:0.1.3"</tspan><tspan class="code-punct">)</tspan>
     </text>
     <text x="60" y="254">
-        <tspan class="code-fn">implementation</tspan><tspan class="code-punct">(</tspan><tspan class="code-str">"io.github.tdlib-android:ktx:0.1.1"</tspan><tspan class="code-punct">)</tspan>
+        <tspan class="code-fn">implementation</tspan><tspan class="code-punct">(</tspan><tspan class="code-str">"io.github.tdlib-android:ktx:0.1.3"</tspan><tspan class="code-punct">)</tspan>
     </text>
 
     <!-- Meta Footer -->
