@@ -9,7 +9,7 @@ Description: CI-built TDLib AARs (arm64-v8a, armeabi-v7a, x86_64, x86), 16KB pag
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#F7F4EC">
 <title>TDLib Android - Prebuilt AAR (4 ABIs, Zero NDK)</title>
-<meta name="description" content="Precompiled TDLib for Android. Zero NDK. Zero source compile. Community-maintained, auto-updated TDLib distribution for Android. All 4 ABIs built by CI - arm64-v8a, armeabi-v7a, x86_64, x86 - shipped as signed AARs on Maven Central.">
+<meta name="description" content="Precompiled TDLib AARs for Android on Maven Central. All 4 ABIs, 16KB page aligned, Kotlin Coroutines wrapper, and zero local NDK compilation.">
 <meta name="author" content="Akash Priyadarshi">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 <meta name="application-name" content="tdlib-android">
@@ -53,6 +53,11 @@ Description: CI-built TDLib AARs (arm64-v8a, armeabi-v7a, x86_64, x86), 16KB pag
       "license": "https://www.boost.org/LICENSE_1_0.txt",
       "codeRepository": "https://github.com/AkashPriyadarshii/tdlib-android",
       "downloadUrl": "https://central.sonatype.com/artifact/io.github.tdlib-android/core/0.1.3",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
       "publisher": {"@type": "Organization", "name": "tdlib-android"}
     },
     {
@@ -68,7 +73,7 @@ Description: CI-built TDLib AARs (arm64-v8a, armeabi-v7a, x86_64, x86), 16KB pag
       "@type": "Organization",
       "name": "tdlib-android",
       "url": "https://tdlib-android.vercel.app/",
-      "logo": "https://tdlib-android.vercel.app/favicon.svg",
+      "logo": "https://tdlib-android.vercel.app/og.png",
       "founder": {"@type": "Person", "name": "Akash Priyadarshi"},
       "sameAs": ["https://github.com/AkashPriyadarshii/tdlib-android"]
     }
@@ -213,7 +218,8 @@ CoroutineScope(Dispatchers.IO).<span class="f">launch</span> {
 <section class="final">
   <div class="wrap">
     <h2 class="sec-h rv">Stop compiling Telegram. Start using it.</h2>
-    <p class="sec-sub rv">Current release <span class="mono">0.1.3</span> (TDLib 1.8.x), signed and checksummed.</p>
+    <p class="sec-sub rv">Current release <span class="mono">0.1.3</span> (TDLib 1.8.x), signed and checksummed on Maven Central under <span class="mono">io.github.tdlib-android:core</span> and <span class="mono">io.github.tdlib-android:ktx</span>. Every artifact is reproducible, verified in CI, and ready for production Android apps.</p>
+    <p class="sec-sub rv" style="margin-top:12px;font-size:.9rem">Maintained by <a href="https://akashpriyadarshi.is-a.dev" target="_blank" rel="noopener">Akash Priyadarshi</a> &middot; Released November 2026</p>
     <div class="cta rv">
       <a class="btn btn-p" href="/setup">Read the setup guide</a>
       <a class="btn btn-s" href="https://github.com/AkashPriyadarshii/tdlib-android/releases">Download AARs</a>
