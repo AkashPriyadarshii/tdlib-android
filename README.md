@@ -1,19 +1,13 @@
-<!--
-Title: tdlib-android - Precompiled TDLib for Android Across All 4 ABIs (arm64-v8a, armeabi-v7a, x86_64, x86)
-Description: Production-ready precompiled Telegram Database Library (TDLib) Android Archive (AAR) binaries for Android with 16KB page alignment (Android 15 ready), Maven Central distribution, and Kotlin Coroutines/Flow wrapper. Zero local NDK required.
-Keywords: tdlib android, telegram tdlib, tdlib precompiled aar, android 16kb page size, android tdlib kotlin coroutines, maven central tdlib, tdlib native binaries, telegram database library android
--->
-
 <div align="center">
   <img src="docs/favicon.svg" width="96" height="96" alt="tdlib-android logo" />
   <h1>tdlib-android</h1>
   <p><strong>Precompiled TDLib for Android across all 4 ABIs. Zero local NDK. Zero source compile.</strong></p>
   <p>
-    <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases"><img src="https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&color=27a644&label=release" alt="Release" /></a>
-    <a href="https://central.sonatype.com/artifact/io.github.tdlib-android/core"><img src="https://img.shields.io/maven-central/v/io.github.tdlib-android/core?style=flat-square&color=27a644&label=Maven%20Central" alt="Maven Central" /></a>
-    <a href="https://github.com/AkashPriyadarshii/tdlib-android/actions"><img src="https://img.shields.io/github/actions/workflow/status/AkashPriyadarshii/tdlib-android/build.yml?branch=main&style=flat-square&label=CI" alt="Build Status" /></a>
-    <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.0%20%2F%20Apache%202.0-blue.svg?style=flat-square" alt="License" /></a>
-    <a href="#downloads--adoption"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json&style=flat-square" alt="GitHub Release Downloads" /></a>
+    <a href="https://github.com/AkashPriyadarshii/tdlib-android/releases"><img src="https://img.shields.io/github/v/release/AkashPriyadarshii/tdlib-android?style=flat-square&color=27a644&label=release" alt="Latest GitHub release version" /></a>
+    <a href="https://central.sonatype.com/artifact/io.github.tdlib-android/core"><img src="https://img.shields.io/maven-central/v/io.github.tdlib-android/core?style=flat-square&color=27a644&label=Maven%20Central" alt="Maven Central version badge" /></a>
+    <a href="https://github.com/AkashPriyadarshii/tdlib-android/actions"><img src="https://img.shields.io/github/actions/workflow/status/AkashPriyadarshii/tdlib-android/build.yml?branch=main&style=flat-square&label=CI" alt="CI build status – passing or failing" /></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-BSL%201.0%20%2F%20Apache%202.0-blue.svg?style=flat-square" alt="License: BSL 1.0 / Apache 2.0" /></a>
+    <a href="#downloads--adoption"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FAkashPriyadarshii%2Ftdlib-android%2Fmain%2Fdocs%2Fdownloads-badge.json&style=flat-square" alt="Total downloads from GitHub and Maven Central" /></a>
   </p>
   <p>By <strong>Akash Priyadarshi</strong> · BSL 1.0 / Apache 2.0 · Kotlin &amp; C++ · zero local NDK</p>
   <p>
@@ -26,13 +20,13 @@ Keywords: tdlib android, telegram tdlib, tdlib precompiled aar, android 16kb pag
     <a href="#ecosystem">Ecosystem</a>
   </p>
   <p>
-    <a href="https://buymeacoffee.com/AkashPriyadarshi"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=flat-square&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me a Coffee" /></a>
+    <a href="https://buymeacoffee.com/AkashPriyadarshi"><img src="https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=flat-square&logo=buy-me-a-coffee&logoColor=black" alt="Support the project on Buy Me a Coffee" /></a>
   </p>
 </div>
 
 <p align="center">
   <a href="https://tdlib-android.vercel.app">
-    <img src="docs/banner.svg" alt="tdlib-android banner" width="100%" style="max-width:850px; border-radius:8px;" />
+    <img src="docs/banner.svg" alt="tdlib-android documentation site screenshot showing features, installation, and architecture overview" width="100%" style="max-width:850px; border-radius:8px;" />
   </a>
 </p>
 
@@ -45,6 +39,10 @@ No compiling C++ from source. No Android NDK wrangling. Works with any Telegram 
 > **For AI Coding Agents:** Point your agent to [`https://tdlib-android.vercel.app/llms.txt`](https://tdlib-android.vercel.app/llms.txt) or [`llms-full.txt`](https://tdlib-android.vercel.app/llms-full.txt) for token-efficient API and Gradle context.
 
 ---
+
+> [!TIP]
+> **Quick navigation:** [Why](#why-tdlib-android) · [Features](#key-features) · [Architecture](#architecture--data-flow) · [Comparison](#ecosystem-comparison) · [Install](#installation) · [Usage](#usage-guide) · [ABI Matrix](#abi-support-matrix) · [CI/CD](#cicd-infrastructure) · [Downloads](#downloads--adoption) · [License](#license) · [Author](#author)
+
 
 <a id="why-tdlib-android"></a>
 ## Why tdlib-android
@@ -359,7 +357,8 @@ The repository runs completely automated cloud builds using GitHub Actions:
 [![Latest Release Downloads](https://img.shields.io/github/downloads/AkashPriyadarshii/tdlib-android/latest/total?style=for-the-badge&logo=github&color=2ea44f)](https://github.com/AkashPriyadarshii/tdlib-android/releases/latest)
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.github.tdlib-android/core?style=for-the-badge&logo=apachemaven&color=blue)](https://central.sonatype.com/artifact/io.github.tdlib-android/core)
 
-> **Note on Download Metrics:** The downloads badge (`docs/downloads-badge.json`) and GitHub release badges track **GitHub Releases** AAR/asset downloads only. **Maven Central** artifact downloads (via Gradle/Scarf) are tracked separately.
+> [!NOTE]
+> **Download Metrics:** The downloads badge shows **total merged downloads** (GitHub Releases + Maven Central/Scarf). The badge is auto-updated daily via the `update-metrics.yml` workflow.
 
 <p align="center">
   <img src="docs/downloads-chart.svg" alt="Release Downloads & Artifact Telemetry" width="100%" style="max-width:850px; border-radius:8px;" />
@@ -404,4 +403,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). PRs welcome.
 
 ---
 
-*Zero local NDK. Zero source compile. Precompiled TDLib for modern Android.*
+Zero local NDK. Zero source compile. Precompiled TDLib for modern Android.
