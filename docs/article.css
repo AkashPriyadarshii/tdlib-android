@@ -87,10 +87,3 @@ pre .k{color:var(--term-ac)}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
-@media(prefers-reduced-transparency:reduce){
- nav.nav{background:var(--bg)!important;backdrop-filter:none!important}
-}
-
-/* footer nav hairline separators */
-.foot-row a:not(:first-child){margin-left:12px;padding-left:12px;border-left:1px solid var(--line2)}
-.footer nav a:not(:first-child){margin-left:12px;padding-left:12px;border-left:1px solid var(--line2)}

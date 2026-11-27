@@ -14,12 +14,12 @@
         .stat-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 11px; fill: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }
         .stat-val { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 20px; font-weight: 700; fill: #3fb950; }
         .stat-val-sec { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 20px; font-weight: 700; fill: #58a6ff; }
-        .stat-sub { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; fill: #6e7681; }
+        .stat-sub { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; fill: #8b949e; }
         .tag { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; font-weight: 600; fill: #f0f6fc; }
-        .meta { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; fill: #6e7681; }
+        .meta { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; fill: #8b949e; }
         .bar-val { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; font-weight: 600; fill: #f0f6fc; }
         .breakdown { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; fill: #8b949e; }
-        .footer-note { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; fill: #484f58; }
+        .footer-note { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; fill: #8b949e; }
     </style>
 
     <rect width="820" height="486" rx="8" class="bg" />
@@ -27,26 +27,26 @@
 
     <!-- Header Section -->
     <text x="32" y="38" class="header-title">tdlib-android / Merged Distribution Telemetry</text>
-    <text x="32" y="56" class="header-sub">Combined downloads across Maven Central / Scarf (2,711) and GitHub Releases (962)</text>
+    <text x="32" y="56" class="header-sub">Combined downloads across Maven Central / Scarf (27.5K) and GitHub Releases (1,199)</text>
 
     <!-- Metrics Cards Row -->
     <g transform="translate(32, 72)">
         <!-- Card 1: Total Merged Downloads -->
         <rect x="0" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
         <text x="16" y="24" class="stat-label">Total Downloads (Merged)</text>
-        <text x="16" y="49" class="stat-val">3,673</text>
-        <text x="110" y="49" class="stat-sub">MC: 2,711 + GH: 962</text>
+        <text x="16" y="49" class="stat-val">28.7K</text>
+        <text x="96" y="49" class="stat-sub">MC: 27.5K + GH: 1,199</text>
 
         <!-- Card 2: Maven Central (Scarf Verified) -->
         <rect x="256" y="0" width="244" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
         <text x="272" y="24" class="stat-label">Maven Central (Scarf)</text>
-        <text x="272" y="49" class="stat-val-sec">2,711 dl</text>
-        <text x="382" y="49" class="stat-sub">269 sources</text>
+        <text x="272" y="49" class="stat-val-sec">27.5K dl</text>
+        <text x="372" y="49" class="stat-sub">2.6K sources · 252 co.</text>
 
         <!-- Card 3: GitHub Releases AARs -->
         <rect x="520" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
         <text x="536" y="24" class="stat-label">GitHub Direct AAR Downloads</text>
-        <text x="536" y="49" class="stat-val">962</text>
+        <text x="536" y="49" class="stat-val">1,199</text>
         <text x="614" y="49" class="stat-sub">4 ABIs: 795</text>
     </g>
 
@@ -84,9 +84,7 @@
             <text x="32" y="18" class="tag">v0.1.1</text>
             <text x="32" y="34" class="meta">2026-09-13</text>
             <rect x="150" y="8" width="440" height="24" rx="4" fill="#161b22" />
-            <rect x="150" y="8" width="0" height="24" rx="4" fill="#238636" />
-            <rect x="150" y="8" width="8" height="24" rx="0" fill="#2ea043" />
-            <text x="172" y="25" class="bar-val">0 dl</text>
+            <text x="164" y="25" class="bar-val">0 dl</text>
             <text x="690" y="24" class="breakdown">core: 0 | ktx: 0</text>
         </g>
         

@@ -116,6 +116,9 @@ jobs:
             exit 1
           fi
 
+      - name: Restore Gradle Wrapper
+        run: gradle wrapper --gradle-version 8.7
+
       - name: Build AAR
         run: |
           chmod +x gradlew

@@ -89,6 +89,9 @@ jobs:
           chmod +x ./scripts/verify-abi-count.sh
           ./scripts/verify-abi-count.sh core/src/main/jniLibs
 
+      - name: Restore Gradle Wrapper
+        run: gradle wrapper --gradle-version 8.7
+
       - name: Publish to Maven Central (Sonatype Portal)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
