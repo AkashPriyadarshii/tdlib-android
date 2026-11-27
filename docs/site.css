@@ -172,6 +172,12 @@ footer a{color:var(--dim)}
 .bmc-float svg{width:18px;height:18px}
 
 /* accessibility & marquee controls */
+.eyebrow{font-family:var(--mono);font-size:12px;color:var(--ac-hover);margin-bottom:12px}
+.cta-meta{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--mut)}
+.term-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.term-tab{background:transparent;border:1px solid transparent;border-radius:6px;color:var(--term-mut);font-family:var(--mono);font-size:12px;padding:6px 10px;min-height:36px;cursor:pointer}
+.term-tab.active{color:var(--term-ink);background:var(--copybg);border-color:var(--term-border)}
+@media(hover:hover){.term-tab:hover{color:var(--term-ink)}}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .strip-pause{background:var(--panel);border:1px solid var(--line2);color:var(--dim);border-radius:6px;padding:4px 10px;font-family:var(--mono);font-size:11.5px;cursor:pointer;min-height:32px;display:inline-flex;align-items:center}
 @media(hover:hover){.strip-pause:hover{border-color:var(--ink);color:var(--ink)}}
