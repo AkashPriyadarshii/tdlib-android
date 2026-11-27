@@ -343,12 +343,13 @@ def main():
         f.write(svg)
     print(f"Rendered {OUTPUT_SVG} with {len(stats)} releases.")
 
-    # Write dynamic badge JSON endpoint for Shields.io (GitHub Releases only)
+    # Write dynamic badge JSON endpoint for Shields.io (Total Merged: GitHub Releases + Maven Central/Scarf)
     gh_downloads = sum(s["total"] for s in stats)
+    total_downloads = gh_downloads + scarf_stats.get("downloads", 0)
     badge_data = {
         "schemaVersion": 1,
         "label": "downloads",
-        "message": f"{gh_downloads:,}+",
+        "message": f"{total_downloads:,}+",
         "color": "27a644"
     }
     with open("docs/downloads-badge.json", "w", encoding="utf-8") as f:
