@@ -160,172 +160,192 @@ def render_svg(stats, scarf_stats):
     row_height = 52
 
     # Section 1: Maven Central Packages (Scarf Telemetry)
-    sec1_y = 162
+    sec1_y = 166
     sec1_items = [
-        {"name": ":core (AAR)", "meta": "Maven Central", "total": maven_core, "detail": "4 ABIs embedded", "color": "#238636"},
-        {"name": ":ktx (Flow)", "meta": "Maven Central", "total": maven_ktx, "detail": "coroutines wrapper", "color": "#2ea043"}
+        {"name": ":core (AAR)", "meta": "Maven Central", "total": maven_core, "detail": "4 ABIs embedded", "color": "#0F7B45"},
+        {"name": ":ktx (Flow)", "meta": "Maven Central", "total": maven_ktx, "detail": "coroutines wrapper", "color": "#0B6136"}
     ]
     sec1_svg = []
     for i, item in enumerate(sec1_items):
-        y = sec1_y + 24 + (i * row_height)
+        y = sec1_y + 28 + (i * row_height)
         ratio = item["total"] / max_count
         bar_w = max(int(ratio * bar_area_width), 8)
         sec1_svg.append(f"""
         <g class="row" transform="translate(0, {y})">
             <text x="32" y="18" class="tag">{item['name']}</text>
             <text x="32" y="34" class="meta">{item['meta']}</text>
-            <rect x="{bar_x}" y="8" width="{bar_area_width}" height="24" rx="4" fill="#161b22" />
-            <rect x="{bar_x}" y="8" width="{bar_w}" height="24" rx="4" fill="{item['color']}" />
+            <rect x="{bar_x}" y="8" width="{bar_area_width}" height="24" rx="5" fill="#EFEBDF" stroke="#DCD7C6" stroke-width="1" />
+            <rect x="{bar_x}" y="8" width="{bar_w}" height="24" rx="5" fill="{item['color']}" />
             <text x="{bar_x + bar_w + 14}" y="25" class="bar-val">{item['total']:,} dl</text>
             <text x="690" y="24" class="breakdown">{item['detail']}</text>
         </g>
         """)
 
     # Section 2: GitHub Releases (Direct AAR Downloads)
-    sec2_y = sec1_y + 24 + (len(sec1_items) * row_height) + 16
+    sec2_y = sec1_y + 28 + (len(sec1_items) * row_height) + 18
     sec2_svg = []
     for i, item in enumerate(stats):
-        y = sec2_y + 24 + (i * row_height)
+        y = sec2_y + 28 + (i * row_height)
         ratio = item["total"] / max_count
         bar_w = max(int(ratio * bar_area_width), 8)
         core_ratio = item["core"] / item["total"] if item["total"] > 0 else 0
         core_w = int(bar_w * core_ratio)
-        ktx_w = bar_w - core_w
+        ktx_w = max(bar_w - core_w, 0)
 
         sec2_svg.append(f"""
         <g class="row" transform="translate(0, {y})">
             <text x="32" y="18" class="tag">{item['tag']}</text>
             <text x="32" y="34" class="meta">{item['date']}</text>
-            <rect x="{bar_x}" y="8" width="{bar_area_width}" height="24" rx="4" fill="#161b22" />
-            <rect x="{bar_x}" y="8" width="{core_w}" height="24" rx="4" fill="#238636" />
-            <rect x="{bar_x + core_w}" y="8" width="{ktx_w}" height="24" rx="0" fill="#2ea043" />
+            <rect x="{bar_x}" y="8" width="{bar_area_width}" height="24" rx="5" fill="#EFEBDF" stroke="#DCD7C6" stroke-width="1" />
+            <rect x="{bar_x}" y="8" width="{core_w}" height="24" rx="5" fill="#0F7B45" />
+            <rect x="{bar_x + core_w}" y="8" width="{ktx_w}" height="24" rx="2" fill="#454A3D" />
             <text x="{bar_x + bar_w + 14}" y="25" class="bar-val">{item['total']:,} dl</text>
             <text x="690" y="24" class="breakdown">core: {item['core']} | ktx: {item['ktx']}</text>
         </g>
         """)
 
-    chart_height = sec2_y + 24 + (len(stats) * row_height) + 52
+    chart_height = sec2_y + 28 + (len(stats) * row_height) + 56
 
     svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {view_width} {chart_height}" width="100%" height="100%">
-    <defs>
-        <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#161b22" />
-            <stop offset="100%" stop-color="#0d1117" />
-        </linearGradient>
-    </defs>
     <style>
-        .bg {{ fill: #0d1117; }}
-        .border {{ stroke: #30363d; stroke-width: 1; fill: none; }}
-        .header-title {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 16px; font-weight: 700; fill: #f0f6fc; }}
-        .header-sub {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 12px; fill: #8b949e; }}
-        .section-title {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; font-weight: 700; fill: #8b949e; letter-spacing: 0.8px; text-transform: uppercase; }}
-        .stat-label {{ font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; font-size: 11px; fill: #8b949e; text-transform: uppercase; letter-spacing: 0.5px; }}
-        .stat-val {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 20px; font-weight: 700; fill: #3fb950; }}
-        .stat-val-sec {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 20px; font-weight: 700; fill: #58a6ff; }}
-        .stat-sub {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; fill: #6e7681; }}
-        .tag {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; font-weight: 600; fill: #f0f6fc; }}
-        .meta {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; fill: #6e7681; }}
-        .bar-val {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; font-weight: 600; fill: #f0f6fc; }}
-        .breakdown {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; fill: #8b949e; }}
-        .footer-note {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10px; fill: #484f58; }}
+        .bg {{ fill: #F7F4EC; }}
+        .band {{ fill: #EFEBDF; }}
+        .panel {{ fill: #FCFAF4; stroke: #DCD7C6; stroke-width: 1; }}
+        .border {{ stroke: #C8C3AE; stroke-width: 1; fill: none; }}
+        .rule {{ stroke: #DCD7C6; stroke-width: 1; }}
+        .header-title {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 16px; font-weight: 700; fill: #191C15; }}
+        .header-sub {{ font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 12.5px; fill: #454A3D; }}
+        .section-title {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11.5px; font-weight: 600; fill: #454A3D; }}
+        .stat-label {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; font-weight: 500; fill: #6E7263; }}
+        .stat-val-ac {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 22px; font-weight: 700; fill: #0F7B45; }}
+        .stat-val {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 22px; font-weight: 700; fill: #191C15; }}
+        .stat-sub {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10.5px; fill: #6E7263; }}
+        .tag {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; font-weight: 600; fill: #191C15; }}
+        .meta {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; fill: #6E7263; }}
+        .bar-val {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; font-weight: 600; fill: #191C15; }}
+        .breakdown {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; fill: #454A3D; }}
+        .footer-note {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 10.5px; fill: #6E7263; }}
     </style>
 
-    <rect width="{view_width}" height="{chart_height}" rx="8" class="bg" />
-    <rect width="{view_width}" height="{chart_height}" rx="8" class="border" />
+    <rect width="{view_width}" height="{chart_height}" rx="14" class="bg" />
+    <rect x="0" y="{chart_height - 40}" width="{view_width}" height="40" rx="14" class="band" />
+    <rect x="0" y="{chart_height - 40}" width="{view_width}" height="14" class="band" />
+    <rect width="{view_width}" height="{chart_height}" rx="14" class="border" />
 
     <!-- Header Section -->
-    <text x="32" y="38" class="header-title">tdlib-android / Merged Distribution Telemetry</text>
-    <text x="32" y="56" class="header-sub">Combined downloads across Maven Central / Scarf ({maven_downloads:,}) and GitHub Releases ({gh_downloads:,})</text>
+    <text x="32" y="38" class="header-title">tdlib-android / distribution telemetry</text>
+    <text x="32" y="58" class="header-sub">Combined downloads across Maven Central via Scarf ({maven_downloads:,}) and GitHub Releases ({gh_downloads:,})</text>
 
     <!-- Metrics Cards Row -->
-    <g transform="translate(32, 72)">
+    <g transform="translate(32, 76)">
         <!-- Card 1: Total Merged Downloads -->
-        <rect x="0" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="16" y="24" class="stat-label">Total Downloads (Merged)</text>
-        <text x="16" y="49" class="stat-val">{total_downloads:,}</text>
-        <text x="110" y="49" class="stat-sub">MC: {maven_downloads:,} + GH: {gh_downloads:,}</text>
+        <rect x="0" y="0" width="236" height="68" rx="8" class="panel" />
+        <text x="16" y="23" class="stat-label">Total downloads (merged)</text>
+        <text x="16" y="50" class="stat-val-ac">{total_downloads:,}</text>
+        <text x="112" y="50" class="stat-sub">MC {maven_downloads:,} + GH {gh_downloads:,}</text>
 
         <!-- Card 2: Maven Central (Scarf Verified) -->
-        <rect x="256" y="0" width="244" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="272" y="24" class="stat-label">Maven Central (Scarf)</text>
-        <text x="272" y="49" class="stat-val-sec">{maven_downloads:,} dl</text>
-        <text x="382" y="49" class="stat-sub">{maven_unique_sources} sources</text>
+        <rect x="256" y="0" width="244" height="68" rx="8" class="panel" />
+        <text x="272" y="23" class="stat-label">Maven Central (Scarf)</text>
+        <text x="272" y="50" class="stat-val">{maven_downloads:,}</text>
+        <text x="372" y="50" class="stat-sub">{maven_unique_sources} sources</text>
 
         <!-- Card 3: GitHub Releases AARs -->
-        <rect x="520" y="0" width="236" height="64" rx="6" fill="url(#cardGrad)" stroke="#30363d" stroke-width="1" />
-        <text x="536" y="24" class="stat-label">GitHub Direct AAR Downloads</text>
-        <text x="536" y="49" class="stat-val">{gh_downloads:,}</text>
-        <text x="614" y="49" class="stat-sub">4 ABIs: {total_core}</text>
+        <rect x="520" y="0" width="236" height="68" rx="8" class="panel" />
+        <text x="536" y="23" class="stat-label">GitHub direct AARs</text>
+        <text x="536" y="50" class="stat-val">{gh_downloads:,}</text>
+        <text x="614" y="50" class="stat-sub">4 ABIs · {total_core} core</text>
     </g>
 
     <!-- Section 1: Maven Central Packages -->
     <g>
-        <text x="32" y="{sec1_y + 12}" class="section-title">Maven Central Packages (via Scarf)</text>
-        <line x1="32" y1="{sec1_y + 20}" x2="{view_width - 32}" y2="{sec1_y + 20}" stroke="#21262d" stroke-width="1" />
+        <text x="32" y="{sec1_y + 12}" class="section-title">Maven Central packages (Scarf)</text>
+        <line x1="32" y1="{sec1_y + 20}" x2="{view_width - 32}" y2="{sec1_y + 20}" class="rule" />
         {''.join(sec1_svg)}
     </g>
 
     <!-- Section 2: GitHub Releases -->
     <g>
-        <text x="32" y="{sec2_y + 12}" class="section-title">GitHub Releases (Direct Standalone AARs)</text>
-        <line x1="32" y1="{sec2_y + 20}" x2="{view_width - 32}" y2="{sec2_y + 20}" stroke="#21262d" stroke-width="1" />
+        <text x="32" y="{sec2_y + 12}" class="section-title">GitHub Releases (standalone AARs)</text>
+        <line x1="32" y1="{sec2_y + 20}" x2="{view_width - 32}" y2="{sec2_y + 20}" class="rule" />
         {''.join(sec2_svg)}
     </g>
 
     <!-- Footer -->
-    <line x1="32" y1="{chart_height - 32}" x2="{view_width - 32}" y2="{chart_height - 32}" stroke="#21262d" stroke-width="1" />
-    <text x="32" y="{chart_height - 15}" class="footer-note">Distribution: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases | Updated {now_utc}</text>
+    <line x1="0" y1="{chart_height - 40}" x2="{view_width}" y2="{chart_height - 40}" class="rule" />
+    <text x="32" y="{chart_height - 16}" class="footer-note">Sources: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases  ·  Updated {now_utc}</text>
 </svg>
 """
     return svg_content
 
 def render_banner_svg(version):
     """
-    Renders an SVG banner for the repository matching the official brand styling.
+    Renders an SVG banner for the repository matching the tdlib-android engineering-datasheet design system.
     Updates the precompiled version tag and Gradle coordinates dynamically.
     """
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 350" width="100%" height="100%">
+    <defs>
+        <pattern id="paper-grid" width="44" height="44" patternUnits="userSpaceOnUse">
+            <path d="M 44 0 L 0 0 0 44" fill="none" stroke="#DCD7C6" stroke-width="1" opacity="0.45" />
+        </pattern>
+        <clipPath id="banner-clip">
+            <rect width="850" height="350" rx="14" />
+        </clipPath>
+    </defs>
     <style>
-        .bg {{ fill: #0d1117; }}
-        .border {{ stroke: #30363d; stroke-width: 1; fill: none; }}
-        .pill-bg {{ fill: #0d1117; stroke: #238636; stroke-width: 1.5; }}
-        .pill-text {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; font-weight: 600; fill: #3fb950; letter-spacing: 0.5px; }}
-        .title {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 28px; font-weight: 700; fill: #f0f6fc; }}
-        .subtitle {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px; fill: #8b949e; }}
-        .specs {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: #6e7681; }}
-        .code-box {{ fill: #161b22; stroke: #30363d; stroke-width: 1; }}
-        .code-comment {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: #6e7681; }}
-        .code-fn {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; fill: #58a6ff; }}
-        .code-str {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; fill: #7ee787; }}
-        .code-punct {{ font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; fill: #e6edf3; }}
-        .meta-text {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 12px; fill: #8b949e; }}
+        .bg {{ fill: #F7F4EC; }}
+        .band {{ fill: #EFEBDF; }}
+        .border {{ stroke: #C8C3AE; stroke-width: 1; fill: none; }}
+        .rule {{ stroke: #DCD7C6; stroke-width: 1; }}
+        .pill-bg {{ fill: #EFEBDF; stroke: #0F7B45; stroke-width: 1; }}
+        .pill-text {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11.5px; font-weight: 600; fill: #0F7B45; }}
+        .title {{ font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 30px; font-weight: 700; fill: #191C15; letter-spacing: -0.02em; }}
+        .subtitle {{ font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14.5px; fill: #454A3D; }}
+        .specs {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: #6E7263; }}
+        .term-box {{ fill: #141714; stroke: #2B2F28; stroke-width: 1; }}
+        .term-head {{ fill: #1B1F1A; }}
+        .term-rule {{ stroke: #2B2F28; stroke-width: 1; }}
+        .term-file {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11.5px; fill: #A3AE9F; }}
+        .term-comment {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; fill: #A3AE9F; }}
+        .term-fn {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; fill: #8ECBE0; }}
+        .term-str {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; fill: #56D68B; }}
+        .term-punct {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; fill: #D9E1D5; }}
+        .meta-text {{ font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11.5px; fill: #454A3D; }}
     </style>
 
-    <rect width="850" height="350" rx="8" class="bg" />
-    <rect width="850" height="350" rx="8" class="border" />
+    <g clip-path="url(#banner-clip)">
+        <rect width="850" height="350" class="bg" />
+        <rect width="850" height="350" fill="url(#paper-grid)" />
+        <rect x="0" y="306" width="850" height="44" class="band" />
+        <line x1="0" y1="306" x2="850" y2="306" class="rule" />
+    </g>
+    <rect width="850" height="350" rx="14" class="border" />
 
-    <!-- Top Badge Pill -->
-    <rect x="40" y="30" width="345" height="26" rx="4" class="pill-bg" />
-    <text x="52" y="47" class="pill-text">v{version} • PRECOMPILED AAR • ALL 4 ABIS • ZERO NDK</text>
+    <!-- Version & Spec Tag (untracked sentence-case mono per DESIGN.md) -->
+    <rect x="40" y="28" width="338" height="26" rx="5" class="pill-bg" />
+    <text x="52" y="45" class="pill-text">v{version}  ·  prebuilt AAR  ·  4 ABIs  ·  zero NDK</text>
 
-    <!-- Main Title -->
-    <text x="40" y="92" class="title">Precompiled TDLib for Android</text>
-    <text x="40" y="118" class="subtitle">Official Telegram Database Library prebuilt for Android devices and emulators.</text>
-    <text x="40" y="142" class="specs">arm64-v8a • armeabi-v7a • x86_64 • x86 • Android 15 16KB Page Ready</text>
+    <!-- Main Title & Specs -->
+    <text x="40" y="90" class="title">Precompiled TDLib for Android</text>
+    <text x="40" y="116" class="subtitle">Signed Maven Central AARs with Kotlin Coroutines and Flow. Zero local NDK.</text>
+    <text x="40" y="140" class="specs">arm64-v8a  ✳  armeabi-v7a  ✳  x86_64  ✳  x86  ✳  Android 15 16KB page aligned</text>
 
-    <!-- Code Block -->
-    <rect x="40" y="166" width="770" height="112" rx="6" class="code-box" />
-    <text x="60" y="196" class="code-comment">// build.gradle.kts</text>
-    <text x="60" y="226">
-        <tspan class="code-fn">implementation</tspan><tspan class="code-punct">(</tspan><tspan class="code-str">"io.github.tdlib-android:core:{version}"</tspan><tspan class="code-punct">)</tspan>
+    <!-- Dark Terminal Instrument (plain filename bar, no OS dots per DESIGN.md) -->
+    <rect x="40" y="164" width="770" height="120" rx="8" class="term-box" />
+    <rect x="41" y="165" width="768" height="30" rx="7" class="term-head" />
+    <line x1="40" y1="195" x2="810" y2="195" class="term-rule" />
+    <text x="794" y="184" text-anchor="end" class="term-file">app/build.gradle.kts</text>
+    <text x="60" y="218" class="term-comment">// Drop-in dependencies — no CMake or NDK setup</text>
+    <text x="60" y="244">
+        <tspan class="term-fn">implementation</tspan><tspan class="term-punct">(</tspan><tspan class="term-str">"io.github.tdlib-android:core:{version}"</tspan><tspan class="term-punct">)</tspan>
     </text>
-    <text x="60" y="254">
-        <tspan class="code-fn">implementation</tspan><tspan class="code-punct">(</tspan><tspan class="code-str">"io.github.tdlib-android:ktx:{version}"</tspan><tspan class="code-punct">)</tspan>
+    <text x="60" y="268">
+        <tspan class="term-fn">implementation</tspan><tspan class="term-punct">(</tspan><tspan class="term-str">"io.github.tdlib-android:ktx:{version}"</tspan><tspan class="term-punct">)</tspan>
     </text>
 
-    <!-- Meta Footer -->
-    <text x="40" y="318" class="meta-text">Published on Maven Central &amp; GitHub Releases</text>
-    <text x="810" y="318" text-anchor="end" class="meta-text">Maintained by Akash Priyadarshi</text>
+    <!-- Footer Band -->
+    <text x="40" y="332" class="meta-text">Maven Central + GitHub Releases  ·  BSL-1.0 / Apache-2.0</text>
+    <text x="810" y="332" text-anchor="end" class="meta-text">tdlib-android.vercel.app</text>
 </svg>"""
     return svg
 
