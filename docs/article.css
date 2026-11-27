@@ -89,3 +89,10 @@ pre .k{color:var(--term-ac)}
 @media(prefers-reduced-motion:reduce){
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
+
+.recovery-actions{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0 28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:8px;font-weight:600;font-size:14px;min-height:42px;text-decoration:none;transition:background .15s,border-color .15s,transform .15s}
+.btn:active{transform:scale(.97)}
+.btn-p{background:var(--ac);color:var(--on-ac);border:1px solid var(--ac)}
+.btn-s{background:var(--panel);color:var(--ink);border:1px solid var(--line2)}
+@media(hover:hover){.btn-p:hover{background:var(--ac-hover);color:var(--on-ac);text-decoration:none}.btn-s:hover{border-color:var(--ink);text-decoration:none}}
