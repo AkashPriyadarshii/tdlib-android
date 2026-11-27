@@ -113,5 +113,5 @@
 
     <!-- Footer -->
     <line x1="0" y1="516" x2="820" y2="516" class="rule" />
-    <text x="32" y="540" class="footer-note">Sources: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases  ·  Updated 2026-11-27 12:45 UTC</text>
+    <text x="32" y="540" class="footer-note">Sources: Maven Central (io.github.tdlib-android via Scarf) + GitHub Releases  ·  Updated 2026-11-27 12:47 UTC</text>
 </svg>
